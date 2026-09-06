@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { 
   Search, Calendar, MapPin, Shield, Star, Award, CheckCircle, ChevronRight,
   Menu, X, Filter, SlidersHorizontal, ArrowRight, User, Lock,
@@ -8,6 +8,295 @@ import {
 
 /* Velocita brand mark (white silhouette, transparent background) */
 const VELOCITA_LOGO = "data:image/png;base64,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";
+
+/* ============================================================================
+   LANGUAGE / TRANSLATIONS
+   ============================================================================ */
+
+const TRANSLATIONS = {
+  en: {
+    header_tagline: 'Rent A Car',
+    nav_home: 'Home',
+    nav_fleet: 'The Fleet',
+    nav_contact: 'Contact',
+    header_view_reservation: 'View Active Reservation',
+    header_reserve: 'Reserve Now',
+    mobile_reserve: 'Reserve Vehicle',
+    hero_badge: 'The Sovereign Collection 2024',
+    hero_heading_pre: 'Drive Beyond',
+    hero_heading_accent: 'Ordinary.',
+    hero_subtitle: 'Exceptional vehicles. Effortless journeys. Choose your masterpiece from our curated global fleet of elite sports, luxury sedans, and hyper SUVs.',
+    label_pickup_location: 'Pick-Up Location',
+    label_pickup_datetime: 'Pick-Up Date & Time',
+    label_return_datetime: 'Return Date & Time',
+    calculated_duration: 'Calculated Duration:',
+    days_suffix: 'Day(s)',
+    search_button: 'Search Available Fleet',
+    featured_label: 'Handpicked Models',
+    featured_heading: 'Featured Sovereign Fleet',
+    explore_all: 'Explore All Vehicles',
+    diff_label: 'Unrivaled Excellence',
+    diff_heading: 'The Velocita Difference',
+    diff_subtitle: 'We transcend standard automobile rentals by offering white-glove automotive hospitality tailored to distinguished drivers.',
+    diff_card1_title: 'Guaranteed Exact Model',
+    diff_card1_desc: 'When you reserve a specific vehicle, you receive that exact model, trim, and spec—never a generic category substitute.',
+    diff_card2_title: 'White-Glove Delivery',
+    diff_card2_desc: 'Enjoy seamless handover directly at private aviation terminals, luxury hotels, or private residences.',
+    diff_card3_title: 'Comprehensive Coverage',
+    diff_card3_desc: 'Transparent zero-deductible insurance protection and 24/7 dedicated concierge assistance on every journey.',
+    banner_label: 'Tailored Journeys',
+    banner_heading: 'Leave the Ordinary Behind.',
+    banner_text: 'Whether commanding a mountain pass in a 911 GT3 RS or arriving at a gala in a Rolls-Royce Ghost, our vehicles provide unmatched status and sensory delight.',
+    banner_button: 'Browse Entire Fleet',
+    fleet_label: 'The Complete Catalog',
+    fleet_heading: 'Sovereign Fleet',
+    fleet_subtitle: 'Filter through our high-performance exotic motorcars and ultra-luxury sedans.',
+    label_brand: 'Brand / Manufacturer',
+    label_max_rate: 'Max Daily Rate',
+    per_day: '/ day',
+    label_sort: 'Sort Vehicles By',
+    sort_recommended: 'Recommended First',
+    sort_price_low: 'Daily Rate Low to High',
+    sort_price_high: 'Daily Rate High to Low',
+    sort_luxury: 'Most Exclusive First',
+    no_match_heading: 'No Vehicles Match Your Filters',
+    no_match_text: 'Try adjusting your price ceiling or brand filter.',
+    reset_filters: 'Reset Filters',
+    btn_details: 'Details',
+    btn_rent_now: 'Rent Now',
+    back_to_fleet: 'Back to Fleet Catalog',
+    model_year_suffix: 'Model',
+    spec_heading: 'Engine & Performance Specs',
+    spec_horsepower: 'Horsepower',
+    spec_acceleration: 'Acceleration',
+    spec_transmission: 'Transmission',
+    spec_fuel: 'Fuel / Power',
+    features_heading: 'Included Factory Features',
+    label_pickup_hub: 'Pick-Up Hub',
+    label_return_hub: 'Return Hub',
+    label_start_date: 'Start Date',
+    label_return_date: 'Return Date',
+    label_extras: 'Optional Extras & Protection',
+    day_rental_suffix: 'Day Rental',
+    vehicle_subtotal: 'Vehicle Subtotal',
+    selected_extras: 'Selected Extras',
+    estimated_fees: 'Estimated Fees & Taxes',
+    total_due: 'Total Due',
+    proceed_reserve: 'Proceed to Reserve',
+    free_cancellation: 'Free Cancellation up to 48 hours prior',
+    btn_back: 'Back',
+    step1_title: 'Step 1: Confirm Selected Vehicle',
+    step1_desc: 'Review your selected supercar model or switch to another option.',
+    view_specs_again: 'View Specs Again',
+    continue_rental_details: 'Continue to Rental Details',
+    step2_title: 'Step 2: Rental Hub & Schedule',
+    step2_desc: 'Specify pick-up/return locations and operational hours.',
+    continue_extras: 'Continue to Extras',
+    step3_title: 'Step 3: Tailor Extra Services',
+    step3_desc: 'Enhance your drive with concierge add-ons and protection.',
+    driver_info: 'Driver Info',
+    step4_title: 'Step 4: Driver Information',
+    step4_desc: 'Please provide verified driver identification details.',
+    label_first_name: 'First Name *',
+    label_last_name: 'Last Name *',
+    label_email: 'Email Address *',
+    label_phone: 'Phone Number *',
+    payment_method: 'Payment Method',
+    step5_title: 'Step 5: Payment Authorization',
+    step5_desc: 'Encrypted payment security via Sovereign Guarantee.',
+    label_name_on_card: 'Name on Card *',
+    label_card_number: 'Card Number *',
+    label_expiration: 'Expiration *',
+    label_cvv: 'CVV *',
+    confirm_and_pay: 'Confirm & Pay',
+    reservation_confirmed: 'Reservation Confirmed',
+    journey_awaits: 'Your Sovereign Journey Awaits',
+    reference_label: 'Reference:',
+    days_rental_suffix: 'Days Rental',
+    label_rental_dates: 'Rental Dates',
+    label_driver_name: 'Driver Name',
+    label_total_paid: 'Total Paid',
+    print_receipt: 'Print Receipt',
+    return_home: 'Return to Home',
+    reservation_summary: 'Reservation Summary',
+    duration_label: 'Duration',
+    vehicle_daily_total: 'Vehicle Daily Total',
+    extras_subtotal: 'Extras Subtotal',
+    service_tax: 'Service & Tax',
+    total_amount: 'Total Amount',
+    footer_tagline: 'Curating exceptional automotive journeys. Pure speed, effortless luxury, and uncompromising precision worldwide.',
+    footer_nav_heading: 'Navigational',
+    footer_link_fleet: 'Exotic Fleet',
+    footer_link_hubs: 'Global Hubs',
+    footer_link_membership: 'Sovereign Membership',
+    footer_link_chauffeur: 'Private Chauffeur',
+    footer_contact_heading: 'Concierge Support',
+    footer_client_services: '24/7 Dedicated Client Services',
+    footer_dispatch_heading: 'Velocita Dispatch',
+    footer_dispatch_text: 'Subscribe to receive exclusive access to private fleet releases.',
+    footer_subscribe: 'Subscribe',
+    footer_email_placeholder: 'Enter email address',
+    footer_copyright: 'Velocita Luxury Automotive Rentals. All rights reserved.',
+    footer_privacy: 'Privacy Policy',
+    footer_terms: 'Terms of Sovereign Rental',
+    footer_cookies: 'Cookie Preferences',
+    toast_contact: 'Contact Us: +1 (800) 835-6248',
+    toast_locations: 'Locations: NYC, LA, Miami, London, Paris',
+    toast_membership: 'Sovereign Membership program launching soon.',
+    toast_chauffeur: 'Chauffeur services available upon request.',
+    toast_newsletter: 'Thank you for joining the Velocita guestbook.',
+    toast_validation: 'Please complete all mandatory customer & payment fields.',
+    toast_confirmed: 'Reservation confirmed! Confirmation details dispatched.',
+    step_label_vehicle: 'Vehicle',
+    step_label_details: 'Details',
+    step_label_extras: 'Extras',
+    step_label_driver: 'Driver',
+    step_label_payment: 'Payment'
+  },
+  sq: {
+    header_tagline: 'Qera Veturash',
+    nav_home: 'Kryefaqja',
+    nav_fleet: 'Flota',
+    nav_contact: 'Kontakt',
+    header_view_reservation: 'Shiko Rezervimin Aktiv',
+    header_reserve: 'Rezervo Tani',
+    mobile_reserve: 'Rezervo Veturën',
+    hero_badge: 'Koleksioni Sovran 2024',
+    hero_heading_pre: 'Ngasim Përtej',
+    hero_heading_accent: 'Zakonshmërisë.',
+    hero_subtitle: 'Vetura të jashtëzakonshme. Udhëtime pa mundim. Zgjidh kryeveprën tënde nga flota jonë globale e kuruar me vetura sportive elitare, sedan luksoze dhe SUV hiper-performuese.',
+    label_pickup_location: 'Vendi i Marrjes',
+    label_pickup_datetime: 'Data & Ora e Marrjes',
+    label_return_datetime: 'Data & Ora e Kthimit',
+    calculated_duration: 'Kohëzgjatja e Llogaritur:',
+    days_suffix: 'Ditë',
+    search_button: 'Kërko Flotën në Dispozicion',
+    featured_label: 'Modele të Zgjedhura',
+    featured_heading: 'Flota Sovrane e Zgjedhur',
+    explore_all: 'Eksploro të Gjitha Veturat',
+    diff_label: 'Ekselencë e Papërsëritshme',
+    diff_heading: 'Dallimi Velocita',
+    diff_subtitle: 'Ne shkojmë përtej qerasë standarde të veturave duke ofruar mikpritje automobilistike të nivelit të lartë, të përshtatur për shoferë të dalluar.',
+    diff_card1_title: 'Modeli i Garantuar Ekzakt',
+    diff_card1_desc: 'Kur rezervon një veturë specifike, merr saktësisht atë model, konfigurim dhe specifikë — kurrë një zëvendësim gjenerik të kategorisë.',
+    diff_card2_title: 'Dorëzim Ekskluziv',
+    diff_card2_desc: 'Gëzo dorëzim pa probleme direkt në terminale private aviacioni, hotele luksoze, ose banesa private.',
+    diff_card3_title: 'Mbulim i Plotë',
+    diff_card3_desc: 'Mbrojtje sigurimi transparente pa zbritje dhe asistencë koncierge e dedikuar 24/7 në çdo udhëtim.',
+    banner_label: 'Udhëtime të Personalizuara',
+    banner_heading: 'Lëre Zakonshmërinë Pas.',
+    banner_text: 'Qofshin duke komanduar një kalim mali me një 911 GT3 RS apo duke arritur në një gala me një Rolls-Royce Ghost, veturat tona ofrojnë status dhe kënaqësi shqisore të pashoqe.',
+    banner_button: 'Shfleto të Gjithë Flotën',
+    fleet_label: 'Katalogu i Plotë',
+    fleet_heading: 'Flota Sovrane',
+    fleet_subtitle: 'Filtro nëpër veturat tona ekzotike me performancë të lartë dhe sedanët ultra-luksozë.',
+    label_brand: 'Marka / Prodhuesi',
+    label_max_rate: 'Tarifa Maksimale Ditore',
+    per_day: '/ ditë',
+    label_sort: 'Rendit Veturat Sipas',
+    sort_recommended: 'Të Rekomanduarat së Pari',
+    sort_price_low: 'Çmimi: I Ulëti në të Lartin',
+    sort_price_high: 'Çmimi: I Larti në të Ulëtin',
+    sort_luxury: 'Më Ekskluzivet së Pari',
+    no_match_heading: 'Asnjë Veturë nuk Përputhet me Filtrat',
+    no_match_text: 'Provo të rregullosh kufirin e çmimit ose filtrin e markës.',
+    reset_filters: 'Rivendos Filtrat',
+    btn_details: 'Detajet',
+    btn_rent_now: 'Merre me Qera',
+    back_to_fleet: 'Kthehu te Katalogu i Flotës',
+    model_year_suffix: 'Model',
+    spec_heading: 'Specifikat e Motorit & Performancës',
+    spec_horsepower: 'Fuqia (HP)',
+    spec_acceleration: 'Nxitimi',
+    spec_transmission: 'Transmisioni',
+    spec_fuel: 'Karburanti / Energjia',
+    features_heading: 'Veçoritë e Përfshira nga Fabrika',
+    label_pickup_hub: 'Qendra e Marrjes',
+    label_return_hub: 'Qendra e Kthimit',
+    label_start_date: 'Data e Fillimit',
+    label_return_date: 'Data e Kthimit',
+    label_extras: 'Shtesa Opsionale & Mbrojtje',
+    day_rental_suffix: 'Ditë Qera',
+    vehicle_subtotal: 'Nëntotali i Veturës',
+    selected_extras: 'Shtesat e Zgjedhura',
+    estimated_fees: 'Taksat & Tarifat e Vlerësuara',
+    total_due: 'Totali për Pagesë',
+    proceed_reserve: 'Vazhdo për Rezervim',
+    free_cancellation: 'Anulim Falas deri 48 orë përpara',
+    btn_back: 'Kthehu',
+    step1_title: 'Hapi 1: Konfirmo Veturën e Zgjedhur',
+    step1_desc: 'Rishiko modelin e zgjedhur ose kalo në një opsion tjetër.',
+    view_specs_again: 'Shiko Specifikat Përsëri',
+    continue_rental_details: 'Vazhdo te Detajet e Qerasë',
+    step2_title: 'Hapi 2: Qendra & Orari i Qerasë',
+    step2_desc: 'Specifiko vendndodhjet e marrjes/kthimit dhe orët e funksionimit.',
+    continue_extras: 'Vazhdo te Shtesat',
+    step3_title: 'Hapi 3: Përshtat Shërbimet Shtesë',
+    step3_desc: 'Përmirëso udhëtimin me shtesa koncierge dhe mbrojtje.',
+    driver_info: 'Info e Shoferit',
+    step4_title: 'Hapi 4: Informacioni i Shoferit',
+    step4_desc: 'Ju lutemi jepni detaje të verifikuara identifikimi të shoferit.',
+    label_first_name: 'Emri *',
+    label_last_name: 'Mbiemri *',
+    label_email: 'Adresa Email *',
+    label_phone: 'Numri i Telefonit *',
+    payment_method: 'Mënyra e Pagesës',
+    step5_title: 'Hapi 5: Autorizimi i Pagesës',
+    step5_desc: 'Siguri pagese e enkriptuar përmes Garancisë Sovrane.',
+    label_name_on_card: 'Emri në Kartë *',
+    label_card_number: 'Numri i Kartës *',
+    label_expiration: 'Skadenca *',
+    label_cvv: 'CVV *',
+    confirm_and_pay: 'Konfirmo & Paguaj',
+    reservation_confirmed: 'Rezervimi u Konfirmua',
+    journey_awaits: 'Udhëtimi Juaj Sovran Ju Pret',
+    reference_label: 'Referenca:',
+    days_rental_suffix: 'Ditë Qera',
+    label_rental_dates: 'Datat e Qerasë',
+    label_driver_name: 'Emri i Shoferit',
+    label_total_paid: 'Totali i Paguar',
+    print_receipt: 'Printo Faturën',
+    return_home: 'Kthehu në Kryefaqe',
+    reservation_summary: 'Përmbledhja e Rezervimit',
+    duration_label: 'Kohëzgjatja',
+    vehicle_daily_total: 'Totali Ditor i Veturës',
+    extras_subtotal: 'Nëntotali i Shtesave',
+    service_tax: 'Shërbimi & Taksa',
+    total_amount: 'Shuma Totale',
+    footer_tagline: 'Kurojmë udhëtime të jashtëzakonshme automobilistike. Shpejtësi e pastër, luks pa mundim, dhe precizion i pashoq në mbarë botën.',
+    footer_nav_heading: 'Navigimi',
+    footer_link_fleet: 'Flota Ekzotike',
+    footer_link_hubs: 'Qendrat Globale',
+    footer_link_membership: 'Anëtarësimi Sovran',
+    footer_link_chauffeur: 'Shofer Privat',
+    footer_contact_heading: 'Suporti i Kontaktit',
+    footer_client_services: 'Shërbime Klienti 24/7',
+    footer_dispatch_heading: 'Velocita Dispatch',
+    footer_dispatch_text: 'Abonohu për të marrë akses ekskluziv në lançimet private të flotës.',
+    footer_subscribe: 'Abonohu',
+    footer_email_placeholder: 'Shkruaj adresën email',
+    footer_copyright: 'Velocita Luxury Automotive Rentals. Të gjitha të drejtat e rezervuara.',
+    footer_privacy: 'Politika e Privatësisë',
+    footer_terms: 'Kushtet e Qerasë Sovrane',
+    footer_cookies: 'Preferencat e Cookies',
+    toast_contact: 'Na Kontaktoni: +1 (800) 835-6248',
+    toast_locations: 'Vendndodhjet: NYC, LA, Miami, Londër, Paris',
+    toast_membership: 'Programi i Anëtarësimit Sovran po vjen së shpejti.',
+    toast_chauffeur: 'Shërbimet e shoferit privat në dispozicion me kërkesë.',
+    toast_newsletter: 'Faleminderit që u bashkuat me librin e mysafirëve Velocita.',
+    toast_validation: 'Ju lutemi plotësoni të gjitha fushat e detyrueshme të klientit & pagesës.',
+    toast_confirmed: 'Rezervimi u konfirmua! Detajet e konfirmimit u dërguan.',
+    step_label_vehicle: 'Vetura',
+    step_label_details: 'Detajet',
+    step_label_extras: 'Shtesat',
+    step_label_driver: 'Shoferi',
+    step_label_payment: 'Pagesa'
+  }
+};
+
+const LanguageContext = createContext({ language: 'en', t: (k) => k, toggleLanguage: () => {} });
+const useLang = () => useContext(LanguageContext);
+
 
 /* ============================================================================
    1. MOCK DATA & CONSTANTS
@@ -1266,6 +1555,23 @@ const getCurrentTimeStr = () => {
    ============================================================================ */
 
 export default function App() {
+  /* Language State */
+  const [language, setLanguage] = useState('en');
+  const t = (key) => (TRANSLATIONS[language] && TRANSLATIONS[language][key]) || TRANSLATIONS.en[key] || key;
+  const toggleLanguage = () => setLanguage(prev => (prev === 'en' ? 'sq' : 'en'));
+
+  /* Set browser tab title & favicon to the Velocita brand mark */
+  useEffect(() => {
+    document.title = 'Velocita';
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = VELOCITA_LOGO;
+  }, []);
+
   /* Navigation State */
   const [currentView, setCurrentView] = useState('home'); /* 'home', 'fleet', 'detail', 'checkout' */
   const [selectedVehicleId, setSelectedVehicleId] = useState('vel-01');
@@ -1437,6 +1743,7 @@ export default function App() {
   };
 
   return (
+    <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
     <div className="min-h-screen bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
       
       {/* Toast Notification */}
@@ -1461,7 +1768,7 @@ export default function App() {
               alt="Velocita" 
               className="h-11 w-auto group-hover:scale-105 transition-transform"
             />
-            <span className="text-xs uppercase tracking-[0.3em] text-slate-400 hidden sm:block font-semibold border-l border-slate-700 pl-3">Rent A Car</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-slate-400 hidden sm:block font-semibold border-l border-slate-700 pl-3">{t('header_tagline')}</span>
           </button>
 
           {/* Desktop Nav */}
@@ -1470,19 +1777,19 @@ export default function App() {
               onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
               className={`hover:text-teal-400 transition-colors ${currentView === 'home' ? 'text-teal-400 border-b border-teal-400 pb-1' : ''}`}
             >
-              Home
+              {t('nav_home')}
             </button>
             <button 
               onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
               className={`hover:text-teal-400 transition-colors ${currentView === 'fleet' ? 'text-teal-400 border-b border-teal-400 pb-1' : ''}`}
             >
-              The Fleet
+              {t('nav_fleet')}
             </button>
             <button 
-              onClick={() => triggerToast('Contact Concierge: +1 (800) 835-6248')} 
+              onClick={() => triggerToast(t('toast_contact'))} 
               className="hover:text-teal-400 transition-colors"
             >
-              Concierge
+              {t('nav_contact')}
             </button>
           </nav>
 
@@ -1493,25 +1800,42 @@ export default function App() {
                 onClick={() => { setCurrentView('checkout'); setCheckoutStep(6); }}
                 className="text-xs text-teal-400 hover:underline tracking-wider font-semibold mr-2"
               >
-                View Active Reservation
+                {t('header_view_reservation')}
               </button>
             )}
             <button
-              onClick={() => startCheckout(selectedVehicleId)}
+              onClick={toggleLanguage}
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-slate-700 text-slate-300 hover:border-teal-400 hover:text-teal-400 text-[11px] font-bold uppercase tracking-wider transition-colors"
+              aria-label="Switch Language"
+              title="EN / SQ"
+            >
+              {language === 'en' ? 'SQ' : 'EN'}
+            </button>
+            <button
+              onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-all duration-300"
             >
-              Reserve Now
+              {t('header_reserve')}
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-slate-300 hover:text-white"
-            aria-label="Toggle Navigation"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={toggleLanguage}
+              className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-700 text-slate-300 text-[10px] font-bold uppercase tracking-wider"
+              aria-label="Switch Language"
+            >
+              {language === 'en' ? 'SQ' : 'EN'}
+            </button>
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-slate-300 hover:text-white"
+              aria-label="Toggle Navigation"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Nav Dropdown */}
@@ -1521,19 +1845,25 @@ export default function App() {
               onClick={() => { setCurrentView('home'); setMobileMenuOpen(false); }}
               className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
             >
-              Home
+              {t('nav_home')}
             </button>
             <button 
               onClick={() => { setCurrentView('fleet'); setMobileMenuOpen(false); }}
               className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
             >
-              The Fleet
+              {t('nav_fleet')}
             </button>
             <button 
-              onClick={() => { startCheckout(selectedVehicleId); setMobileMenuOpen(false); }}
+              onClick={() => { triggerToast(t('toast_contact')); setMobileMenuOpen(false); }}
+              className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+            >
+              {t('nav_contact')}
+            </button>
+            <button 
+              onClick={() => { setCurrentView('fleet'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="block w-full text-center py-3 rounded-sm bg-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest"
             >
-              Reserve Vehicle
+              {t('mobile_reserve')}
             </button>
           </div>
         )}
@@ -1613,43 +1943,43 @@ export default function App() {
               <img src={VELOCITA_LOGO} alt="Velocita" className="h-8 w-auto" />
             </div>
             <p className="leading-relaxed text-slate-400">
-              Curating exceptional automotive journeys. Pure speed, effortless luxury, and uncompromising precision worldwide.
+              {t('footer_tagline')}
             </p>
             <div className="flex items-center gap-4 text-slate-400 pt-2">
             </div>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">Navigational</h4>
+            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_nav_heading')}</h4>
             <ul className="space-y-2.5">
-              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({top:0}); }} className="hover:text-teal-400">Exotic Fleet</button></li>
-              <li><button onClick={() => triggerToast('Locations: NYC, LA, Miami, London, Paris')} className="hover:text-teal-400">Global Hubs</button></li>
-              <li><button onClick={() => triggerToast('Sovereign Membership program launching soon.')} className="hover:text-teal-400">Sovereign Membership</button></li>
-              <li><button onClick={() => triggerToast('Chauffeur services available upon request.')} className="hover:text-teal-400">Private Chauffeur</button></li>
+              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({top:0}); }} className="hover:text-teal-400">{t('footer_link_fleet')}</button></li>
+              <li><button onClick={() => triggerToast(t('toast_locations'))} className="hover:text-teal-400">{t('footer_link_hubs')}</button></li>
+              <li><button onClick={() => triggerToast(t('toast_membership'))} className="hover:text-teal-400">{t('footer_link_membership')}</button></li>
+              <li><button onClick={() => triggerToast(t('toast_chauffeur'))} className="hover:text-teal-400">{t('footer_link_chauffeur')}</button></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">Concierge Support</h4>
+            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_contact_heading')}</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-teal-400" /> +1 (800) 835-6248</li>
               <li className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-teal-400" /> concierge@velocita-rentals.com</li>
-              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-teal-400" /> 24/7 Dedicated Client Services</li>
+              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-teal-400" /> {t('footer_client_services')}</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">Velocita Dispatch</h4>
-            <p className="mb-3 text-slate-400">Subscribe to receive exclusive access to private fleet releases.</p>
-            <form onSubmit={(e) => { e.preventDefault(); triggerToast('Thank you for joining the Velocita guestbook.'); }} className="space-y-2">
+            <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_dispatch_heading')}</h4>
+            <p className="mb-3 text-slate-400">{t('footer_dispatch_text')}</p>
+            <form onSubmit={(e) => { e.preventDefault(); triggerToast(t('toast_newsletter')); }} className="space-y-2">
               <input 
                 type="email" 
-                placeholder="Enter email address" 
+                placeholder={t('footer_email_placeholder')} 
                 required
                 className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-teal-500/50"
               />
               <button type="submit" className="w-full bg-slate-800 hover:bg-slate-700 text-teal-400 font-semibold py-2 rounded transition-colors tracking-wider uppercase text-[10px]">
-                Subscribe
+                {t('footer_subscribe')}
               </button>
             </form>
           </div>
@@ -1657,16 +1987,17 @@ export default function App() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-400 gap-4">
-          <p>© {new Date().getFullYear()} Velocita Luxury Automotive Rentals. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t('footer_copyright')}</p>
           <div className="flex gap-6">
-            <span className="hover:underline cursor-pointer">Privacy Policy</span>
-            <span className="hover:underline cursor-pointer">Terms of Sovereign Rental</span>
-            <span className="hover:underline cursor-pointer">Cookie Preferences</span>
+            <span className="hover:underline cursor-pointer">{t('footer_privacy')}</span>
+            <span className="hover:underline cursor-pointer">{t('footer_terms')}</span>
+            <span className="hover:underline cursor-pointer">{t('footer_cookies')}</span>
           </div>
         </div>
       </footer>
 
     </div>
+    </LanguageContext.Provider>
   );
 }
 
@@ -1675,6 +2006,7 @@ export default function App() {
    ============================================================================ */
 
 function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVehicle, onReserveDirect }) {
+  const { t } = useLang();
   return (
     <div className="space-y-24 pb-20">
       
@@ -1694,15 +2026,15 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-teal-500/20 to-teal-500/5 border border-teal-400/40 backdrop-blur-md shadow-[0_0_25px_-5px] shadow-teal-500/30">
             <Shield className="w-3.5 h-3.5 text-teal-300" />
-            <span className="text-xs uppercase tracking-widest text-teal-200 font-semibold">The Sovereign Collection 2024</span>
+            <span className="text-xs uppercase tracking-widest text-teal-200 font-semibold">{t('hero_badge')}</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-mono font-normal tracking-tight text-white leading-none">
-            Drive Beyond <span className="italic font-light bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-400 bg-clip-text text-transparent">Ordinary.</span>
+            {t('hero_heading_pre')} <span className="italic font-light bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-400 bg-clip-text text-transparent">{t('hero_heading_accent')}</span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed font-light">
-            Exceptional vehicles. Effortless journeys. Choose your masterpiece from our curated global fleet of elite sports, luxury sedans, and hyper SUVs.
+            {t('hero_subtitle')}
           </p>
 
           {/* SEARCH & BOOKING BAR */}
@@ -1712,7 +2044,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               {/* Pickup Location */}
               <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <MapPin className="w-3 h-3 text-teal-400" /> Pick-Up Location
+                  <MapPin className="w-3 h-3 text-teal-400" /> {t('label_pickup_location')}
                 </label>
                 <select 
                   value={bookingSearch.pickupLocation}
@@ -1726,7 +2058,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               {/* Pickup Date & Time */}
               <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-teal-400" /> Pick-Up Date & Time
+                  <Calendar className="w-3 h-3 text-teal-400" /> {t('label_pickup_datetime')}
                 </label>
                 <div className="flex gap-2">
                   <input 
@@ -1750,7 +2082,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               {/* Return Date & Time */}
               <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-teal-400" /> Return Date & Time
+                  <Calendar className="w-3 h-3 text-teal-400" /> {t('label_return_datetime')}
                 </label>
                 <div className="flex gap-2">
                   <input 
@@ -1774,13 +2106,13 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10">
               <div className="text-xs text-slate-400">
-                Calculated Duration: <span className="text-teal-300 font-semibold">{calculateDays(bookingSearch.pickupDate, bookingSearch.returnDate)} Day(s)</span>
+                {t('calculated_duration')} <span className="text-teal-300 font-semibold">{calculateDays(bookingSearch.pickupDate, bookingSearch.returnDate)} {t('days_suffix')}</span>
               </div>
               <button 
                 onClick={onSearchSubmit}
                 className="w-full sm:w-auto px-9 py-3.5 rounded-full bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-300 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_10px_30px_-8px] shadow-teal-400/50 hover:scale-[1.02]"
               >
-                <Search className="w-4 h-4" /> Search Available Fleet
+                <Search className="w-4 h-4" /> {t('search_button')}
               </button>
             </div>
           </div>
@@ -1792,14 +2124,14 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
           <div>
-            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">Handpicked Models</span>
-            <h2 className="text-2xl sm:text-3xl font-mono text-white mt-1">Featured Sovereign Fleet</h2>
+            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('featured_label')}</span>
+            <h2 className="text-2xl sm:text-3xl font-mono text-white mt-1">{t('featured_heading')}</h2>
           </div>
           <button 
             onClick={onSearchSubmit}
             className="text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 flex items-center gap-1 font-semibold transition-colors"
           >
-            Explore All Vehicles <ChevronRight className="w-4 h-4" />
+            {t('explore_all')} <ChevronRight className="w-4 h-4" />
           </button>
         </div>
 
@@ -1819,9 +2151,9 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
       <section className="bg-slate-950/60 border-y border-slate-800/80 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">Unrivaled Excellence</span>
-            <h2 className="text-3xl font-mono text-white">The Velocita Difference</h2>
-            <p className="text-slate-400 text-xs sm:text-sm">We transcend standard automobile rentals by offering white-glove automotive hospitality tailored to distinguished drivers.</p>
+            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('diff_label')}</span>
+            <h2 className="text-3xl font-mono text-white">{t('diff_heading')}</h2>
+            <p className="text-slate-400 text-xs sm:text-sm">{t('diff_subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1830,9 +2162,9 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
                 <Award className="w-6 h-6" />
               </div>
-              <h3 className="relative text-lg font-mono text-white">Guaranteed Exact Model</h3>
+              <h3 className="relative text-lg font-mono text-white">{t('diff_card1_title')}</h3>
               <p className="relative text-xs text-slate-400 leading-relaxed">
-                When you reserve a specific vehicle, you receive that exact model, trim, and spec—never a generic category substitute.
+                {t('diff_card1_desc')}
               </p>
             </div>
 
@@ -1841,9 +2173,9 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
                 <Compass className="w-6 h-6" />
               </div>
-              <h3 className="relative text-lg font-mono text-white">White-Glove Delivery</h3>
+              <h3 className="relative text-lg font-mono text-white">{t('diff_card2_title')}</h3>
               <p className="relative text-xs text-slate-400 leading-relaxed">
-                Enjoy seamless handover directly at private aviation terminals, luxury hotels, or private residences.
+                {t('diff_card2_desc')}
               </p>
             </div>
 
@@ -1852,9 +2184,9 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
                 <Shield className="w-6 h-6" />
               </div>
-              <h3 className="relative text-lg font-mono text-white">Comprehensive Coverage</h3>
+              <h3 className="relative text-lg font-mono text-white">{t('diff_card3_title')}</h3>
               <p className="relative text-xs text-slate-400 leading-relaxed">
-                Transparent zero-deductible insurance protection and 24/7 dedicated concierge assistance on every journey.
+                {t('diff_card3_desc')}
               </p>
             </div>
           </div>
@@ -1871,18 +2203,18 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent flex items-center p-8 sm:p-16">
             <div className="max-w-xl space-y-6">
-              <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">Tailored Journeys</span>
+              <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('banner_label')}</span>
               <h2 className="text-3xl sm:text-4xl font-mono text-white leading-tight">
-                Leave the Ordinary Behind.
+                {t('banner_heading')}
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Whether commanding a mountain pass in a 911 GT3 RS or arriving at a gala in a Rolls-Royce Ghost, our vehicles provide unmatched status and sensory delight.
+                {t('banner_text')}
               </p>
               <button 
                 onClick={onSearchSubmit}
                 className="px-6 py-3 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all inline-flex items-center gap-2"
               >
-                Browse Entire Fleet <ArrowRight className="w-4 h-4" />
+                {t('banner_button')} <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -1910,6 +2242,7 @@ function FleetView({
   onSelectVehicle, 
   onReserveDirect 
 }) {
+  const { t } = useLang();
   const categories = ['All', 'Sports', 'Luxury', 'SUV', 'Convertible', 'Grand Tourer', 'Electric'];
   const brands = ['All', 'Porsche', 'Rolls-Royce', 'Mercedes-AMG', 'Ferrari', 'Bentley', 'Lamborghini', 'Aston Martin', 'Audi', 'Maserati', 'Range Rover', 'BMW', 'McLaren', 'Tesla', 'Lucid', 'Bugatti', 'Koenigsegg', 'Rimac'];
 
@@ -1918,9 +2251,9 @@ function FleetView({
       
       {/* Title */}
       <div className="space-y-2">
-        <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">The Complete Catalog</span>
-        <h1 className="text-3xl sm:text-4xl font-mono text-white">Sovereign Fleet</h1>
-        <p className="text-slate-400 text-xs sm:text-sm">Filter through our high-performance exotic motorcars and ultra-luxury sedans.</p>
+        <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">{t('fleet_label')}</span>
+        <h1 className="text-3xl sm:text-4xl font-mono text-white">{t('fleet_heading')}</h1>
+        <p className="text-slate-400 text-xs sm:text-sm">{t('fleet_subtitle')}</p>
       </div>
 
       {/* FILTER & CONTROL BAR */}
@@ -1948,7 +2281,7 @@ function FleetView({
           
           {/* Brand Selector */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Brand / Manufacturer</label>
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_brand')}</label>
             <select
               value={filterBrand}
               onChange={(e) => setFilterBrand(e.target.value)}
@@ -1961,8 +2294,8 @@ function FleetView({
           {/* Max Price Range Slider */}
           <div className="space-y-1">
             <div className="flex justify-between text-[10px] uppercase tracking-wider font-semibold">
-              <span className="text-slate-400">Max Daily Rate</span>
-              <span className="text-teal-400">${filterPrice} / day</span>
+              <span className="text-slate-400">{t('label_max_rate')}</span>
+              <span className="text-teal-400">${filterPrice} {t('per_day')}</span>
             </div>
             <input 
               type="range" 
@@ -1977,16 +2310,16 @@ function FleetView({
 
           {/* Sorting Dropdown */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Sort Vehicles By</label>
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_sort')}</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
             >
-              <option value="recommended" className="bg-slate-900 text-white">Recommended First</option>
-              <option value="price-low" className="bg-slate-900 text-white">Daily Rate Low to High</option>
-              <option value="price-high" className="bg-slate-900 text-white">Daily Rate High to Low</option>
-              <option value="luxury" className="bg-slate-900 text-white">Most Exclusive First</option>
+              <option value="recommended" className="bg-slate-900 text-white">{t('sort_recommended')}</option>
+              <option value="price-low" className="bg-slate-900 text-white">{t('sort_price_low')}</option>
+              <option value="price-high" className="bg-slate-900 text-white">{t('sort_price_high')}</option>
+              <option value="luxury" className="bg-slate-900 text-white">{t('sort_luxury')}</option>
             </select>
           </div>
 
@@ -1998,13 +2331,13 @@ function FleetView({
       {fleet.length === 0 ? (
         <div className="text-center py-20 bg-slate-900/50 rounded-none border border-slate-800 space-y-4">
           <AlertCircle className="w-10 h-10 text-teal-400 mx-auto" />
-          <h3 className="text-lg font-mono text-white">No Vehicles Match Your Filters</h3>
-          <p className="text-xs text-slate-400">Try adjusting your price ceiling or brand filter.</p>
+          <h3 className="text-lg font-mono text-white">{t('no_match_heading')}</h3>
+          <p className="text-xs text-slate-400">{t('no_match_text')}</p>
           <button 
             onClick={() => { setFilterCategory('All'); setFilterBrand('All'); setFilterPrice(2500); }}
             className="px-4 py-2 bg-slate-800 text-xs text-teal-400 font-semibold uppercase tracking-wider rounded-sm hover:bg-slate-700 transition-colors"
           >
-            Reset Filters
+            {t('reset_filters')}
           </button>
         </div>
       ) : (
@@ -2029,6 +2362,7 @@ function FleetView({
    ============================================================================ */
 
 function VehicleCard({ vehicle, onSelect, onReserve }) {
+  const { t } = useLang();
   return (
     <div className="group bg-neutral-900/70 border border-neutral-800 rounded-2xl overflow-hidden hover:border-indigo-500/40 transition-all duration-300 flex flex-col justify-between">
       
@@ -2044,7 +2378,7 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
             {vehicle.category}
           </div>
           <div className="absolute bottom-3 right-3 bg-neutral-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-neutral-800">
-            ${vehicle.pricePerDay} <span className="text-[10px] text-neutral-400 font-normal">/ day</span>
+            ${vehicle.pricePerDay} <span className="text-[10px] text-neutral-400 font-normal">{t('per_day')}</span>
           </div>
         </div>
 
@@ -2083,13 +2417,13 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
           onClick={() => onSelect(vehicle.id)}
           className="w-full py-2.5 rounded-lg border border-neutral-700 hover:border-indigo-400 text-neutral-200 hover:text-indigo-400 text-xs font-semibold uppercase tracking-wider transition-colors"
         >
-          Details
+          {t('btn_details')}
         </button>
         <button 
           onClick={() => onReserve(vehicle.id)}
           className="w-full py-2.5 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors"
         >
-          Rent Now
+          {t('btn_rent_now')}
         </button>
       </div>
 
@@ -2112,6 +2446,7 @@ function VehicleDetailView({
   onProceedCheckout, 
   onBackToFleet 
 }) {
+  const { t } = useLang();
   const [activeImage, setActiveImage] = useState(0);
 
   return (
@@ -2122,7 +2457,7 @@ function VehicleDetailView({
         onClick={onBackToFleet}
         className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 transition-colors font-semibold"
       >
-        <ChevronLeft className="w-4 h-4" /> Back to Fleet Catalog
+        <ChevronLeft className="w-4 h-4" /> {t('back_to_fleet')}
       </button>
 
       {/* Top Banner */}
@@ -2140,7 +2475,7 @@ function VehicleDetailView({
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs text-teal-300 font-semibold uppercase tracking-wider">
-                {vehicle.year} Model
+                {vehicle.year} {t('model_year_suffix')}
               </div>
             </div>
 
@@ -2169,22 +2504,22 @@ function VehicleDetailView({
 
           {/* Key Specifications Grid */}
           <div className="space-y-4 border-t border-slate-800 pt-6">
-            <h3 className="text-sm uppercase tracking-widest text-white font-semibold">Engine & Performance Specs</h3>
+            <h3 className="text-sm uppercase tracking-widest text-white font-semibold">{t('spec_heading')}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">Horsepower</span>
+                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_horsepower')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.hp} HP</span>
               </div>
               <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">Acceleration</span>
+                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_acceleration')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.acceleration}</span>
               </div>
               <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">Transmission</span>
+                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_transmission')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.transmission}</span>
               </div>
               <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">Fuel / Power</span>
+                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_fuel')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.fuel}</span>
               </div>
             </div>
@@ -2192,7 +2527,7 @@ function VehicleDetailView({
 
           {/* Exclusive Features List */}
           <div className="space-y-4 border-t border-slate-800 pt-6">
-            <h3 className="text-sm uppercase tracking-widest text-white font-semibold">Included Factory Features</h3>
+            <h3 className="text-sm uppercase tracking-widest text-white font-semibold">{t('features_heading')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {vehicle.features.map((ft, idx) => (
                 <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
@@ -2215,7 +2550,7 @@ function VehicleDetailView({
                 <span className="text-xs text-slate-400"> / day</span>
               </div>
               <div className="text-xs text-teal-400 font-semibold uppercase tracking-wider">
-                {rentalDays} Day Rental
+                {rentalDays} {t('day_rental_suffix')}
               </div>
             </div>
 
@@ -2223,7 +2558,7 @@ function VehicleDetailView({
             <div className="space-y-4 text-xs">
               
               <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Pick-Up Hub</label>
+                <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_hub')}</label>
                 <select 
                   value={bookingSearch.pickupLocation}
                   onChange={(e) => setBookingSearch({...bookingSearch, pickupLocation: e.target.value})}
@@ -2235,7 +2570,7 @@ function VehicleDetailView({
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Start Date</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_start_date')}</label>
                   <input 
                     type="date" 
                     value={bookingSearch.pickupDate}
@@ -2246,7 +2581,7 @@ function VehicleDetailView({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Return Date</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_date')}</label>
                   <input 
                     type="date" 
                     value={bookingSearch.returnDate}
@@ -2262,7 +2597,7 @@ function VehicleDetailView({
 
             {/* Selectable Extras */}
             <div className="space-y-3 border-t border-slate-800 pt-4">
-              <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Optional Extras & Protection</label>
+              <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">{t('label_extras')}</label>
               <div className="space-y-2">
                 {EXTRAS_CATALOG.slice(0, 3).map(ext => {
                   const isChecked = selectedExtras.includes(ext.id);
@@ -2290,21 +2625,21 @@ function VehicleDetailView({
             {/* Total Pricing Preview */}
             <div className="border-t border-slate-800 pt-4 space-y-2 text-xs">
               <div className="flex justify-between text-slate-400">
-                <span>Vehicle Subtotal ({rentalDays}d)</span>
+                <span>{t('vehicle_subtotal')} ({rentalDays}d)</span>
                 <span>${pricing.subtotalVehicle}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
                 <div className="flex justify-between text-slate-400">
-                  <span>Selected Extras</span>
+                  <span>{t('selected_extras')}</span>
                   <span>${pricing.subtotalExtras}</span>
                 </div>
               )}
               <div className="flex justify-between text-slate-400">
-                <span>Estimated Fees & Taxes</span>
+                <span>{t('estimated_fees')}</span>
                 <span>${pricing.serviceFee + pricing.taxes}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800/80 pt-2">
-                <span>Total Due</span>
+                <span>{t('total_due')}</span>
                 <span className="text-teal-400">${pricing.grandTotal}</span>
               </div>
             </div>
@@ -2313,11 +2648,11 @@ function VehicleDetailView({
               onClick={onProceedCheckout}
               className="w-full py-3.5 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all flex items-center justify-center gap-2"
             >
-              Proceed to Reserve <ArrowRight className="w-4 h-4" />
+              {t('proceed_reserve')} <ArrowRight className="w-4 h-4" />
             </button>
 
             <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 uppercase tracking-wider pt-1">
-              <Shield className="w-3 h-3 text-teal-400" /> Free Cancellation up to 48 hours prior
+              <Shield className="w-3 h-3 text-teal-400" /> {t('free_cancellation')}
             </div>
 
           </div>
@@ -2352,12 +2687,13 @@ function CheckoutView({
   onGoHome, 
   onSelectVehicle 
 }) {
+  const { t } = useLang();
   const stepsList = [
-    { num: 1, title: 'Vehicle' },
-    { num: 2, title: 'Details' },
-    { num: 3, title: 'Extras' },
-    { num: 4, title: 'Driver' },
-    { num: 5, title: 'Payment' }
+    { num: 1, title: t('step_label_vehicle') },
+    { num: 2, title: t('step_label_details') },
+    { num: 3, title: t('step_label_extras') },
+    { num: 4, title: t('step_label_driver') },
+    { num: 5, title: t('step_label_payment') }
   ];
 
   if (step === 6 && confirmedBooking) {
@@ -2368,9 +2704,9 @@ function CheckoutView({
         </div>
 
         <div className="space-y-2">
-          <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">Reservation Confirmed</span>
-          <h1 className="text-3xl sm:text-4xl font-mono text-white">Your Sovereign Journey Awaits</h1>
-          <p className="text-xs sm:text-sm text-slate-400">Reference: <span className="text-teal-300 font-mono font-bold">{confirmedBooking.bookingRef}</span></p>
+          <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">{t('reservation_confirmed')}</span>
+          <h1 className="text-3xl sm:text-4xl font-mono text-white">{t('journey_awaits')}</h1>
+          <p className="text-xs sm:text-sm text-slate-400">{t('reference_label')} <span className="text-teal-300 font-mono font-bold">{confirmedBooking.bookingRef}</span></p>
         </div>
 
         {/* Confirmed Summary Card */}
@@ -2380,32 +2716,32 @@ function CheckoutView({
             <div>
               <span className="text-[10px] text-teal-400 uppercase tracking-widest block font-semibold">{confirmedBooking.vehicle.brand}</span>
               <h3 className="text-lg font-mono text-white">{confirmedBooking.vehicle.model}</h3>
-              <span className="text-xs text-slate-400">{confirmedBooking.rentalDays} Days Rental</span>
+              <span className="text-xs text-slate-400">{confirmedBooking.rentalDays} {t('days_rental_suffix')}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">Pick-Up Location</span>
+              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_pickup_location')}</span>
               <span className="text-slate-200 font-medium">{confirmedBooking.searchParams.pickupLocation}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">Rental Dates</span>
+              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_rental_dates')}</span>
               <span className="text-slate-200 font-medium">{confirmedBooking.searchParams.pickupDate} to {confirmedBooking.searchParams.returnDate}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">Driver Name</span>
+              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_driver_name')}</span>
               <span className="text-slate-200 font-medium">{confirmedBooking.customer.firstName} {confirmedBooking.customer.lastName}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">Total Paid</span>
+              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_total_paid')}</span>
               <span className="text-teal-400 font-bold">${confirmedBooking.pricing.grandTotal}</span>
             </div>
           </div>
 
           {confirmedBooking.extras.length > 0 && (
             <div className="border-t border-slate-800 pt-4 space-y-1">
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">Selected Extras</span>
+              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('selected_extras')}</span>
               <ul className="text-xs text-slate-300 list-disc list-inside">
                 {confirmedBooking.extras.map(e => <li key={e.id}>{e.name}</li>)}
               </ul>
@@ -2418,13 +2754,13 @@ function CheckoutView({
             onClick={() => window.print()} 
             className="px-6 py-3 rounded-sm border border-slate-700 hover:border-teal-400 text-xs uppercase tracking-wider font-semibold transition-colors w-full sm:w-auto"
           >
-            Print Receipt
+            {t('print_receipt')}
           </button>
           <button 
             onClick={onGoHome} 
             className="px-6 py-3 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs uppercase tracking-wider font-bold transition-colors w-full sm:w-auto"
           >
-            Return to Home
+            {t('return_home')}
           </button>
         </div>
       </div>
@@ -2476,8 +2812,8 @@ function CheckoutView({
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">Step 1: Confirm Selected Vehicle</h2>
-                <p className="text-xs text-slate-400">Review your selected supercar model or switch to another option.</p>
+                <h2 className="text-xl font-mono text-white">{t('step1_title')}</h2>
+                <p className="text-xs text-slate-400">{t('step1_desc')}</p>
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-6 bg-slate-950 p-4 rounded-none border border-slate-800">
@@ -2497,13 +2833,13 @@ function CheckoutView({
                   onClick={() => onSelectVehicle(vehicle.id)} 
                   className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
                 >
-                  View Specs Again
+                  {t('view_specs_again')}
                 </button>
                 <button 
                   onClick={() => setStep(2)} 
                   className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
-                  Continue to Rental Details <ArrowRight className="w-4 h-4" />
+                  {t('continue_rental_details')} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -2513,14 +2849,14 @@ function CheckoutView({
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">Step 2: Rental Hub & Schedule</h2>
-                <p className="text-xs text-slate-400">Specify pick-up/return locations and operational hours.</p>
+                <h2 className="text-xl font-mono text-white">{t('step2_title')}</h2>
+                <p className="text-xs text-slate-400">{t('step2_desc')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Pick-Up Hub</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_hub')}</label>
                     <select 
                       value={bookingSearch.pickupLocation}
                       onChange={(e) => setBookingSearch({...bookingSearch, pickupLocation: e.target.value})}
@@ -2530,7 +2866,7 @@ function CheckoutView({
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Return Hub</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_hub')}</label>
                     <select 
                       value={bookingSearch.dropoffLocation}
                       onChange={(e) => setBookingSearch({...bookingSearch, dropoffLocation: e.target.value})}
@@ -2543,7 +2879,7 @@ function CheckoutView({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Pick-Up Date & Time</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_datetime')}</label>
                     <div className="flex gap-2">
                       <input 
                         type="date" 
@@ -2564,7 +2900,7 @@ function CheckoutView({
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Return Date & Time</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_datetime')}</label>
                     <div className="flex gap-2">
                       <input 
                         type="date" 
@@ -2590,13 +2926,13 @@ function CheckoutView({
                   onClick={() => setStep(1)} 
                   className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
                 >
-                  Back
+                  {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(3)} 
                   className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
-                  Continue to Extras <ArrowRight className="w-4 h-4" />
+                  {t('continue_extras')} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -2606,8 +2942,8 @@ function CheckoutView({
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">Step 3: Tailor Extra Services</h2>
-                <p className="text-xs text-slate-400">Enhance your drive with concierge add-ons and protection.</p>
+                <h2 className="text-xl font-mono text-white">{t('step3_title')}</h2>
+                <p className="text-xs text-slate-400">{t('step3_desc')}</p>
               </div>
 
               <div className="space-y-3">
@@ -2641,13 +2977,13 @@ function CheckoutView({
                   onClick={() => setStep(2)} 
                   className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
                 >
-                  Back
+                  {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(4)} 
                   className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
-                  Driver Info <ArrowRight className="w-4 h-4" />
+                  {t('driver_info')} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -2657,13 +2993,13 @@ function CheckoutView({
           {step === 4 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">Step 4: Driver Information</h2>
-                <p className="text-xs text-slate-400">Please provide verified driver identification details.</p>
+                <h2 className="text-xl font-mono text-white">{t('step4_title')}</h2>
+                <p className="text-xs text-slate-400">{t('step4_desc')}</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">First Name *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_first_name')}</label>
                   <input 
                     type="text" 
                     required
@@ -2674,7 +3010,7 @@ function CheckoutView({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Last Name *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_last_name')}</label>
                   <input 
                     type="text" 
                     required
@@ -2685,7 +3021,7 @@ function CheckoutView({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Email Address *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
                   <input 
                     type="email" 
                     required
@@ -2696,7 +3032,7 @@ function CheckoutView({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Phone Number *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_phone')}</label>
                   <input 
                     type="tel" 
                     required
@@ -2713,13 +3049,13 @@ function CheckoutView({
                   onClick={() => setStep(3)} 
                   className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
                 >
-                  Back
+                  {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(5)} 
                   className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
-                  Payment Method <ArrowRight className="w-4 h-4" />
+                  {t('payment_method')} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -2729,13 +3065,13 @@ function CheckoutView({
           {step === 5 && (
             <form onSubmit={onFinalSubmit} className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">Step 5: Payment Authorization</h2>
-                <p className="text-xs text-slate-400">Encrypted payment security via Sovereign Guarantee.</p>
+                <h2 className="text-xl font-mono text-white">{t('step5_title')}</h2>
+                <p className="text-xs text-slate-400">{t('step5_desc')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Name on Card *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_name_on_card')}</label>
                   <input 
                     type="text" 
                     required
@@ -2747,7 +3083,7 @@ function CheckoutView({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Card Number *</label>
+                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_card_number')}</label>
                   <div className="relative">
                     <input 
                       type="text" 
@@ -2763,7 +3099,7 @@ function CheckoutView({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Expiration *</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_expiration')}</label>
                     <input 
                       type="text" 
                       required
@@ -2774,7 +3110,7 @@ function CheckoutView({
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">CVV *</label>
+                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_cvv')}</label>
                     <input 
                       type="text" 
                       required
@@ -2793,13 +3129,13 @@ function CheckoutView({
                   onClick={() => setStep(4)} 
                   className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
                 >
-                  Back
+                  {t('btn_back')}
                 </button>
                 <button 
                   type="submit"
                   className="px-8 py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
                 >
-                  Confirm & Pay ${pricing.grandTotal}
+                  {t('confirm_and_pay')} ${pricing.grandTotal}
                 </button>
               </div>
             </form>
@@ -2810,45 +3146,45 @@ function CheckoutView({
         {/* ORDER SUMMARY SIDEBAR */}
         <div className="space-y-6">
           <div className="bg-slate-900 border border-slate-800 p-6 rounded-none space-y-4 sticky top-28">
-            <h3 className="text-sm font-mono uppercase tracking-widest text-white border-b border-slate-800 pb-3">Reservation Summary</h3>
+            <h3 className="text-sm font-mono uppercase tracking-widest text-white border-b border-slate-800 pb-3">{t('reservation_summary')}</h3>
 
             <div className="flex items-center gap-3">
               <img src={vehicle.images[0]} alt="Vehicle" className="w-20 h-14 object-cover rounded-sm border border-slate-800 shrink-0" />
               <div>
                 <span className="text-[10px] text-teal-400 uppercase font-semibold block">{vehicle.brand}</span>
                 <h4 className="text-sm font-mono text-white">{vehicle.model}</h4>
-                <span className="text-xs text-slate-400">${vehicle.pricePerDay} / day</span>
+                <span className="text-xs text-slate-400">${vehicle.pricePerDay} {t('per_day')}</span>
               </div>
             </div>
 
             <div className="space-y-2 text-xs border-t border-slate-800 pt-3">
               <div className="flex justify-between text-slate-400">
-                <span>Duration</span>
-                <span className="text-white font-medium">{rentalDays} Day(s)</span>
+                <span>{t('duration_label')}</span>
+                <span className="text-white font-medium">{rentalDays} {t('days_suffix')}</span>
               </div>
               <div className="flex justify-between text-slate-400">
-                <span>Pick-Up Hub</span>
+                <span>{t('label_pickup_hub')}</span>
                 <span className="text-white font-medium truncate max-w-[150px]">{bookingSearch.pickupLocation}</span>
               </div>
             </div>
 
             <div className="border-t border-slate-800 pt-3 space-y-2 text-xs">
               <div className="flex justify-between text-slate-400">
-                <span>Vehicle Daily Total</span>
+                <span>{t('vehicle_daily_total')}</span>
                 <span>${pricing.subtotalVehicle}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
                 <div className="flex justify-between text-slate-400">
-                  <span>Extras Subtotal</span>
+                  <span>{t('extras_subtotal')}</span>
                   <span>${pricing.subtotalExtras}</span>
                 </div>
               )}
               <div className="flex justify-between text-slate-400">
-                <span>Service & Tax</span>
+                <span>{t('service_tax')}</span>
                 <span>${pricing.serviceFee + pricing.taxes}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800 pt-2">
-                <span>Total Amount</span>
+                <span>{t('total_amount')}</span>
                 <span className="text-teal-400">${pricing.grandTotal}</span>
               </div>
             </div>
