@@ -1576,6 +1576,14 @@ export default function App() {
   const [currentView, setCurrentView] = useState('home'); /* 'home', 'fleet', 'detail', 'checkout' */
   const [selectedVehicleId, setSelectedVehicleId] = useState('vel-01');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  /* Guarantees the page is scrolled to the very top once the new view has actually
+     rendered (fixes mobile: tapping a vehicle from a scrolled-down Fleet list could
+     otherwise leave the Detail view scrolled to the bottom, since the manual
+     scrollTo() calls above fire before the shorter/taller new view finishes rendering). */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentView, selectedVehicleId]);
   const [toastMessage, setToastMessage] = useState(null);
 
   /* Search & Rental Parameters */
