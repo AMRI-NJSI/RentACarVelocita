@@ -2202,43 +2202,62 @@ function CarFinder({ onSelectVehicle }) {
     { value: 'Electric', icon: RefreshCw, label: isSq ? 'Miqësore me Mjedisin' : 'Eco-Conscious' },
   ];
 
-  const seatOptions = [
-    { value: 2, label: isSq ? '2 Vende (Solo/Çift)' : '2 Seats (Solo/Couple)' },
-    { value: 4, label: isSq ? '4 Vende' : '4 Seats' },
-    { value: 5, label: isSq ? '5+ Vende' : '5+ Seats' },
+    const seatOptions = [
+    { value: 2, exact: true, label: isSq ? '2 Vende (Solo/Çift)' : '2 Seats (Solo/Couple)' },
+    { value: 4, exact: true, label: isSq ? '4 Vende' : '4 Seats' },
+    { value: 5, exact: false, label: isSq ? '5+ Vende' : '5+ Seats' },
   ];
 
-  const budgetOptions = [
-    { value: 800, label: isSq ? 'Nën $800/ditë' : 'Under $800/day' },
-    { value: 1200, label: isSq ? '$800 – $1,200/ditë' : '$800 – $1,200/day' },
-    { value: 1800, label: isSq ? '$1,200 – $1,800/ditë' : '$1,200 – $1,800/day' },
-    { value: Infinity, label: isSq ? 'Pa Limit' : 'No Limit' },
+    const budgetOptions = [
+    { min: 0, max: 800, label: isSq ? 'Nën $800/ditë' : 'Under $800/day' },
+    { min: 800, max: 1200, label: isSq ? '$800 – $1,200/ditë' : '$800 – $1,200/day' },
+    { min: 1200, max: 1800, label: isSq ? '$1,200 – $1,800/ditë' : '$1,200 – $1,800/day' },
+    { min: 1800, max: Infinity, label: isSq ? '$1,800+/ditë' : '$1,800+/day' },
   ];
 
   const [step, setStep] = useState(1);
   const [occasion, setOccasion] = useState(null);
-  const [seats, setSeats] = useState(null);
+  const [seatChoice, setSeatChoice] = useState(null);
   const [result, setResult] = useState(null);
 
-  const findMatch = (occasionVal, seatsVal, budgetVal) => {
-    let pool = FLEET_DATA.filter(v => v.category === occasionVal);
-    const bySeats = pool.filter(v => v.seats >= seatsVal);
-    if (bySeats.length) pool = bySeats;
-    const byBudget = pool.filter(v => v.pricePerDay <= budgetVal);
-    if (byBudget.length) pool = byBudget;
-    pool.sort((a, b) => a.pricePerDay - b.pricePerDay);
-    return pool[0] || FLEET_DATA.find(v => v.category === occasionVal) || FLEET_DATA[0];
+    const seatMatches = (carSeats, seatOpt) =>
+    seatOpt.exact ? carSeats === seatOpt.value : carSeats >= seatOpt.value;
+
+  const pickBest = (pool, budgetRange) => {
+    if (budgetRange.max === Infinity) {
+      return [...pool].sort((a, b) => a.pricePerDay - b.pricePerDay)[0];
+    }
+    const mid = (budgetRange.min + budgetRange.max) / 2;
+    return [...pool].sort(
+      (a, b) => Math.abs(a.pricePerDay - mid) - Math.abs(b.pricePerDay - mid)
+    )[0];
   };
 
-  const handleBudget = (value) => {
-    setResult(findMatch(occasion, seats, value));
+  const findMatch = (occasionVal, seatOpt, budgetRange) => {
+    const seatFilter = (v) => seatMatches(v.seats, seatOpt);
+    const priceFilter = (v) => v.pricePerDay >= budgetRange.min && v.pricePerDay <= budgetRange.max;
+
+    // 1. Përputhje e plotë: kategoria, vendet dhe buxheti të sakta
+    let pool = FLEET_DATA.filter((v) => v.category === occasionVal && seatFilter(v) && priceFilter(v));
+    if (pool.length) return { vehicle: pickBest(pool, budgetRange), exact: true };
+
+    // 2. Vendet dhe buxheti janë të detyrueshme — relakso VETËM kategorinë
+    pool = FLEET_DATA.filter((v) => seatFilter(v) && priceFilter(v));
+    if (pool.length) return { vehicle: pickBest(pool, budgetRange), exact: false };
+
+    // 3. Asgjë nuk përputhet — mos e detyro një rekomandim të gabuar
+    return { vehicle: null, exact: false };
+  };
+
+    const handleBudget = (budgetRange) => {
+    setResult(findMatch(occasion, seatChoice, budgetRange));
     setStep(4);
   };
 
   const handleRestart = () => {
     setStep(1);
     setOccasion(null);
-    setSeats(null);
+    setSeatChoice(null);
     setResult(null);
   };
 
@@ -2302,13 +2321,13 @@ function CarFinder({ onSelectVehicle }) {
                 {isSq ? 'Sa vende ulëse të duhen?' : 'How many seats do you need?'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {seatOptions.map(({ value, label }) => (
+                {seatOptions.map((opt) => (
                   <button
-                    key={value}
-                    onClick={() => { setSeats(value); setStep(3); }}
+                    key={opt.value}
+                    onClick={() => { setSeats(opt.value); setStep(3); }}
                     className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
                   >
-                    {label}
+                    {opt.label}
                   </button>
                 ))}
               </div>
@@ -2327,13 +2346,13 @@ function CarFinder({ onSelectVehicle }) {
                 {isSq ? 'Cili është buxheti yt ditor?' : "What's your daily budget?"}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {budgetOptions.map(({ value, label }) => (
+                {budgetOptions.map((opt) => (
                   <button
-                    key={label}
-                    onClick={() => handleBudget(value)}
+                    key={opt.value}
+                    onClick={() => handleBudget(opt)}
                     className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
                   >
-                    {label}
+                    {opt.label}
                   </button>
                 ))}
               </div>
@@ -2346,36 +2365,63 @@ function CarFinder({ onSelectVehicle }) {
             </div>
           )}
 
-          {step === 4 && result && (
+                    {step === 4 && result && result.vehicle && (
             <div className="space-y-6">
               <div className="flex items-center justify-center gap-2 text-teal-400">
                 <CheckCircle className="w-5 h-5" />
                 <span className="text-xs uppercase tracking-widest font-semibold">
-                  {isSq ? 'Përputhja Jote Perfekte' : 'Your Perfect Match'}
+                  {result.exact
+                    ? (isSq ? 'Përputhja Jote Perfekte' : 'Your Perfect Match')
+                    : (isSq ? 'Përputhja më e Afërt (kategori e ndryshme)' : 'Closest Match (different category)')}
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-slate-950/40 border border-white/10 rounded-2xl overflow-hidden">
                 <img
-                  src={result.images[0]}
-                  alt={`${result.brand} ${result.model}`}
+                  src={result.vehicle.images[0]}
+                  alt={`${result.vehicle.brand} ${result.vehicle.model}`}
                   className="w-full h-56 sm:h-full object-cover"
                 />
                 <div className="p-6 space-y-3">
-                  <span className="text-xs uppercase tracking-widest text-teal-400 font-semibold">{result.category}</span>
-                  <h4 className="text-2xl font-mono text-white">{result.brand} {result.model}</h4>
-                  <p className="text-sm text-slate-400">{result.description}</p>
+                  <span className="text-xs uppercase tracking-widest text-teal-400 font-semibold">{result.vehicle.category}</span>
+                  <h4 className="text-2xl font-mono text-white">{result.vehicle.brand} {result.vehicle.model}</h4>
+                  <p className="text-sm text-slate-400">{result.vehicle.description}</p>
+                  <p className="text-xs text-slate-500">
+                    {isSq ? 'Vende ulëse' : 'Seats'}: {result.vehicle.seats}
+                  </p>
                   <div className="flex items-baseline gap-1 pt-2">
-                    <span className="text-2xl font-mono text-white">${result.pricePerDay}</span>
+                    <span className="text-2xl font-mono text-white">${result.vehicle.pricePerDay}</span>
                     <span className="text-xs text-slate-500">{isSq ? '/ ditë' : '/ day'}</span>
                   </div>
                   <button
-                    onClick={() => onSelectVehicle(result.id)}
+                    onClick={() => onSelectVehicle(result.vehicle.id)}
                     className="w-full mt-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 transition-colors"
                   >
                     {isSq ? 'Shiko Këtë Veturë' : 'View This Car'} <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
+              <button
+                onClick={handleRestart}
+                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+              >
+                <RefreshCw className="w-3.5 h-3.5" /> {isSq ? 'Fillo Përsëri' : 'Start Over'}
+              </button>
+            </div>
+          )}
+
+          {step === 4 && result && !result.vehicle && (
+            <div className="space-y-6 text-center">
+              <div className="flex items-center justify-center gap-2 text-amber-400">
+                <AlertCircle className="w-5 h-5" />
+                <span className="text-xs uppercase tracking-widest font-semibold">
+                  {isSq ? 'Asnjë Veturë e Përshtatshme' : 'No Matching Vehicle'}
+                </span>
+              </div>
+              <p className="text-sm text-slate-400 max-w-md mx-auto">
+                {isSq
+                  ? 'Nuk gjetëm asnjë veturë që plotëson saktësisht vendet ulëse dhe buxhetin e zgjedhur. Provo të ndryshosh buxhetin ose numrin e vendeve.'
+                  : "We couldn't find a vehicle that fits your exact seat count and budget. Try adjusting your budget or seat requirement."}
+              </p>
               <button
                 onClick={handleRestart}
                 className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
