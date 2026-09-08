@@ -2155,51 +2155,8 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
         </div>
       </section>
 
-      {/* WHY CHOOSE VELOCITA */}
-      <section className="bg-slate-950/60 border-y border-slate-800/80 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('diff_label')}</span>
-            <h2 className="text-3xl font-mono text-white">{t('diff_heading')}</h2>
-            <p className="text-slate-400 text-xs sm:text-sm">{t('diff_subtitle')}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group relative bg-gradient-to-b from-slate-900/80 to-slate-900/20 border border-white/10 p-8 rounded-3xl space-y-4 overflow-hidden transition-all duration-300 hover:border-teal-400/40 hover:-translate-y-1 hover:shadow-[0_25px_50px_-20px] hover:shadow-teal-500/30">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl group-hover:bg-teal-400/20 transition-colors"></div>
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
-                <Award className="w-6 h-6" />
-              </div>
-              <h3 className="relative text-lg font-mono text-white">{t('diff_card1_title')}</h3>
-              <p className="relative text-xs text-slate-400 leading-relaxed">
-                {t('diff_card1_desc')}
-              </p>
-            </div>
-
-            <div className="group relative bg-gradient-to-b from-slate-900/80 to-slate-900/20 border border-white/10 p-8 rounded-3xl space-y-4 overflow-hidden transition-all duration-300 hover:border-teal-400/40 hover:-translate-y-1 hover:shadow-[0_25px_50px_-20px] hover:shadow-teal-500/30">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl group-hover:bg-teal-400/20 transition-colors"></div>
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
-                <Compass className="w-6 h-6" />
-              </div>
-              <h3 className="relative text-lg font-mono text-white">{t('diff_card2_title')}</h3>
-              <p className="relative text-xs text-slate-400 leading-relaxed">
-                {t('diff_card2_desc')}
-              </p>
-            </div>
-
-            <div className="group relative bg-gradient-to-b from-slate-900/80 to-slate-900/20 border border-white/10 p-8 rounded-3xl space-y-4 overflow-hidden transition-all duration-300 hover:border-teal-400/40 hover:-translate-y-1 hover:shadow-[0_25px_50px_-20px] hover:shadow-teal-500/30">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl group-hover:bg-teal-400/20 transition-colors"></div>
-              <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300 shadow-inner shadow-teal-500/10">
-                <Shield className="w-6 h-6" />
-              </div>
-              <h3 className="relative text-lg font-mono text-white">{t('diff_card3_title')}</h3>
-              <p className="relative text-xs text-slate-400 leading-relaxed">
-                {t('diff_card3_desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+            {/* FIND YOUR PERFECT CAR */}
+      <CarFinder onSelectVehicle={onSelectVehicle} />
 
       {/* LUXURY EXPERIENCE BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -2232,7 +2189,207 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
     </div>
   );
 }
+function CarFinder({ onSelectVehicle }) {
+  const { language } = useLang();
+  const isSq = language === 'sq';
 
+  const occasions = [
+    { value: 'Sports', icon: Zap, label: isSq ? 'Emocion në Pistë' : 'Track Day Thrill' },
+    { value: 'Luxury', icon: Award, label: isSq ? 'Prestigj Biznesi' : 'Business & Prestige' },
+    { value: 'SUV', icon: User, label: isSq ? 'Familje & Grup' : 'Family & Group' },
+    { value: 'Convertible', icon: Star, label: isSq ? 'Ngjarje Speciale' : 'Special Occasion' },
+    { value: 'Grand Tourer', icon: Compass, label: isSq ? 'Udhëtim i Gjatë' : 'Long Road Trip' },
+    { value: 'Electric', icon: RefreshCw, label: isSq ? 'Miqësore me Mjedisin' : 'Eco-Conscious' },
+  ];
+
+  const seatOptions = [
+    { value: 2, label: isSq ? '2 Vende (Solo/Çift)' : '2 Seats (Solo/Couple)' },
+    { value: 4, label: isSq ? '4 Vende' : '4 Seats' },
+    { value: 5, label: isSq ? '5+ Vende' : '5+ Seats' },
+  ];
+
+  const budgetOptions = [
+    { value: 800, label: isSq ? 'Nën $800/ditë' : 'Under $800/day' },
+    { value: 1200, label: isSq ? '$800 – $1,200/ditë' : '$800 – $1,200/day' },
+    { value: 1800, label: isSq ? '$1,200 – $1,800/ditë' : '$1,200 – $1,800/day' },
+    { value: Infinity, label: isSq ? 'Pa Limit' : 'No Limit' },
+  ];
+
+  const [step, setStep] = useState(1);
+  const [occasion, setOccasion] = useState(null);
+  const [seats, setSeats] = useState(null);
+  const [result, setResult] = useState(null);
+
+  const findMatch = (occasionVal, seatsVal, budgetVal) => {
+    let pool = FLEET_DATA.filter(v => v.category === occasionVal);
+    const bySeats = pool.filter(v => v.seats >= seatsVal);
+    if (bySeats.length) pool = bySeats;
+    const byBudget = pool.filter(v => v.pricePerDay <= budgetVal);
+    if (byBudget.length) pool = byBudget;
+    pool.sort((a, b) => a.pricePerDay - b.pricePerDay);
+    return pool[0] || FLEET_DATA.find(v => v.category === occasionVal) || FLEET_DATA[0];
+  };
+
+  const handleBudget = (value) => {
+    setResult(findMatch(occasion, seats, value));
+    setStep(4);
+  };
+
+  const handleRestart = () => {
+    setStep(1);
+    setOccasion(null);
+    setSeats(null);
+    setResult(null);
+  };
+
+  return (
+    <section className="bg-slate-950/60 border-y border-slate-800/80 py-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">
+            {isSq ? 'Rekomandim i Personalizuar' : 'Personalized Recommendation'}
+          </span>
+          <h2 className="text-3xl font-mono text-white">
+            {isSq ? 'Gjej Veturën Tënde Perfekte' : 'Find Your Perfect Car'}
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm">
+            {isSq
+              ? 'Përgjigju disa pyetjeve të shpejta dhe ne do të rekomandojmë veturën ideale nga flota jonë.'
+              : "Answer a few quick questions and we'll recommend the ideal vehicle from our fleet."}
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-b from-slate-900/80 to-slate-900/20 border border-white/10 rounded-3xl p-8 sm:p-10">
+
+          {step < 4 && (
+            <div className="flex items-center justify-center gap-2 mb-8">
+              {[1, 2, 3].map((s) => (
+                <div
+                  key={s}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    s === step ? 'w-8 bg-teal-400' : s < step ? 'w-4 bg-teal-400/50' : 'w-4 bg-slate-700'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
+          {step === 1 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-mono text-white text-center">
+                {isSq ? 'Për çfarë e do veturën?' : "What's the occasion?"}
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {occasions.map(({ value, icon: Icon, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => { setOccasion(value); setStep(2); }}
+                    className="group flex flex-col items-center gap-3 p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs text-slate-300 font-medium">{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-mono text-white text-center">
+                {isSq ? 'Sa vende ulëse të duhen?' : 'How many seats do you need?'}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {seatOptions.map(({ value, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => { setSeats(value); setStep(3); }}
+                    className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setStep(1)}
+                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" /> {isSq ? 'Kthehu' : 'Back'}
+              </button>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-mono text-white text-center">
+                {isSq ? 'Cili është buxheti yt ditor?' : "What's your daily budget?"}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {budgetOptions.map(({ value, label }) => (
+                  <button
+                    key={label}
+                    onClick={() => handleBudget(value)}
+                    className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setStep(2)}
+                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" /> {isSq ? 'Kthehu' : 'Back'}
+              </button>
+            </div>
+          )}
+
+          {step === 4 && result && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-center gap-2 text-teal-400">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-xs uppercase tracking-widest font-semibold">
+                  {isSq ? 'Përputhja Jote Perfekte' : 'Your Perfect Match'}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-slate-950/40 border border-white/10 rounded-2xl overflow-hidden">
+                <img
+                  src={result.images[0]}
+                  alt={`${result.brand} ${result.model}`}
+                  className="w-full h-56 sm:h-full object-cover"
+                />
+                <div className="p-6 space-y-3">
+                  <span className="text-xs uppercase tracking-widest text-teal-400 font-semibold">{result.category}</span>
+                  <h4 className="text-2xl font-mono text-white">{result.brand} {result.model}</h4>
+                  <p className="text-sm text-slate-400">{result.description}</p>
+                  <div className="flex items-baseline gap-1 pt-2">
+                    <span className="text-2xl font-mono text-white">${result.pricePerDay}</span>
+                    <span className="text-xs text-slate-500">{isSq ? '/ ditë' : '/ day'}</span>
+                  </div>
+                  <button
+                    onClick={() => onSelectVehicle(result.id)}
+                    className="w-full mt-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 transition-colors"
+                  >
+                    {isSq ? 'Shiko Këtë Veturë' : 'View This Car'} <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <button
+                onClick={handleRestart}
+                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+              >
+                <RefreshCw className="w-3.5 h-3.5" /> {isSq ? 'Fillo Përsëri' : 'Start Over'}
+              </button>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </section>
+  );
+}
 /* ============================================================================
    4. FLEET VIEW (CATALOG & FILTERING)
    ============================================================================ */
