@@ -156,7 +156,35 @@ const TRANSLATIONS = {
     step_label_details: 'Details',
     step_label_extras: 'Extras',
     step_label_driver: 'Driver',
-    step_label_payment: 'Payment'
+    step_label_payment: 'Payment',
+    legal_last_updated_prefix: 'Last updated:',
+    legal_privacy_heading: 'Privacy Policy',
+    legal_privacy_s1_title: 'Information We Collect',
+    legal_privacy_s1_body: 'When you make a reservation with Velocita, we collect the information necessary to process it — your name, contact details, payment information, and driver\u2019s license details. We only ever collect what is required to deliver a seamless rental experience.',
+    legal_privacy_s2_title: 'How We Use Your Information',
+    legal_privacy_s2_body: 'Your information is used to process reservations, verify driver eligibility, coordinate white-glove delivery, and send booking confirmations and receipts. We do not use your data for purposes beyond fulfilling and supporting your rental.',
+    legal_privacy_s3_title: 'Data Protection',
+    legal_privacy_s3_body: 'All personal and payment data is encrypted in transit and at rest. Access is limited to authorized concierge and operations staff. We never sell your personal information to third parties.',
+    legal_privacy_s4_title: 'Your Rights',
+    legal_privacy_s4_body: 'You may request access to, correction of, or deletion of your personal data at any time by contacting our concierge team at concierge@velocita-rentals.com.',
+    legal_terms_heading: 'Terms of Sovereign Rental',
+    legal_terms_s1_title: 'Eligibility',
+    legal_terms_s1_body: 'Drivers must be at least 25 years of age, hold a valid driver\u2019s license, and present a valid form of payment at the time of pick-up. Additional requirements may apply for select high-performance models.',
+    legal_terms_s2_title: 'Reservations & Payment',
+    legal_terms_s2_body: 'A valid payment method is required to confirm every reservation. Daily rates are subject to vehicle availability and may vary by location, season, and rental duration.',
+    legal_terms_s3_title: 'Vehicle Use & Liability',
+    legal_terms_s3_body: 'The renter is responsible for the vehicle for the duration of the rental period. Racing, off-road use, and unauthorized subletting are strictly prohibited and void all coverage. Any damage beyond the selected protection plan is the renter\u2019s responsibility.',
+    legal_terms_s4_title: 'Cancellations',
+    legal_terms_s4_body: 'Reservations may be cancelled free of charge up to 48 hours before the scheduled pick-up time. Cancellations made within 48 hours may be subject to a one-day rental charge.',
+    legal_cookies_heading: 'Cookie Preferences',
+    legal_cookies_s1_title: 'Essential Cookies',
+    legal_cookies_s1_body: 'These cookies are required for the site to function correctly, including maintaining your active reservation and booking progress. They cannot be disabled.',
+    legal_cookies_s2_title: 'Performance & Analytics',
+    legal_cookies_s2_body: 'We use aggregated, anonymized analytics to understand how visitors use our fleet catalog and booking flow, helping us continually refine the experience.',
+    legal_cookies_s3_title: 'Preference Cookies',
+    legal_cookies_s3_body: 'These remember your chosen language (English or Albanian) and other display preferences so you don\u2019t have to reselect them on every visit.',
+    legal_cookies_s4_title: 'Managing Cookies',
+    legal_cookies_s4_body: 'You can control or delete cookies at any time through your browser settings. Disabling non-essential cookies will not affect your ability to browse or book with Velocita.'
   },
   sq: {
     header_tagline: 'Qera Veturash',
@@ -300,7 +328,35 @@ const TRANSLATIONS = {
     step_label_details: 'Detajet',
     step_label_extras: 'Shtesat',
     step_label_driver: 'Shoferi',
-    step_label_payment: 'Pagesa'
+    step_label_payment: 'Pagesa',
+    legal_last_updated_prefix: 'Përditësuar së fundmi:',
+    legal_privacy_heading: 'Politika e Privatësisë',
+    legal_privacy_s1_title: 'Informacioni që Mbledhim',
+    legal_privacy_s1_body: 'Kur bëni një rezervim me Velocita, mbledhim informacionin e nevojshëm për ta përpunuar atë — emrin tuaj, të dhënat e kontaktit, informacionin e pagesës dhe të dhënat e patentës së shoferit. Mbledhim vetëm atë që kërkohet për të ofruar një përvojë qeraje pa probleme.',
+    legal_privacy_s2_title: 'Si e Përdorim Informacionin Tuaj',
+    legal_privacy_s2_body: 'Informacioni juaj përdoret për të përpunuar rezervimet, verifikuar përshtatshmërinë e shoferit, koordinuar dorëzimin me kujdes special, dhe për të dërguar konfirmime e fatura. Nuk i përdorim të dhënat tuaja për qëllime përtej plotësimit dhe mbështetjes së qerasë suaj.',
+    legal_privacy_s3_title: 'Mbrojtja e të Dhënave',
+    legal_privacy_s3_body: 'Të gjitha të dhënat personale dhe të pagesës enkriptohen gjatë transmetimit dhe ruajtjes. Aksesi është i kufizuar vetëm për stafin e autorizuar të koncierzhit dhe operacioneve. Ne kurrë nuk i shesim të dhënat tuaja personale palëve të treta.',
+    legal_privacy_s4_title: 'Të Drejtat Tuaja',
+    legal_privacy_s4_body: 'Mund të kërkoni akses, korrigjim ose fshirje të të dhënave tuaja personale në çdo kohë duke kontaktuar ekipin tonë të koncierzhit në concierge@velocita-rentals.com.',
+    legal_terms_heading: 'Kushtet e Qerasë Sovrane',
+    legal_terms_s1_title: 'Përshtatshmëria',
+    legal_terms_s1_body: 'Shoferët duhet të jenë të paktën 25 vjeç, të kenë patentë të vlefshme dhe të paraqesin një formë pagese të vlefshme në momentin e marrjes së veturës. Kërkesa shtesë mund të zbatohen për disa modele me performancë të lartë.',
+    legal_terms_s2_title: 'Rezervimet & Pagesa',
+    legal_terms_s2_body: 'Kërkohet një metodë pagese e vlefshme për të konfirmuar çdo rezervim. Tarifat ditore varen nga disponueshmëria e veturës dhe mund të ndryshojnë sipas vendndodhjes, sezonit dhe kohëzgjatjes së qerasë.',
+    legal_terms_s3_title: 'Përdorimi i Veturës & Përgjegjësia',
+    legal_terms_s3_body: 'Qeramarrësi është përgjegjës për veturën gjatë gjithë periudhës së qerasë. Garat, përdorimi jashtë rruge, dhe nënqeraja e paautorizuar janë rreptësisht të ndaluara dhe anulojnë çdo mbulim. Çdo dëm përtej planit të zgjedhur të mbrojtjes është përgjegjësi e qeramarrësit.',
+    legal_terms_s4_title: 'Anulimet',
+    legal_terms_s4_body: 'Rezervimet mund të anulohen pa pagesë deri në 48 orë para orarit të planifikuar të marrjes. Anulimet brenda 48 orëve mund t\u2019i nënshtrohen një tarife prej një dite qeraje.',
+    legal_cookies_heading: 'Preferencat e Cookies',
+    legal_cookies_s1_title: 'Cookies Thelbësore',
+    legal_cookies_s1_body: 'Këto cookies janë të domosdoshme që faqja të funksionojë saktë, duke përfshirë ruajtjen e rezervimit tuaj aktiv dhe ecurinë e rezervimit. Ato nuk mund të çaktivizohen.',
+    legal_cookies_s2_title: 'Performanca & Analitika',
+    legal_cookies_s2_body: 'Përdorim analitikë të agreguar dhe anonimizuar për të kuptuar si vizitorët përdorin katalogun e flotës dhe procesin e rezervimit, duke na ndihmuar të përmirësojmë vazhdimisht përvojën.',
+    legal_cookies_s3_title: 'Cookies të Preferencave',
+    legal_cookies_s3_body: 'Këto mbajnë mend gjuhën tuaj të zgjedhur (Anglisht ose Shqip) dhe preferenca të tjera shfaqjeje, që të mos duhet t\u2019i rizgjidhni në çdo vizitë.',
+    legal_cookies_s4_title: 'Menaxhimi i Cookies',
+    legal_cookies_s4_body: 'Mund t\u2019i kontrolloni ose fshini cookies në çdo kohë përmes cilësimeve të shfletuesit tuaj. Çaktivizimi i cookies jo-thelbësore nuk do të ndikojë aftësinë tuaj për të shfletuar ose rezervuar me Velocita.'
   }
 };
 
@@ -1676,7 +1732,10 @@ export default function App() {
       home: 'Velocita | Luxury Car Rentals',
       fleet: `Velocita | ${t('nav_fleet')}`,
       detail: `Velocita | ${currentVehicle.brand} ${currentVehicle.model}`,
-      checkout: `Velocita | ${t('header_reserve')}`
+      checkout: `Velocita | ${t('header_reserve')}`,
+      privacy: `Velocita | ${t('footer_privacy')}`,
+      terms: `Velocita | ${t('footer_terms')}`,
+      cookies: `Velocita | ${t('footer_cookies')}`
     };
     document.title = titles[currentView] || 'Velocita';
 
@@ -1684,7 +1743,10 @@ export default function App() {
       home: t('hero_subtitle'),
       fleet: t('fleet_subtitle'),
       detail: currentVehicle.description,
-      checkout: t('step1_desc')
+      checkout: t('step1_desc'),
+      privacy: t('legal_privacy_s1_body'),
+      terms: t('legal_terms_s1_body'),
+      cookies: t('legal_cookies_s1_body')
     };
     let metaDesc = document.querySelector("meta[name='description']");
     if (!metaDesc) {
@@ -1975,7 +2037,19 @@ export default function App() {
           />
         )}
 
-        {!['home', 'fleet', 'detail', 'checkout'].includes(currentView) && (
+        {currentView === 'privacy' && (
+          <LegalView type="privacy" onGoHome={() => setCurrentView('home')} />
+        )}
+
+        {currentView === 'terms' && (
+          <LegalView type="terms" onGoHome={() => setCurrentView('home')} />
+        )}
+
+        {currentView === 'cookies' && (
+          <LegalView type="cookies" onGoHome={() => setCurrentView('home')} />
+        )}
+
+        {!['home', 'fleet', 'detail', 'checkout', 'privacy', 'terms', 'cookies'].includes(currentView) && (
           <NotFoundView onGoHome={() => setCurrentView('home')} />
         )}
       </main>
@@ -2035,9 +2109,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} {t('footer_copyright')}</p>
           <div className="flex gap-6">
-            <button onClick={() => triggerToast(t('toast_privacy'))} className="hover:underline hover:text-teal-400">{t('footer_privacy')}</button>
-            <button onClick={() => triggerToast(t('toast_terms'))} className="hover:underline hover:text-teal-400">{t('footer_terms')}</button>
-            <button onClick={() => triggerToast(t('toast_cookies'))} className="hover:underline hover:text-teal-400">{t('footer_cookies')}</button>
+            <button onClick={() => { setCurrentView('privacy'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_privacy')}</button>
+            <button onClick={() => { setCurrentView('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_terms')}</button>
+            <button onClick={() => { setCurrentView('cookies'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_cookies')}</button>
           </div>
         </div>
       </footer>
@@ -2060,6 +2134,42 @@ function NotFoundView({ onGoHome }) {
       >
         {t('return_home')}
       </button>
+    </div>
+  );
+}
+
+function LegalView({ type, onGoHome }) {
+  const { t, language } = useLang();
+  const heading = t(`legal_${type}_heading`);
+  const updatedDate = new Date().toLocaleDateString(language === 'sq' ? 'sq-AL' : 'en-US', { year: 'numeric', month: 'long' });
+  const sections = [1, 2, 3, 4].map((n) => ({
+    title: t(`legal_${type}_s${n}_title`),
+    body: t(`legal_${type}_s${n}_body`)
+  }));
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+      <div className="space-y-3">
+        <button
+          onClick={onGoHome}
+          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
+        </button>
+        <h1 className="text-3xl sm:text-4xl font-mono text-white">{heading}</h1>
+        <p className="text-xs text-slate-500 uppercase tracking-widest">
+          {t('legal_last_updated_prefix')} {updatedDate}
+        </p>
+      </div>
+
+      <div className="space-y-8 border-t border-slate-800/80 pt-8">
+        {sections.map((s, i) => (
+          <div key={i} className="space-y-2">
+            <h2 className="text-sm uppercase tracking-widest text-teal-400 font-semibold">{s.title}</h2>
+            <p className="text-sm text-slate-300 leading-relaxed">{s.body}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
