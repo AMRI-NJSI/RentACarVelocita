@@ -3,7 +3,8 @@ import {
   Search, Calendar, MapPin, Shield, Star, Award, CheckCircle, ChevronRight,
   Menu, X, ArrowRight, User, Lock,
   Check, Info, ChevronLeft, Phone, Mail, Clock,
-  AlertCircle, Fuel, Zap, Compass, RefreshCw 
+  AlertCircle, Fuel, Zap, Compass, RefreshCw,
+  Heart, LogOut, ChevronDown, History, UserCircle
 } from 'lucide-react';
 
 /* Velocita brand mark (white silhouette, transparent background) */
@@ -175,7 +176,45 @@ const TRANSLATIONS = {
     legal_cookies_s3_title: 'Preference Cookies',
     legal_cookies_s3_body: 'These remember your chosen language (English or Albanian) and other display preferences so you don\u2019t have to reselect them on every visit.',
     legal_cookies_s4_title: 'Managing Cookies',
-    legal_cookies_s4_body: 'You can control or delete cookies at any time through your browser settings. Disabling non-essential cookies will not affect your ability to browse or book with Velocita.'
+    legal_cookies_s4_body: 'You can control or delete cookies at any time through your browser settings. Disabling non-essential cookies will not affect your ability to browse or book with Velocita.',
+    nav_signin: 'Sign In',
+    nav_signup: 'Create Account',
+    nav_account: 'My Account',
+    nav_favorites: 'Favorites',
+    nav_history: 'Rental History',
+    nav_logout: 'Sign Out',
+    login_heading: 'Sign In to Velocita',
+    login_subtitle: 'Access your saved favorites, rental history, and a faster checkout.',
+    signup_heading: 'Create Your Velocita Account',
+    signup_subtitle: 'Join Velocita to save favorite vehicles and keep track of your rental history.',
+    label_password: 'Password *',
+    label_confirm_password: 'Confirm Password *',
+    btn_login: 'Sign In',
+    btn_signup: 'Create Account',
+    auth_no_account: 'Don\u2019t have an account?',
+    auth_have_account: 'Already have an account?',
+    auth_link_signup: 'Create one',
+    auth_link_login: 'Sign in',
+    auth_error_exists: 'An account with this email already exists.',
+    auth_error_invalid: 'Invalid email or password.',
+    auth_error_mismatch: 'Passwords do not match.',
+    auth_error_required: 'Please fill in all required fields.',
+    toast_welcome: 'Welcome, {name}! Your account is ready.',
+    toast_welcome_back: 'Welcome back, {name}!',
+    toast_logged_out: 'You\u2019ve been signed out.',
+    toast_login_required: 'Please sign in to save favorite vehicles.',
+    account_heading: 'My Account',
+    account_subtitle: 'Manage your saved vehicles and review your past rentals.',
+    account_tab_favorites: 'Favorite Vehicles',
+    account_tab_history: 'Rental History',
+    account_no_favorites: 'You haven\u2019t saved any favorite vehicles yet.',
+    account_no_favorites_cta: 'Browse the Fleet',
+    account_no_history: 'You haven\u2019t completed any rentals yet.',
+    account_no_history_cta: 'Reserve a Vehicle',
+    history_booked_on: 'Booked on',
+    favorite_add: 'Add to Favorites',
+    favorite_remove: 'Remove from Favorites',
+    account_email_label: 'Email Address'
   },
   sq: {
     header_tagline: 'Qera Veturash',
@@ -338,12 +377,63 @@ const TRANSLATIONS = {
     legal_cookies_s3_title: 'Cookies të Preferencave',
     legal_cookies_s3_body: 'Këto mbajnë mend gjuhën tuaj të zgjedhur (Anglisht ose Shqip) dhe preferenca të tjera shfaqjeje, që të mos duhet t\u2019i rizgjidhni në çdo vizitë.',
     legal_cookies_s4_title: 'Menaxhimi i Cookies',
-    legal_cookies_s4_body: 'Mund t\u2019i kontrolloni ose fshini cookies në çdo kohë përmes cilësimeve të shfletuesit tuaj. Çaktivizimi i cookies jo-thelbësore nuk do të ndikojë aftësinë tuaj për të shfletuar ose rezervuar me Velocita.'
+    legal_cookies_s4_body: 'Mund t\u2019i kontrolloni ose fshini cookies në çdo kohë përmes cilësimeve të shfletuesit tuaj. Çaktivizimi i cookies jo-thelbësore nuk do të ndikojë aftësinë tuaj për të shfletuar ose rezervuar me Velocita.',
+    nav_signin: 'Hyr',
+    nav_signup: 'Krijo Llogari',
+    nav_account: 'Llogaria Ime',
+    nav_favorites: 'Të Preferuarat',
+    nav_history: 'Historia e Qerave',
+    nav_logout: 'Dil',
+    login_heading: 'Hyr në Velocita',
+    login_subtitle: 'Akseso veturat e ruajtura si të preferuara, historinë e qerave, dhe një checkout më të shpejtë.',
+    signup_heading: 'Krijo Llogarinë Tënde Velocita',
+    signup_subtitle: 'Bashkohu me Velocita për të ruajtur veturat e preferuara dhe për të gjurmuar historinë e qerave.',
+    label_password: 'Fjalëkalimi *',
+    label_confirm_password: 'Konfirmo Fjalëkalimin *',
+    btn_login: 'Hyr',
+    btn_signup: 'Krijo Llogarinë',
+    auth_no_account: 'Nuk keni llogari?',
+    auth_have_account: 'Keni tashmë një llogari?',
+    auth_link_signup: 'Krijo një',
+    auth_link_login: 'Hyr',
+    auth_error_exists: 'Një llogari me këtë email ekziston tashmë.',
+    auth_error_invalid: 'Email ose fjalëkalim i pavlefshëm.',
+    auth_error_mismatch: 'Fjalëkalimet nuk përputhen.',
+    auth_error_required: 'Ju lutemi plotësoni të gjitha fushat e kërkuara.',
+    toast_welcome: 'Mirë se erdhe, {name}! Llogaria juaj është gati.',
+    toast_welcome_back: 'Mirë se erdhe përsëri, {name}!',
+    toast_logged_out: 'Jeni çkyçur nga llogaria.',
+    toast_login_required: 'Ju lutemi hyni në llogari për të ruajtur veturat e preferuara.',
+    account_heading: 'Llogaria Ime',
+    account_subtitle: 'Menaxho veturat e ruajtura dhe rishiko qeratë e mëparshme.',
+    account_tab_favorites: 'Veturat e Preferuara',
+    account_tab_history: 'Historia e Qerave',
+    account_no_favorites: 'Nuk keni ruajtur ende asnjë veturë të preferuar.',
+    account_no_favorites_cta: 'Shfleto Flotën',
+    account_no_history: 'Nuk keni përfunduar ende asnjë qera.',
+    account_no_history_cta: 'Rezervo një Veturë',
+    history_booked_on: 'Rezervuar më',
+    favorite_add: 'Shto te të Preferuarat',
+    favorite_remove: 'Hiq nga të Preferuarat',
+    account_email_label: 'Adresa Email'
   }
 };
 
 const LanguageContext = createContext({ language: 'en', t: (k) => k, toggleLanguage: () => {} });
 const useLang = () => useContext(LanguageContext);
+
+/* Authentication / account context (session, favorites, rental history) */
+const AuthContext = createContext({
+  currentUser: null,
+  favorites: [],
+  rentalHistory: [],
+  login: () => {},
+  signup: () => {},
+  logout: () => {},
+  toggleFavorite: () => {},
+  isFavorite: () => false,
+});
+const useAuth = () => useContext(AuthContext);
 
 
 /* ============================================================================
@@ -1599,6 +1689,47 @@ const getCurrentTimeStr = () => {
 };
 
 /* ============================================================================
+   1B. AUTH HELPERS — COOKIE SESSION + LOCAL "DATABASE" (DEMO ONLY)
+   Velocita is a front-end only prototype with no backend, so sign-in is
+   simulated entirely in the browser: the active session lives in a cookie
+   (as requested) while the registered account records live in localStorage.
+   This is NOT secure and must never be used this way behind a real backend.
+   ============================================================================ */
+
+const SESSION_COOKIE = 'velocita_session';
+
+const setCookie = (name, value, days = 30) => {
+  const expires = new Date(Date.now() + days * 86400000).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+};
+
+const getCookie = (name) => {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
+const deleteCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
+
+/* Registered accounts, kept client-side in localStorage (demo only). */
+const getStoredUsers = () => {
+  try {
+    return JSON.parse(localStorage.getItem('velocita_users') || '[]');
+  } catch (e) {
+    return [];
+  }
+};
+
+const saveStoredUsers = (users) => {
+  try {
+    localStorage.setItem('velocita_users', JSON.stringify(users));
+  } catch (e) {
+    console.warn('LocalStorage error', e);
+  }
+};
+
+/* ============================================================================
    2. MAIN APPLICATION COMPONENT
    ============================================================================ */
 
@@ -1620,9 +1751,17 @@ export default function App() {
   }, []);
 
   /* Navigation State */
-  const [currentView, setCurrentView] = useState('home'); /* 'home', 'fleet', 'detail', 'checkout' */
+  const [currentView, setCurrentView] = useState('home'); /* 'home', 'fleet', 'detail', 'checkout', 'login', 'signup', 'account', 'privacy', 'terms', 'cookies' */
   const [selectedVehicleId, setSelectedVehicleId] = useState('vel-01');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+
+  /* Authentication State (session persisted via cookie; profile data in localStorage) */
+  const [currentUser, setCurrentUser] = useState(null);
+  const [favorites, setFavorites] = useState([]);
+  const [rentalHistory, setRentalHistory] = useState([]);
+  const [authError, setAuthError] = useState('');
+  const [accountTab, setAccountTab] = useState('favorites');
 
   /* Guarantees the page is scrolled to the very top once the new view has actually
      rendered (fixes mobile: tapping a vehicle from a scrolled-down Fleet list could
@@ -1691,6 +1830,34 @@ export default function App() {
     }
   }, []);
 
+  /* Restore the logged-in session from its cookie on mount */
+  useEffect(() => {
+    const raw = getCookie(SESSION_COOKIE);
+    if (raw) {
+      try {
+        setCurrentUser(JSON.parse(raw));
+      } catch (e) {
+        deleteCookie(SESSION_COOKIE);
+      }
+    }
+  }, []);
+
+  /* Load this user's favorites & rental history whenever the session changes */
+  useEffect(() => {
+    if (currentUser) {
+      try {
+        setFavorites(JSON.parse(localStorage.getItem(`velocita_favorites_${currentUser.email}`) || '[]'));
+        setRentalHistory(JSON.parse(localStorage.getItem(`velocita_history_${currentUser.email}`) || '[]'));
+      } catch (e) {
+        setFavorites([]);
+        setRentalHistory([]);
+      }
+    } else {
+      setFavorites([]);
+      setRentalHistory([]);
+    }
+  }, [currentUser]);
+
   /* Save confirmed booking to localStorage */
   useEffect(() => {
     if (confirmedBooking) {
@@ -1719,7 +1886,10 @@ export default function App() {
       checkout: `Velocita | ${t('header_reserve')}`,
       privacy: `Velocita | ${t('footer_privacy')}`,
       terms: `Velocita | ${t('footer_terms')}`,
-      cookies: `Velocita | ${t('footer_cookies')}`
+      cookies: `Velocita | ${t('footer_cookies')}`,
+      login: `Velocita | ${t('login_heading')}`,
+      signup: `Velocita | ${t('signup_heading')}`,
+      account: `Velocita | ${t('account_heading')}`
     };
     document.title = titles[currentView] || 'Velocita';
 
@@ -1730,7 +1900,10 @@ export default function App() {
       checkout: t('step1_desc'),
       privacy: t('legal_privacy_s1_body'),
       terms: t('legal_terms_s1_body'),
-      cookies: t('legal_cookies_s1_body')
+      cookies: t('legal_cookies_s1_body'),
+      login: t('login_subtitle'),
+      signup: t('signup_subtitle'),
+      account: t('account_subtitle')
     };
     let metaDesc = document.querySelector("meta[name='description']");
     if (!metaDesc) {
@@ -1806,6 +1979,72 @@ export default function App() {
     );
   };
 
+  /* Auth handlers — client-side demo only (see AUTH HELPERS note above) */
+  const handleSignup = ({ firstName, lastName, email, password }) => {
+    if (!firstName || !lastName || !email || !password) {
+      setAuthError(t('auth_error_required'));
+      return false;
+    }
+    const users = getStoredUsers();
+    if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      setAuthError(t('auth_error_exists'));
+      return false;
+    }
+    saveStoredUsers([...users, { firstName, lastName, email, password }]);
+    const session = { firstName, lastName, email };
+    setCookie(SESSION_COOKIE, JSON.stringify(session));
+    setCurrentUser(session);
+    setAuthError('');
+    triggerToast(t('toast_welcome').replace('{name}', firstName), 'success');
+    setCurrentView('account');
+    setAccountTab('favorites');
+    return true;
+  };
+
+  const handleLogin = ({ email, password }) => {
+    if (!email || !password) {
+      setAuthError(t('auth_error_required'));
+      return false;
+    }
+    const users = getStoredUsers();
+    const found = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    if (!found) {
+      setAuthError(t('auth_error_invalid'));
+      return false;
+    }
+    const session = { firstName: found.firstName, lastName: found.lastName, email: found.email };
+    setCookie(SESSION_COOKIE, JSON.stringify(session));
+    setCurrentUser(session);
+    setAuthError('');
+    triggerToast(t('toast_welcome_back').replace('{name}', found.firstName), 'success');
+    setCurrentView('account');
+    setAccountTab('favorites');
+    return true;
+  };
+
+  const handleLogout = () => {
+    deleteCookie(SESSION_COOKIE);
+    setCurrentUser(null);
+    setAccountMenuOpen(false);
+    setCurrentView('home');
+    triggerToast(t('toast_logged_out'));
+  };
+
+  const toggleFavorite = (vehicleId) => {
+    if (!currentUser) {
+      triggerToast(t('toast_login_required'), 'error');
+      setCurrentView('login');
+      return;
+    }
+    setFavorites(prev => {
+      const next = prev.includes(vehicleId) ? prev.filter(id => id !== vehicleId) : [...prev, vehicleId];
+      localStorage.setItem(`velocita_favorites_${currentUser.email}`, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const isFavorite = (vehicleId) => favorites.includes(vehicleId);
+
   const handleFinalBookingSubmit = (e) => {
     e.preventDefault();
     if (!customerData.email || !customerData.firstName || !paymentData.cardNumber) {
@@ -1828,10 +2067,20 @@ export default function App() {
     setCheckoutStep(6);
     triggerToast(t('toast_confirmed'), 'success');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    /* Save this completed rental into the signed-in user's history */
+    if (currentUser) {
+      setRentalHistory(prev => {
+        const next = [newBooking, ...prev];
+        localStorage.setItem(`velocita_history_${currentUser.email}`, JSON.stringify(next));
+        return next;
+      });
+    }
   };
 
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
+    <AuthContext.Provider value={{ currentUser, favorites, rentalHistory, login: handleLogin, signup: handleSignup, logout: handleLogout, toggleFavorite, isFavorite, authError, setAuthError }}>
     <div className="min-h-screen w-full overflow-x-hidden bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
       
       {/* Toast Notification */}
@@ -1905,6 +2154,53 @@ export default function App() {
             >
               {language === 'en' ? 'SQ' : 'EN'}
             </button>
+            {currentUser ? (
+              <div className="relative">
+                <button
+                  onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-slate-700 hover:border-teal-400 text-slate-200 hover:text-teal-400 transition-colors"
+                >
+                  <span className="w-7 h-7 rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-300 flex items-center justify-center text-[11px] font-bold uppercase">
+                    {currentUser.firstName?.[0]}{currentUser.lastName?.[0]}
+                  </span>
+                  <span className="text-xs font-semibold max-w-[8rem] truncate">{currentUser.firstName}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${accountMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {accountMenuOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setAccountMenuOpen(false)} />
+                    <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border border-slate-800 rounded-sm shadow-2xl z-50 py-2 text-xs">
+                      <button
+                        onClick={() => { setCurrentView('account'); setAccountTab('favorites'); setAccountMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-teal-400 hover:bg-slate-800/60 text-left"
+                      >
+                        <Heart className="w-3.5 h-3.5" /> {t('nav_favorites')}
+                      </button>
+                      <button
+                        onClick={() => { setCurrentView('account'); setAccountTab('history'); setAccountMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-teal-400 hover:bg-slate-800/60 text-left"
+                      >
+                        <History className="w-3.5 h-3.5" /> {t('nav_history')}
+                      </button>
+                      <div className="border-t border-slate-800 my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-red-400 hover:bg-slate-800/60 text-left"
+                      >
+                        <LogOut className="w-3.5 h-3.5" /> {t('nav_logout')}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setCurrentView('login')}
+                className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-slate-300 hover:text-teal-400 transition-colors"
+              >
+                <UserCircle className="w-4 h-4" /> {t('nav_signin')}
+              </button>
+            )}
             <button
               onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-all duration-300"
@@ -1953,6 +2249,45 @@ export default function App() {
             >
               {t('nav_contact')}
             </button>
+
+            <div className="border-t border-slate-800 pt-4 space-y-4">
+              {currentUser ? (
+                <>
+                  <div className="flex items-center gap-2.5 text-slate-300">
+                    <span className="w-8 h-8 rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-300 flex items-center justify-center text-xs font-bold uppercase shrink-0">
+                      {currentUser.firstName?.[0]}{currentUser.lastName?.[0]}
+                    </span>
+                    <span className="text-sm font-semibold truncate">{currentUser.firstName} {currentUser.lastName}</span>
+                  </div>
+                  <button
+                    onClick={() => { setCurrentView('account'); setAccountTab('favorites'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                  >
+                    <Heart className="w-4 h-4" /> {t('nav_favorites')}
+                  </button>
+                  <button
+                    onClick={() => { setCurrentView('account'); setAccountTab('history'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                  >
+                    <History className="w-4 h-4" /> {t('nav_history')}
+                  </button>
+                  <button
+                    onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-red-400 py-2"
+                  >
+                    <LogOut className="w-4 h-4" /> {t('nav_logout')}
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => { setCurrentView('login'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                >
+                  <UserCircle className="w-4 h-4" /> {t('nav_signin')}
+                </button>
+              )}
+            </div>
+
             <button 
               onClick={() => { setCurrentView('fleet'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="block w-full text-center py-3 rounded-sm bg-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest"
@@ -2039,7 +2374,31 @@ export default function App() {
           <LegalView type="cookies" onGoHome={() => setCurrentView('home')} />
         )}
 
-        {!['home', 'fleet', 'detail', 'checkout', 'privacy', 'terms', 'cookies'].includes(currentView) && (
+        {currentView === 'login' && (
+          <LoginView
+            onGoHome={() => setCurrentView('home')}
+            onSwitchToSignup={() => setCurrentView('signup')}
+          />
+        )}
+
+        {currentView === 'signup' && (
+          <SignupView
+            onGoHome={() => setCurrentView('home')}
+            onSwitchToLogin={() => setCurrentView('login')}
+          />
+        )}
+
+        {currentView === 'account' && (
+          <AccountView
+            activeTab={accountTab}
+            setActiveTab={setAccountTab}
+            fleet={FLEET_DATA}
+            onSelectVehicle={navigateToVehicleDetails}
+            onBrowseFleet={() => setCurrentView('fleet')}
+          />
+        )}
+
+        {!['home', 'fleet', 'detail', 'checkout', 'privacy', 'terms', 'cookies', 'login', 'signup', 'account'].includes(currentView) && (
           <NotFoundView onGoHome={() => setCurrentView('home')} />
         )}
       </main>
@@ -2116,6 +2475,7 @@ export default function App() {
       </footer>
 
     </div>
+    </AuthContext.Provider>
     </LanguageContext.Provider>
   );
 }
@@ -2169,6 +2529,322 @@ function LegalView({ type, onGoHome }) {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+/* ============================================================================
+   2B. AUTHENTICATION VIEWS (SIGN IN / SIGN UP) & ACCOUNT VIEW
+   ============================================================================ */
+
+function LoginView({ onGoHome, onSwitchToSignup }) {
+  const { t } = useLang();
+  const { login, authError, setAuthError } = useAuth();
+  const [form, setForm] = useState({ email: '', password: '' });
+
+  useEffect(() => { setAuthError(''); }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(form);
+  };
+
+  return (
+    <div className="max-w-md mx-auto px-4 sm:px-6 py-16 space-y-8">
+      <div className="space-y-3">
+        <button
+          onClick={onGoHome}
+          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
+        </button>
+        <h1 className="text-3xl font-mono text-white">{t('login_heading')}</h1>
+        <p className="text-sm text-slate-400">{t('login_subtitle')}</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5 bg-slate-900 border border-slate-800 rounded-none p-6">
+        {authError && (
+          <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/30 px-3 py-2.5 rounded-sm">
+            <AlertCircle className="w-4 h-4 shrink-0" /> {authError}
+          </div>
+        )}
+
+        <div className="space-y-1">
+          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
+          <div className="relative">
+            <User className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="email"
+              required
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="john@example.com"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
+          <div className="relative">
+            <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="password"
+              required
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
+        >
+          {t('btn_login')}
+        </button>
+
+        <p className="text-xs text-slate-400 text-center">
+          {t('auth_no_account')}{' '}
+          <button type="button" onClick={onSwitchToSignup} className="text-teal-400 hover:underline font-semibold">
+            {t('auth_link_signup')}
+          </button>
+        </p>
+      </form>
+    </div>
+  );
+}
+
+function SignupView({ onGoHome, onSwitchToLogin }) {
+  const { t } = useLang();
+  const { signup, authError, setAuthError } = useAuth();
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
+
+  useEffect(() => { setAuthError(''); }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      setAuthError(t('auth_error_mismatch'));
+      return;
+    }
+    signup(form);
+  };
+
+  return (
+    <div className="max-w-md mx-auto px-4 sm:px-6 py-16 space-y-8">
+      <div className="space-y-3">
+        <button
+          onClick={onGoHome}
+          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+        >
+          <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
+        </button>
+        <h1 className="text-3xl font-mono text-white">{t('signup_heading')}</h1>
+        <p className="text-sm text-slate-400">{t('signup_subtitle')}</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5 bg-slate-900 border border-slate-800 rounded-none p-6">
+        {authError && (
+          <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/30 px-3 py-2.5 rounded-sm">
+            <AlertCircle className="w-4 h-4 shrink-0" /> {authError}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_first_name')}</label>
+            <input
+              type="text"
+              required
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+              placeholder="John"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_last_name')}</label>
+            <input
+              type="text"
+              required
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              placeholder="Doe"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
+          <input
+            type="email"
+            required
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="john@example.com"
+            className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
+            <input
+              type="password"
+              required
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_confirm_password')}</label>
+            <input
+              type="password"
+              required
+              value={form.confirmPassword}
+              onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+              placeholder="••••••••"
+              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
+        >
+          {t('btn_signup')}
+        </button>
+
+        <p className="text-xs text-slate-400 text-center">
+          {t('auth_have_account')}{' '}
+          <button type="button" onClick={onSwitchToLogin} className="text-teal-400 hover:underline font-semibold">
+            {t('auth_link_login')}
+          </button>
+        </p>
+      </form>
+    </div>
+  );
+}
+
+function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowseFleet }) {
+  const { t, language } = useLang();
+  const { currentUser, favorites, rentalHistory, toggleFavorite } = useAuth();
+
+  const favoriteVehicles = fleet.filter(v => favorites.includes(v.id));
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+      <div className="space-y-1">
+        <h1 className="text-3xl font-mono text-white">{t('account_heading')}</h1>
+        <p className="text-sm text-slate-400">{t('account_subtitle')}</p>
+        {currentUser && (
+          <p className="text-xs text-slate-500 pt-1">
+            {currentUser.firstName} {currentUser.lastName} &middot; {currentUser.email}
+          </p>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-6 border-b border-slate-800">
+        <button
+          onClick={() => setActiveTab('favorites')}
+          className={`flex items-center gap-2 pb-3 text-xs uppercase tracking-widest font-semibold transition-colors ${
+            activeTab === 'favorites' ? 'text-teal-400 border-b-2 border-teal-400' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Heart className="w-3.5 h-3.5" /> {t('account_tab_favorites')} ({favoriteVehicles.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('history')}
+          className={`flex items-center gap-2 pb-3 text-xs uppercase tracking-widest font-semibold transition-colors ${
+            activeTab === 'history' ? 'text-teal-400 border-b-2 border-teal-400' : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <History className="w-3.5 h-3.5" /> {t('account_tab_history')} ({rentalHistory.length})
+        </button>
+      </div>
+
+      {/* Favorites Tab */}
+      {activeTab === 'favorites' && (
+        favoriteVehicles.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {favoriteVehicles.map(v => (
+              <VehicleCard key={v.id} vehicle={v} onSelect={onSelectVehicle} onReserve={onSelectVehicle} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 space-y-4">
+            <Heart className="w-10 h-10 text-slate-700 mx-auto" />
+            <p className="text-sm text-slate-400">{t('account_no_favorites')}</p>
+            <button
+              onClick={onBrowseFleet}
+              className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+            >
+              {t('account_no_favorites_cta')}
+            </button>
+          </div>
+        )
+      )}
+
+      {/* History Tab */}
+      {activeTab === 'history' && (
+        rentalHistory.length > 0 ? (
+          <div className="space-y-4">
+            {rentalHistory.map((booking, idx) => (
+              <div key={booking.bookingRef || idx} className="bg-slate-900 border border-slate-800 rounded-none p-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+                <div className="flex items-center gap-4">
+                  <img
+                    src={booking.vehicle.images[0]}
+                    alt={booking.vehicle.model}
+                    className="w-24 h-16 object-cover rounded-sm border border-slate-800 shrink-0"
+                  />
+                  <div>
+                    <span className="text-[10px] text-teal-400 uppercase tracking-widest block font-semibold">{booking.vehicle.brand}</span>
+                    <h3 className="text-base font-mono text-white">{booking.vehicle.model}</h3>
+                    <span className="text-xs text-slate-400">
+                      {t('history_booked_on')} {booking.createdAt} &middot; {t('reference_label')} {booking.bookingRef}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6 text-xs sm:text-right">
+                  <div>
+                    <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_rental_dates')}</span>
+                    <span className="text-slate-200">{booking.searchParams.pickupDate} &rarr; {booking.searchParams.returnDate}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('total_due')}</span>
+                    <span className="text-teal-400 font-bold">${booking.pricing.grandTotal}</span>
+                  </div>
+                  <button
+                    onClick={() => onSelectVehicle(booking.vehicle.id)}
+                    className="px-4 py-2 rounded-full border border-slate-700 hover:border-teal-400 text-slate-200 hover:text-teal-400 text-[11px] font-semibold uppercase tracking-wider transition-colors shrink-0"
+                  >
+                    {t('btn_details')}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 space-y-4">
+            <History className="w-10 h-10 text-slate-700 mx-auto" />
+            <p className="text-sm text-slate-400">{t('account_no_history')}</p>
+            <button
+              onClick={onBrowseFleet}
+              className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+            >
+              {t('account_no_history_cta')}
+            </button>
+          </div>
+        )
+      )}
     </div>
   );
 }
@@ -2738,6 +3414,8 @@ function FleetView({
 
 function VehicleCard({ vehicle, onSelect, onReserve }) {
   const { t } = useLang();
+  const { isFavorite, toggleFavorite } = useAuth();
+  const favorited = isFavorite(vehicle.id);
   return (
     <div className="group bg-neutral-900/70 border border-neutral-800 rounded-2xl overflow-hidden hover:border-indigo-500/40 transition-all duration-300 flex flex-col justify-between">
       
@@ -2752,6 +3430,14 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
           <div className="absolute top-3 left-3 bg-neutral-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase tracking-widest text-indigo-300 font-semibold border border-neutral-800">
             {vehicle.category}
           </div>
+          <button
+            onClick={(e) => { e.stopPropagation(); toggleFavorite(vehicle.id); }}
+            aria-label={favorited ? t('favorite_remove') : t('favorite_add')}
+            title={favorited ? t('favorite_remove') : t('favorite_add')}
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-neutral-950/80 backdrop-blur-md border border-neutral-800 flex items-center justify-center hover:border-rose-400/60 transition-colors"
+          >
+            <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : 'text-neutral-300'}`} />
+          </button>
           <div className="absolute bottom-3 right-3 bg-neutral-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-neutral-800">
             ${vehicle.pricePerDay} <span className="text-[10px] text-neutral-400 font-normal">{t('per_day')}</span>
           </div>
@@ -2822,18 +3508,29 @@ function VehicleDetailView({
   onBackToFleet 
 }) {
   const { t } = useLang();
+  const { isFavorite, toggleFavorite } = useAuth();
   const [activeImage, setActiveImage] = useState(0);
+  const favorited = isFavorite(vehicle.id);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       
       {/* Back Button */}
-      <button 
-        onClick={onBackToFleet}
-        className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 transition-colors font-semibold"
-      >
-        <ChevronLeft className="w-4 h-4" /> {t('back_to_fleet')}
-      </button>
+      <div className="flex items-center justify-between">
+        <button 
+          onClick={onBackToFleet}
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 transition-colors font-semibold"
+        >
+          <ChevronLeft className="w-4 h-4" /> {t('back_to_fleet')}
+        </button>
+        <button
+          onClick={() => toggleFavorite(vehicle.id)}
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-rose-400 transition-colors font-semibold border border-slate-800 hover:border-rose-400/50 rounded-full px-4 py-2"
+        >
+          <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : ''}`} />
+          {favorited ? t('favorite_remove') : t('favorite_add')}
+        </button>
+      </div>
 
       {/* Top Banner */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
