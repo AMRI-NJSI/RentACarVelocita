@@ -147,6 +147,11 @@ const TRANSLATIONS = {
     toast_newsletter: 'Thank you for joining the Velocita guestbook.',
     toast_validation: 'Please complete all mandatory customer & payment fields.',
     toast_confirmed: 'Reservation confirmed! Confirmation details dispatched.',
+    toast_privacy: 'Full Privacy Policy page coming soon.',
+    toast_terms: 'Full Terms of Rental page coming soon.',
+    toast_cookies: 'Cookie preference center coming soon.',
+    notfound_heading: 'Page Not Found',
+    notfound_text: "The page you're looking for doesn't exist or may have been moved. Let's get you back on the road.",
     step_label_vehicle: 'Vehicle',
     step_label_details: 'Details',
     step_label_extras: 'Extras',
@@ -286,6 +291,11 @@ const TRANSLATIONS = {
     toast_newsletter: 'Faleminderit që u bashkuat me librin e mysafirëve Velocita.',
     toast_validation: 'Ju lutemi plotësoni të gjitha fushat e detyrueshme të klientit & pagesës.',
     toast_confirmed: 'Rezervimi u konfirmua! Detajet e konfirmimit u dërguan.',
+    toast_privacy: 'Faqja e plotë e Politikës së Privatësisë vjen së shpejti.',
+    toast_terms: 'Faqja e plotë e Kushteve të Qerasë vjen së shpejti.',
+    toast_cookies: 'Qendra e preferencave për Cookies vjen së shpejti.',
+    notfound_heading: 'Faqja Nuk u Gjet',
+    notfound_text: 'Faqja që kërkoni nuk ekziston ose mund të jetë zhvendosur. Le t\'ju kthejmë përsëri në rrugë.',
     step_label_vehicle: 'Vetura',
     step_label_details: 'Detajet',
     step_label_extras: 'Shtesat',
@@ -1562,7 +1572,6 @@ export default function App() {
 
   /* Set browser tab title & favicon to the Velocita brand mark */
   useEffect(() => {
-    document.title = 'Velocita';
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement('link');
@@ -1661,6 +1670,31 @@ export default function App() {
     return FLEET_DATA.find(v => v.id === selectedVehicleId) || FLEET_DATA[0];
   }, [selectedVehicleId]);
 
+  /* Page title & meta description per view */
+  useEffect(() => {
+    const titles = {
+      home: 'Velocita | Luxury Car Rentals',
+      fleet: `Velocita | ${t('nav_fleet')}`,
+      detail: `Velocita | ${currentVehicle.brand} ${currentVehicle.model}`,
+      checkout: `Velocita | ${t('header_reserve')}`
+    };
+    document.title = titles[currentView] || 'Velocita';
+
+    const descriptions = {
+      home: t('hero_subtitle'),
+      fleet: t('fleet_subtitle'),
+      detail: currentVehicle.description,
+      checkout: t('step1_desc')
+    };
+    let metaDesc = document.querySelector("meta[name='description']");
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = descriptions[currentView] || t('hero_subtitle');
+  }, [currentView, currentVehicle, language]);
+
   /* Derived Pricing Calculations */
   const rentalDays = useMemo(() => {
     return calculateDays(bookingSearch.pickupDate, bookingSearch.returnDate);
@@ -1752,7 +1786,7 @@ export default function App() {
 
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
-    <div className="min-h-screen bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -1940,6 +1974,10 @@ export default function App() {
             onSelectVehicle={navigateToVehicleDetails}
           />
         )}
+
+        {!['home', 'fleet', 'detail', 'checkout'].includes(currentView) && (
+          <NotFoundView onGoHome={() => setCurrentView('home')} />
+        )}
       </main>
 
       {/* FOOTER */}
@@ -1997,15 +2035,32 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-400 gap-4">
           <p>© {new Date().getFullYear()} {t('footer_copyright')}</p>
           <div className="flex gap-6">
-            <span className="hover:underline cursor-pointer">{t('footer_privacy')}</span>
-            <span className="hover:underline cursor-pointer">{t('footer_terms')}</span>
-            <span className="hover:underline cursor-pointer">{t('footer_cookies')}</span>
+            <button onClick={() => triggerToast(t('toast_privacy'))} className="hover:underline hover:text-teal-400">{t('footer_privacy')}</button>
+            <button onClick={() => triggerToast(t('toast_terms'))} className="hover:underline hover:text-teal-400">{t('footer_terms')}</button>
+            <button onClick={() => triggerToast(t('toast_cookies'))} className="hover:underline hover:text-teal-400">{t('footer_cookies')}</button>
           </div>
         </div>
       </footer>
 
     </div>
     </LanguageContext.Provider>
+  );
+}
+
+function NotFoundView({ onGoHome }) {
+  const { t } = useLang();
+  return (
+    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 space-y-6">
+      <span className="text-8xl font-mono text-teal-400/30">404</span>
+      <h1 className="text-2xl sm:text-3xl font-mono text-white">{t('notfound_heading')}</h1>
+      <p className="text-sm text-slate-400 max-w-md">{t('notfound_text')}</p>
+      <button
+        onClick={onGoHome}
+        className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+      >
+        {t('return_home')}
+      </button>
+    </div>
   );
 }
 
