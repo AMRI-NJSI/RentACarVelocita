@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { 
   Search, Calendar, MapPin, Shield, Star, Award, CheckCircle, ChevronRight,
-  Menu, X, Filter, SlidersHorizontal, ArrowRight, User, Lock,
+  Menu, X, ArrowRight, User, Lock,
   Check, Info, ChevronLeft, Phone, Mail, Clock,
   AlertCircle, Fuel, Zap, Compass, RefreshCw 
 } from 'lucide-react';
@@ -127,9 +127,6 @@ const TRANSLATIONS = {
     footer_tagline: 'Curating exceptional automotive journeys. Pure speed, effortless luxury, and uncompromising precision worldwide.',
     footer_nav_heading: 'Navigational',
     footer_link_fleet: 'Exotic Fleet',
-    footer_link_hubs: 'Global Hubs',
-    footer_link_membership: 'Sovereign Membership',
-    footer_link_chauffeur: 'Private Chauffeur',
     footer_contact_heading: 'Concierge Support',
     footer_client_services: '24/7 Dedicated Client Services',
     footer_dispatch_heading: 'Velocita Dispatch',
@@ -141,15 +138,9 @@ const TRANSLATIONS = {
     footer_terms: 'Terms of Sovereign Rental',
     footer_cookies: 'Cookie Preferences',
     toast_contact: 'Contact Us: +1 (800) 835-6248',
-    toast_locations: 'Locations: NYC, LA, Miami, London, Paris',
-    toast_membership: 'Sovereign Membership program launching soon.',
-    toast_chauffeur: 'Chauffeur services available upon request.',
     toast_newsletter: 'Thank you for joining the Velocita guestbook.',
     toast_validation: 'Please complete all mandatory customer & payment fields.',
     toast_confirmed: 'Reservation confirmed! Confirmation details dispatched.',
-    toast_privacy: 'Full Privacy Policy page coming soon.',
-    toast_terms: 'Full Terms of Rental page coming soon.',
-    toast_cookies: 'Cookie preference center coming soon.',
     notfound_heading: 'Page Not Found',
     notfound_text: "The page you're looking for doesn't exist or may have been moved. Let's get you back on the road.",
     step_label_vehicle: 'Vehicle',
@@ -299,9 +290,6 @@ const TRANSLATIONS = {
     footer_tagline: 'Kurojmë udhëtime të jashtëzakonshme automobilistike. Shpejtësi e pastër, luks pa mundim, dhe precizion i pashoq në mbarë botën.',
     footer_nav_heading: 'Navigimi',
     footer_link_fleet: 'Flota Ekzotike',
-    footer_link_hubs: 'Qendrat Globale',
-    footer_link_membership: 'Anëtarësimi Sovran',
-    footer_link_chauffeur: 'Shofer Privat',
     footer_contact_heading: 'Suporti i Kontaktit',
     footer_client_services: 'Shërbime Klienti 24/7',
     footer_dispatch_heading: 'Velocita Dispatch',
@@ -313,15 +301,9 @@ const TRANSLATIONS = {
     footer_terms: 'Kushtet e Qerasë Sovrane',
     footer_cookies: 'Preferencat e Cookies',
     toast_contact: 'Na Kontaktoni: +1 (800) 835-6248',
-    toast_locations: 'Vendndodhjet: NYC, LA, Miami, Londër, Paris',
-    toast_membership: 'Programi i Anëtarësimit Sovran po vjen së shpejti.',
-    toast_chauffeur: 'Shërbimet e shoferit privat në dispozicion me kërkesë.',
     toast_newsletter: 'Faleminderit që u bashkuat me librin e mysafirëve Velocita.',
     toast_validation: 'Ju lutemi plotësoni të gjitha fushat e detyrueshme të klientit & pagesës.',
     toast_confirmed: 'Rezervimi u konfirmua! Detajet e konfirmimit u dërguan.',
-    toast_privacy: 'Faqja e plotë e Politikës së Privatësisë vjen së shpejti.',
-    toast_terms: 'Faqja e plotë e Kushteve të Qerasë vjen së shpejti.',
-    toast_cookies: 'Qendra e preferencave për Cookies vjen së shpejti.',
     notfound_heading: 'Faqja Nuk u Gjet',
     notfound_text: 'Faqja që kërkoni nuk ekziston ose mund të jetë zhvendosur. Le t\'ju kthejmë përsëri në rrugë.',
     step_label_vehicle: 'Vetura',
@@ -1650,6 +1632,7 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [currentView, selectedVehicleId]);
   const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState('info');
 
   /* Search & Rental Parameters */
   const [bookingSearch, setBookingSearch] = useState({
@@ -1716,8 +1699,9 @@ export default function App() {
   }, [confirmedBooking]);
 
   /* Toast Notification Trigger */
-  const triggerToast = (msg) => {
+  const triggerToast = (msg, type = 'info') => {
     setToastMessage(msg);
+    setToastType(type);
     setTimeout(() => setToastMessage(null), 4000);
   };
 
@@ -1825,7 +1809,7 @@ export default function App() {
   const handleFinalBookingSubmit = (e) => {
     e.preventDefault();
     if (!customerData.email || !customerData.firstName || !paymentData.cardNumber) {
-      triggerToast('Please complete all mandatory customer & payment fields.');
+      triggerToast(t('toast_validation'), 'error');
       return;
     }
 
@@ -1842,7 +1826,7 @@ export default function App() {
 
     setConfirmedBooking(newBooking);
     setCheckoutStep(6);
-    triggerToast('Reservation confirmed! Confirmation details dispatched.');
+    triggerToast(t('toast_confirmed'), 'success');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -1852,8 +1836,14 @@ export default function App() {
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-teal-500/40 text-slate-100 px-5 py-3 rounded-none shadow-2xl flex items-center gap-3 backdrop-blur-md animate-fade-in">
-          <AlertCircle className="w-5 h-5 text-teal-400 shrink-0" />
+        <div className={`fixed bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 bg-slate-900 border ${toastType === 'success' ? 'border-teal-500/40' : toastType === 'error' ? 'border-red-500/40' : 'border-slate-700'} text-slate-100 px-5 py-3 rounded-none shadow-2xl flex items-center gap-3 backdrop-blur-md animate-fade-in`}>
+          {toastType === 'success' ? (
+            <CheckCircle className="w-5 h-5 text-teal-400 shrink-0" />
+          ) : toastType === 'error' ? (
+            <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+          ) : (
+            <Info className="w-5 h-5 text-teal-400 shrink-0" />
+          )}
           <span className="text-sm font-medium tracking-wide">{toastMessage}</span>
         </div>
       )}
@@ -2060,38 +2050,47 @@ export default function App() {
           
           <div className="space-y-4 md:col-span-1">
             <div className="flex items-center gap-2">
-              <img src={VELOCITA_LOGO} alt="Velocita" className="h-8 w-auto" />
+              <button
+                onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="focus:outline-none"
+                aria-label="Velocita — Home"
+              >
+                <img src={VELOCITA_LOGO} alt="Velocita" className="h-8 w-auto hover:opacity-80 transition-opacity" />
+              </button>
             </div>
             <p className="leading-relaxed text-slate-400">
               {t('footer_tagline')}
             </p>
-            <div className="flex items-center gap-4 text-slate-400 pt-2">
-            </div>
           </div>
 
           <div>
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_nav_heading')}</h4>
             <ul className="space-y-2.5">
-              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({top:0}); }} className="hover:text-teal-400">{t('footer_link_fleet')}</button></li>
-              <li><button onClick={() => triggerToast(t('toast_locations'))} className="hover:text-teal-400">{t('footer_link_hubs')}</button></li>
-              <li><button onClick={() => triggerToast(t('toast_membership'))} className="hover:text-teal-400">{t('footer_link_membership')}</button></li>
-              <li><button onClick={() => triggerToast(t('toast_chauffeur'))} className="hover:text-teal-400">{t('footer_link_chauffeur')}</button></li>
+              <li><button onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-teal-400">{t('nav_home')}</button></li>
+              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-teal-400">{t('footer_link_fleet')}</button></li>
+              <li><button onClick={() => triggerToast(t('toast_contact'))} className="hover:text-teal-400">{t('nav_contact')}</button></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_contact_heading')}</h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-teal-400" /> +1 (800) 835-6248</li>
-              <li className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-teal-400" /> concierge@velocita-rentals.com</li>
-              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-teal-400" /> {t('footer_client_services')}</li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                <a href="tel:+18008356248" className="hover:text-teal-400 transition-colors">+1 (800) 835-6248</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                <a href="mailto:concierge@velocita-rentals.com" className="hover:text-teal-400 transition-colors break-all">concierge@velocita-rentals.com</a>
+              </li>
+              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-teal-400 shrink-0" /> {t('footer_client_services')}</li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_dispatch_heading')}</h4>
             <p className="mb-3 text-slate-400">{t('footer_dispatch_text')}</p>
-            <form onSubmit={(e) => { e.preventDefault(); triggerToast(t('toast_newsletter')); }} className="space-y-2">
+            <form onSubmit={(e) => { e.preventDefault(); triggerToast(t('toast_newsletter'), 'success'); }} className="space-y-2">
               <input 
                 type="email" 
                 placeholder={t('footer_email_placeholder')} 
@@ -2944,7 +2943,7 @@ function VehicleDetailView({
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_start_date')}</label>
                   <input 
