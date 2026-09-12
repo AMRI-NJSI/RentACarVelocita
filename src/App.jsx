@@ -2324,7 +2324,7 @@ function CarFinder({ onSelectVehicle }) {
                 {seatOptions.map((opt) => (
                   <button
                     key={opt.value}
-                    onClick={() => { setSeats(opt.value); setStep(3); }}
+                    onClick={() => { setSeatChoice(opt); setStep(3); }}
                     className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
                   >
                     {opt.label}
