@@ -2262,24 +2262,24 @@ export default function App() {
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
     <AuthContext.Provider value={{ currentUser, favorites, rentalHistory, login: handleLogin, signup: handleSignup, logout: handleLogout, resetPassword: handlePasswordReset, toggleFavorite, isFavorite, authError, setAuthError, authLoading }}>
-    <div className="min-h-screen w-full overflow-x-hidden bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#14110F] text-stone-100 font-sans selection:bg-[#96201B]/30 selection:text-[#E7C4BE]">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className={`fixed bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 bg-slate-900 border ${toastType === 'success' ? 'border-teal-500/40' : toastType === 'error' ? 'border-red-500/40' : 'border-slate-700'} text-slate-100 px-5 py-3 rounded-none shadow-2xl flex items-center gap-3 backdrop-blur-md animate-fade-in`}>
+        <div className={`fixed bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 bg-stone-900 border ${toastType === 'success' ? 'border-[#96201B]/40' : toastType === 'error' ? 'border-red-500/40' : 'border-stone-700'} text-stone-100 px-5 py-3 rounded-none shadow-2xl flex items-center gap-3 backdrop-blur-md animate-fade-in`}>
           {toastType === 'success' ? (
-            <CheckCircle className="w-5 h-5 text-teal-400 shrink-0" />
+            <CheckCircle className="w-5 h-5 text-[#C1443B] shrink-0" />
           ) : toastType === 'error' ? (
             <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
           ) : (
-            <Info className="w-5 h-5 text-teal-400 shrink-0" />
+            <Info className="w-5 h-5 text-[#C1443B] shrink-0" />
           )}
           <span className="text-sm font-medium tracking-wide">{toastMessage}</span>
         </div>
       )}
 
       {/* HEADER NAVBAR */}
-      <header className="sticky top-0 z-40 bg-[#05080a]/85 backdrop-blur-xl border-b border-slate-800/80 transition-all duration-300">
+      <header className="sticky top-0 z-40 bg-[#14110F]/85 backdrop-blur-xl border-b border-stone-800/80 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo */}
@@ -2292,26 +2292,26 @@ export default function App() {
               alt="Velocita" 
               className="h-11 w-auto group-hover:scale-105 transition-transform"
             />
-            <span className="text-xs uppercase tracking-[0.3em] text-slate-400 hidden sm:block font-semibold border-l border-slate-700 pl-3">{t('header_tagline')}</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-stone-400 hidden sm:block font-semibold border-l border-stone-700 pl-3">{t('header_tagline')}</span>
           </button>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-slate-300">
+          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-stone-300">
             <button 
               onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-              className={`hover:text-teal-400 transition-colors ${currentView === 'home' ? 'text-teal-400 border-b border-teal-400 pb-1' : ''}`}
+              className={`hover:text-[#C1443B] transition-colors ${currentView === 'home' ? 'text-[#C1443B] border-b border-[#C1443B] pb-1' : ''}`}
             >
               {t('nav_home')}
             </button>
             <button 
               onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-              className={`hover:text-teal-400 transition-colors ${currentView === 'fleet' ? 'text-teal-400 border-b border-teal-400 pb-1' : ''}`}
+              className={`hover:text-[#C1443B] transition-colors ${currentView === 'fleet' ? 'text-[#C1443B] border-b border-[#C1443B] pb-1' : ''}`}
             >
               {t('nav_fleet')}
             </button>
             <button 
               onClick={() => triggerToast(t('toast_contact'))} 
-              className="hover:text-teal-400 transition-colors"
+              className="hover:text-[#C1443B] transition-colors"
             >
               {t('nav_contact')}
             </button>
@@ -2322,14 +2322,14 @@ export default function App() {
             {confirmedBooking && (
               <button
                 onClick={() => { setCurrentView('checkout'); setCheckoutStep(6); }}
-                className="text-xs text-teal-400 hover:underline tracking-wider font-semibold mr-2"
+                className="text-xs text-[#C1443B] hover:underline tracking-wider font-semibold mr-2"
               >
                 {t('header_view_reservation')}
               </button>
             )}
             <button
               onClick={toggleLanguage}
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-slate-700 text-slate-300 hover:border-teal-400 hover:text-teal-400 text-[11px] font-bold uppercase tracking-wider transition-colors"
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-stone-700 text-stone-300 hover:border-[#C1443B] hover:text-[#C1443B] text-[11px] font-bold uppercase tracking-wider transition-colors"
               aria-label="Switch Language"
               title="EN / SQ"
             >
@@ -2339,9 +2339,9 @@ export default function App() {
               <div className="relative">
                 <button
                   onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-slate-700 hover:border-teal-400 text-slate-200 hover:text-teal-400 transition-colors"
+                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] transition-colors"
                 >
-                  <span className="w-7 h-7 rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-300 flex items-center justify-center text-[11px] font-bold uppercase">
+                  <span className="w-7 h-7 rounded-full bg-[#96201B]/15 border border-[#96201B]/30 text-[#D89089] flex items-center justify-center text-[11px] font-bold uppercase">
                     {currentUser.firstName?.[0]}{currentUser.lastName?.[0]}
                   </span>
                   <span className="text-xs font-semibold max-w-[8rem] truncate">{currentUser.firstName}</span>
@@ -2350,23 +2350,23 @@ export default function App() {
                 {accountMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setAccountMenuOpen(false)} />
-                    <div className="absolute right-0 top-full mt-2 w-56 bg-slate-900 border border-slate-800 rounded-sm shadow-2xl z-50 py-2 text-xs">
+                    <div className="absolute right-0 top-full mt-2 w-56 bg-stone-900 border border-stone-800 rounded-sm shadow-2xl z-50 py-2 text-xs">
                       <button
                         onClick={() => { setCurrentView('account'); setAccountTab('favorites'); setAccountMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-teal-400 hover:bg-slate-800/60 text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-stone-300 hover:text-[#C1443B] hover:bg-stone-800/60 text-left"
                       >
                         <Heart className="w-3.5 h-3.5" /> {t('nav_favorites')}
                       </button>
                       <button
                         onClick={() => { setCurrentView('account'); setAccountTab('history'); setAccountMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-teal-400 hover:bg-slate-800/60 text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-stone-300 hover:text-[#C1443B] hover:bg-stone-800/60 text-left"
                       >
                         <History className="w-3.5 h-3.5" /> {t('nav_history')}
                       </button>
-                      <div className="border-t border-slate-800 my-1" />
+                      <div className="border-t border-stone-800 my-1" />
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-slate-300 hover:text-red-400 hover:bg-slate-800/60 text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-stone-300 hover:text-red-400 hover:bg-stone-800/60 text-left"
                       >
                         <LogOut className="w-3.5 h-3.5" /> {t('nav_logout')}
                       </button>
@@ -2377,14 +2377,14 @@ export default function App() {
             ) : (
               <button
                 onClick={() => setCurrentView('login')}
-                className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-slate-300 hover:text-teal-400 transition-colors"
+                className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-stone-300 hover:text-[#C1443B] transition-colors"
               >
                 <UserCircle className="w-4 h-4" /> {t('nav_signin')}
               </button>
             )}
             <button
               onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 transition-all duration-300"
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 hover:shadow-[#96201B]/40 transition-all duration-300"
             >
               {t('header_reserve')}
             </button>
@@ -2394,14 +2394,14 @@ export default function App() {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={toggleLanguage}
-              className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-700 text-slate-300 text-[10px] font-bold uppercase tracking-wider"
+              className="w-8 h-8 flex items-center justify-center rounded-full border border-stone-700 text-stone-300 text-[10px] font-bold uppercase tracking-wider"
               aria-label="Switch Language"
             >
               {language === 'en' ? 'SQ' : 'EN'}
             </button>
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-300 hover:text-white"
+              className="p-2 text-stone-300 hover:text-white"
               aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -2411,50 +2411,50 @@ export default function App() {
 
         {/* Mobile Nav Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800 px-6 py-6 space-y-4 animate-fade-in">
+          <div className="md:hidden bg-stone-900 border-b border-stone-800 px-6 py-6 space-y-4 animate-fade-in">
             <button 
               onClick={() => { setCurrentView('home'); setMobileMenuOpen(false); }}
-              className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+              className="block w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
             >
               {t('nav_home')}
             </button>
             <button 
               onClick={() => { setCurrentView('fleet'); setMobileMenuOpen(false); }}
-              className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+              className="block w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
             >
               {t('nav_fleet')}
             </button>
             <button 
               onClick={() => { triggerToast(t('toast_contact')); setMobileMenuOpen(false); }}
-              className="block w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+              className="block w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
             >
               {t('nav_contact')}
             </button>
 
-            <div className="border-t border-slate-800 pt-4 space-y-4">
+            <div className="border-t border-stone-800 pt-4 space-y-4">
               {currentUser ? (
                 <>
-                  <div className="flex items-center gap-2.5 text-slate-300">
-                    <span className="w-8 h-8 rounded-full bg-teal-500/15 border border-teal-500/30 text-teal-300 flex items-center justify-center text-xs font-bold uppercase shrink-0">
+                  <div className="flex items-center gap-2.5 text-stone-300">
+                    <span className="w-8 h-8 rounded-full bg-[#96201B]/15 border border-[#96201B]/30 text-[#D89089] flex items-center justify-center text-xs font-bold uppercase shrink-0">
                       {currentUser.firstName?.[0]}{currentUser.lastName?.[0]}
                     </span>
                     <span className="text-sm font-semibold truncate">{currentUser.firstName} {currentUser.lastName}</span>
                   </div>
                   <button
                     onClick={() => { setCurrentView('account'); setAccountTab('favorites'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
                   >
                     <Heart className="w-4 h-4" /> {t('nav_favorites')}
                   </button>
                   <button
                     onClick={() => { setCurrentView('account'); setAccountTab('history'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
                   >
                     <History className="w-4 h-4" /> {t('nav_history')}
                   </button>
                   <button
                     onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-red-400 py-2"
+                    className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-red-400 py-2"
                   >
                     <LogOut className="w-4 h-4" /> {t('nav_logout')}
                   </button>
@@ -2462,7 +2462,7 @@ export default function App() {
               ) : (
                 <button
                   onClick={() => { setCurrentView('login'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-slate-300 hover:text-teal-400 py-2"
+                  className="flex items-center gap-2.5 w-full text-left text-sm uppercase tracking-widest text-stone-300 hover:text-[#C1443B] py-2"
                 >
                   <UserCircle className="w-4 h-4" /> {t('nav_signin')}
                 </button>
@@ -2471,7 +2471,7 @@ export default function App() {
 
             <button 
               onClick={() => { setCurrentView('fleet'); setMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="block w-full text-center py-3 rounded-sm bg-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest"
+              className="block w-full text-center py-3 rounded-sm bg-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest"
             >
               {t('mobile_reserve')}
             </button>
@@ -2586,7 +2586,7 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-slate-950 border-t border-slate-800/80 pt-16 pb-12 text-slate-400 text-xs">
+      <footer className="bg-stone-950 border-t border-stone-800/80 pt-16 pb-12 text-stone-400 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
           
           <div className="space-y-4 md:col-span-1">
@@ -2599,7 +2599,7 @@ export default function App() {
                 <img src={VELOCITA_LOGO} alt="Velocita" className="h-8 w-auto hover:opacity-80 transition-opacity" />
               </button>
             </div>
-            <p className="leading-relaxed text-slate-400">
+            <p className="leading-relaxed text-stone-400">
               {t('footer_tagline')}
             </p>
           </div>
@@ -2607,9 +2607,9 @@ export default function App() {
           <div>
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_nav_heading')}</h4>
             <ul className="space-y-2.5">
-              <li><button onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-teal-400">{t('nav_home')}</button></li>
-              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-teal-400">{t('footer_link_fleet')}</button></li>
-              <li><button onClick={() => triggerToast(t('toast_contact'))} className="hover:text-teal-400">{t('nav_contact')}</button></li>
+              <li><button onClick={() => { setCurrentView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-[#C1443B]">{t('nav_home')}</button></li>
+              <li><button onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-[#C1443B]">{t('footer_link_fleet')}</button></li>
+              <li><button onClick={() => triggerToast(t('toast_contact'))} className="hover:text-[#C1443B]">{t('nav_contact')}</button></li>
             </ul>
           </div>
 
@@ -2617,28 +2617,28 @@ export default function App() {
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_contact_heading')}</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <a href="tel:+18008356248" className="hover:text-teal-400 transition-colors">+1 (800) 835-6248</a>
+                <Phone className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
+                <a href="tel:+18008356248" className="hover:text-[#C1443B] transition-colors">+1 (800) 835-6248</a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <a href="mailto:concierge@velocita-rentals.com" className="hover:text-teal-400 transition-colors break-all">concierge@velocita-rentals.com</a>
+                <Mail className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
+                <a href="mailto:concierge@velocita-rentals.com" className="hover:text-[#C1443B] transition-colors break-all">concierge@velocita-rentals.com</a>
               </li>
-              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-teal-400 shrink-0" /> {t('footer_client_services')}</li>
+              <li className="flex items-center gap-2"><Clock className="w-3.5 h-3.5 text-[#C1443B] shrink-0" /> {t('footer_client_services')}</li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold uppercase tracking-widest mb-4">{t('footer_dispatch_heading')}</h4>
-            <p className="mb-3 text-slate-400">{t('footer_dispatch_text')}</p>
+            <p className="mb-3 text-stone-400">{t('footer_dispatch_text')}</p>
             <form onSubmit={(e) => { e.preventDefault(); triggerToast(t('toast_newsletter'), 'success'); }} className="space-y-2">
               <input 
                 type="email" 
                 placeholder={t('footer_email_placeholder')} 
                 required
-                className="w-full bg-slate-900 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-teal-500/50"
+                className="w-full bg-stone-900 border border-stone-800 rounded px-3 py-2 text-stone-200 focus:outline-none focus:border-[#96201B]/50"
               />
-              <button type="submit" className="w-full bg-slate-800 hover:bg-slate-700 text-teal-400 font-semibold py-2 rounded transition-colors tracking-wider uppercase text-[10px]">
+              <button type="submit" className="w-full bg-stone-800 hover:bg-stone-700 text-[#C1443B] font-semibold py-2 rounded transition-colors tracking-wider uppercase text-[10px]">
                 {t('footer_subscribe')}
               </button>
             </form>
@@ -2646,12 +2646,12 @@ export default function App() {
 
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-900 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-400 gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone-900 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-stone-400 gap-4">
           <p>© {new Date().getFullYear()} {t('footer_copyright')}</p>
           <div className="flex gap-6">
-            <button onClick={() => { setCurrentView('privacy'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_privacy')}</button>
-            <button onClick={() => { setCurrentView('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_terms')}</button>
-            <button onClick={() => { setCurrentView('cookies'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-teal-400">{t('footer_cookies')}</button>
+            <button onClick={() => { setCurrentView('privacy'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-[#C1443B]">{t('footer_privacy')}</button>
+            <button onClick={() => { setCurrentView('terms'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-[#C1443B]">{t('footer_terms')}</button>
+            <button onClick={() => { setCurrentView('cookies'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:underline hover:text-[#C1443B]">{t('footer_cookies')}</button>
           </div>
         </div>
       </footer>
@@ -2666,12 +2666,12 @@ function NotFoundView({ onGoHome }) {
   const { t } = useLang();
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 space-y-6">
-      <span className="text-8xl font-mono text-teal-400/30">404</span>
-      <h1 className="text-2xl sm:text-3xl font-mono text-white">{t('notfound_heading')}</h1>
-      <p className="text-sm text-slate-400 max-w-md">{t('notfound_text')}</p>
+      <span className="text-8xl font-mono text-[#C1443B]/30">404</span>
+      <h1 className="text-2xl sm:text-3xl font-serif text-white">{t('notfound_heading')}</h1>
+      <p className="text-sm text-stone-400 max-w-md">{t('notfound_text')}</p>
       <button
         onClick={onGoHome}
-        className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+        className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
       >
         {t('return_home')}
       </button>
@@ -2693,21 +2693,21 @@ function LegalView({ type, onGoHome }) {
       <div className="space-y-3">
         <button
           onClick={onGoHome}
-          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+          className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1"
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl sm:text-4xl font-mono text-white">{heading}</h1>
-        <p className="text-xs text-slate-500 uppercase tracking-widest">
+        <h1 className="text-3xl sm:text-4xl font-serif text-white">{heading}</h1>
+        <p className="text-xs text-stone-500 uppercase tracking-widest">
           {t('legal_last_updated_prefix')} {updatedDate}
         </p>
       </div>
 
-      <div className="space-y-8 border-t border-slate-800/80 pt-8">
+      <div className="space-y-8 border-t border-stone-800/80 pt-8">
         {sections.map((s, i) => (
           <div key={i} className="space-y-2">
-            <h2 className="text-sm uppercase tracking-widest text-teal-400 font-semibold">{s.title}</h2>
-            <p className="text-sm text-slate-300 leading-relaxed">{s.body}</p>
+            <h2 className="text-sm uppercase tracking-widest text-[#C1443B] font-semibold">{s.title}</h2>
+            <p className="text-sm text-stone-300 leading-relaxed">{s.body}</p>
           </div>
         ))}
       </div>
@@ -2742,15 +2742,15 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
       <div className="space-y-3">
         <button
           onClick={onGoHome}
-          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+          className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1"
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl font-mono text-white">{resetMode ? t('auth_reset_heading') : t('login_heading')}</h1>
-        <p className="text-sm text-slate-400">{resetMode ? t('auth_reset_subtitle') : t('login_subtitle')}</p>
+        <h1 className="text-3xl font-serif text-white">{resetMode ? t('auth_reset_heading') : t('login_heading')}</h1>
+        <p className="text-sm text-stone-400">{resetMode ? t('auth_reset_subtitle') : t('login_subtitle')}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5 bg-slate-900 border border-slate-800 rounded-none p-6">
+      <form onSubmit={handleSubmit} className="space-y-5 bg-stone-900 border border-stone-800 rounded-none p-6">
         {authError && (
           <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/30 px-3 py-2.5 rounded-sm">
             <AlertCircle className="w-4 h-4 shrink-0" /> {authError}
@@ -2758,16 +2758,16 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
         )}
 
         <div className="space-y-1">
-          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
+          <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_email')}</label>
           <div className="relative">
-            <User className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <User className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="email"
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="john@example.com"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
             />
           </div>
         </div>
@@ -2775,20 +2775,20 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
         {!resetMode && (
           <div className="space-y-1">
             <div className="flex items-center justify-between">
-              <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
-              <button type="button" onClick={() => setResetMode(true)} className="text-[10px] text-teal-400 hover:underline">
+              <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_password')}</label>
+              <button type="button" onClick={() => setResetMode(true)} className="text-[10px] text-[#C1443B] hover:underline">
                 {t('auth_forgot_password')}
               </button>
             </div>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="password"
                 required
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="••••••••"
-                className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+                className="w-full bg-stone-950 border border-stone-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
               />
             </div>
           </div>
@@ -2797,21 +2797,21 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
         <button
           type="submit"
           disabled={authLoading}
-          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {authLoading ? t('loading_label') : (resetMode ? t('btn_send_reset_link') : t('btn_login'))}
         </button>
 
         {resetMode ? (
-          <p className="text-xs text-slate-400 text-center">
-            <button type="button" onClick={() => setResetMode(false)} className="text-teal-400 hover:underline font-semibold">
+          <p className="text-xs text-stone-400 text-center">
+            <button type="button" onClick={() => setResetMode(false)} className="text-[#C1443B] hover:underline font-semibold">
               {t('btn_back_to_login')}
             </button>
           </p>
         ) : (
-          <p className="text-xs text-slate-400 text-center">
+          <p className="text-xs text-stone-400 text-center">
             {t('auth_no_account')}{' '}
-            <button type="button" onClick={onSwitchToSignup} className="text-teal-400 hover:underline font-semibold">
+            <button type="button" onClick={onSwitchToSignup} className="text-[#C1443B] hover:underline font-semibold">
               {t('auth_link_signup')}
             </button>
           </p>
@@ -2847,15 +2847,15 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
       <div className="space-y-3">
         <button
           onClick={onGoHome}
-          className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1"
+          className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1"
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl font-mono text-white">{t('signup_heading')}</h1>
-        <p className="text-sm text-slate-400">{t('signup_subtitle')}</p>
+        <h1 className="text-3xl font-serif text-white">{t('signup_heading')}</h1>
+        <p className="text-sm text-stone-400">{t('signup_subtitle')}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5 bg-slate-900 border border-slate-800 rounded-none p-6">
+      <form onSubmit={handleSubmit} className="space-y-5 bg-stone-900 border border-stone-800 rounded-none p-6">
         {authError && (
           <div className="flex items-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/30 px-3 py-2.5 rounded-sm">
             <AlertCircle className="w-4 h-4 shrink-0" /> {authError}
@@ -2864,44 +2864,44 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_first_name')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_first_name')}</label>
             <input
               type="text"
               required
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
               placeholder="John"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
             />
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_last_name')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_last_name')}</label>
             <input
               type="text"
               required
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
               placeholder="Doe"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
             />
           </div>
         </div>
 
         <div className="space-y-1">
-          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
+          <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_email')}</label>
           <input
             type="email"
             required
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             placeholder="john@example.com"
-            className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+            className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_password')}</label>
             <input
               type="password"
               required
@@ -2909,11 +2909,11 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
             />
           </div>
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_confirm_password')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_confirm_password')}</label>
             <input
               type="password"
               required
@@ -2921,7 +2921,7 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
               value={form.confirmPassword}
               onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
               placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
             />
           </div>
         </div>
@@ -2929,14 +2929,14 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
         <button
           type="submit"
           disabled={authLoading}
-          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {authLoading ? t('loading_label') : t('btn_signup')}
         </button>
 
-        <p className="text-xs text-slate-400 text-center">
+        <p className="text-xs text-stone-400 text-center">
           {t('auth_have_account')}{' '}
-          <button type="button" onClick={onSwitchToLogin} className="text-teal-400 hover:underline font-semibold">
+          <button type="button" onClick={onSwitchToLogin} className="text-[#C1443B] hover:underline font-semibold">
             {t('auth_link_login')}
           </button>
         </p>
@@ -2954,21 +2954,21 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-mono text-white">{t('account_heading')}</h1>
-        <p className="text-sm text-slate-400">{t('account_subtitle')}</p>
+        <h1 className="text-3xl font-serif text-white">{t('account_heading')}</h1>
+        <p className="text-sm text-stone-400">{t('account_subtitle')}</p>
         {currentUser && (
-          <p className="text-xs text-slate-500 pt-1">
+          <p className="text-xs text-stone-500 pt-1">
             {currentUser.firstName} {currentUser.lastName} &middot; {currentUser.email}
           </p>
         )}
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-6 border-b border-slate-800">
+      <div className="flex gap-6 border-b border-stone-800">
         <button
           onClick={() => setActiveTab('favorites')}
           className={`flex items-center gap-2 pb-3 text-xs uppercase tracking-widest font-semibold transition-colors ${
-            activeTab === 'favorites' ? 'text-teal-400 border-b-2 border-teal-400' : 'text-slate-400 hover:text-slate-200'
+            activeTab === 'favorites' ? 'text-[#C1443B] border-b-2 border-[#C1443B]' : 'text-stone-400 hover:text-stone-200'
           }`}
         >
           <Heart className="w-3.5 h-3.5" /> {t('account_tab_favorites')} ({favoriteVehicles.length})
@@ -2976,7 +2976,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
         <button
           onClick={() => setActiveTab('history')}
           className={`flex items-center gap-2 pb-3 text-xs uppercase tracking-widest font-semibold transition-colors ${
-            activeTab === 'history' ? 'text-teal-400 border-b-2 border-teal-400' : 'text-slate-400 hover:text-slate-200'
+            activeTab === 'history' ? 'text-[#C1443B] border-b-2 border-[#C1443B]' : 'text-stone-400 hover:text-stone-200'
           }`}
         >
           <History className="w-3.5 h-3.5" /> {t('account_tab_history')} ({rentalHistory.length})
@@ -2993,11 +2993,11 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
           </div>
         ) : (
           <div className="text-center py-20 space-y-4">
-            <Heart className="w-10 h-10 text-slate-700 mx-auto" />
-            <p className="text-sm text-slate-400">{t('account_no_favorites')}</p>
+            <Heart className="w-10 h-10 text-stone-700 mx-auto" />
+            <p className="text-sm text-stone-400">{t('account_no_favorites')}</p>
             <button
               onClick={onBrowseFleet}
-              className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+              className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
             >
               {t('account_no_favorites_cta')}
             </button>
@@ -3010,34 +3010,34 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
         rentalHistory.length > 0 ? (
           <div className="space-y-4">
             {rentalHistory.map((booking, idx) => (
-              <div key={booking.bookingRef || idx} className="bg-slate-900 border border-slate-800 rounded-none p-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+              <div key={booking.bookingRef || idx} className="bg-stone-900 border border-stone-800 rounded-none p-5 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
                   <img
                     src={booking.vehicle.images[0]}
                     alt={booking.vehicle.model}
                     onError={handleImgError}
-                    className="w-24 h-16 object-cover rounded-sm border border-slate-800 shrink-0"
+                    className="w-24 h-16 object-cover rounded-sm border border-stone-800 shrink-0"
                   />
                   <div>
-                    <span className="text-[10px] text-teal-400 uppercase tracking-widest block font-semibold">{booking.vehicle.brand}</span>
-                    <h3 className="text-base font-mono text-white">{booking.vehicle.model}</h3>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-[10px] text-[#C1443B] uppercase tracking-widest block font-semibold">{booking.vehicle.brand}</span>
+                    <h3 className="text-base font-serif text-white">{booking.vehicle.model}</h3>
+                    <span className="text-xs text-stone-400">
                       {t('history_booked_on')} {booking.createdAt} &middot; {t('reference_label')} {booking.bookingRef}
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-6 text-xs sm:text-right">
                   <div>
-                    <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_rental_dates')}</span>
-                    <span className="text-slate-200">{booking.searchParams.pickupDate} &rarr; {booking.searchParams.returnDate}</span>
+                    <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('label_rental_dates')}</span>
+                    <span className="text-stone-200">{booking.searchParams.pickupDate} &rarr; {booking.searchParams.returnDate}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('total_due')}</span>
-                    <span className="text-teal-400 font-bold">${formatMoney(booking.pricing.grandTotal)}</span>
+                    <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('total_due')}</span>
+                    <span className="text-[#C1443B] font-bold">${formatMoney(booking.pricing.grandTotal)}</span>
                   </div>
                   <button
                     onClick={() => onSelectVehicle(booking.vehicle.id)}
-                    className="px-4 py-2 rounded-full border border-slate-700 hover:border-teal-400 text-slate-200 hover:text-teal-400 text-[11px] font-semibold uppercase tracking-wider transition-colors shrink-0"
+                    className="px-4 py-2 rounded-full border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-[11px] font-semibold uppercase tracking-wider transition-colors shrink-0"
                   >
                     {t('btn_details')}
                   </button>
@@ -3047,11 +3047,11 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
           </div>
         ) : (
           <div className="text-center py-20 space-y-4">
-            <History className="w-10 h-10 text-slate-700 mx-auto" />
-            <p className="text-sm text-slate-400">{t('account_no_history')}</p>
+            <History className="w-10 h-10 text-stone-700 mx-auto" />
+            <p className="text-sm text-stone-400">{t('account_no_history')}</p>
             <button
               onClick={onBrowseFleet}
-              className="px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all"
+              className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
             >
               {t('account_no_history_cta')}
             </button>
@@ -3080,46 +3080,43 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
             alt="Hero Luxury Supercar" 
             className="w-full h-full object-cover object-center opacity-35 scale-105 filter brightness-90"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#05080a] via-[#05080a]/60 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#05080a] via-transparent to-[#05080a]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14110F] via-[#14110F]/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#14110F] via-transparent to-[#14110F]"></div>
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-teal-500/20 to-teal-500/5 border border-teal-400/40 backdrop-blur-md shadow-[0_0_25px_-5px] shadow-teal-500/30">
-            <Shield className="w-3.5 h-3.5 text-teal-300" />
-            <span className="text-xs uppercase tracking-widest text-teal-200 font-semibold">{t('hero_badge')}</span>
-          </div>
+          <p className="text-base sm:text-lg italic font-serif text-[#C9A876] tracking-wide">{t('hero_badge')}</p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-mono font-normal tracking-tight text-white leading-none">
-            {t('hero_heading_pre')} <span className="italic font-light bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-400 bg-clip-text text-transparent">{t('hero_heading_accent')}</span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-white leading-none">
+            {t('hero_heading_pre')} <span className="italic font-light bg-gradient-to-r from-[#C1443B] to-[#B08D57] bg-clip-text text-transparent">{t('hero_heading_accent')}</span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-stone-300 leading-relaxed font-light">
             {t('hero_subtitle')}
           </p>
 
           {/* SEARCH & BOOKING BAR */}
-          <div className="bg-slate-900/60 border border-white/10 p-5 sm:p-8 rounded-[28px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] backdrop-blur-2xl text-left max-w-4xl mx-auto space-y-5 ring-1 ring-teal-500/10">
+          <div className="bg-stone-900/60 border border-white/10 p-5 sm:p-8 rounded-[28px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] backdrop-blur-2xl text-left max-w-4xl mx-auto space-y-5 ring-1 ring-[#96201B]/10">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               
               {/* Pickup Location */}
-              <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
-                <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <MapPin className="w-3 h-3 text-teal-400" /> {t('label_pickup_location')}
+              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+                <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3 text-[#C1443B]" /> {t('label_pickup_location')}
                 </label>
                 <select 
                   value={bookingSearch.pickupLocation}
                   onChange={(e) => setBookingSearch({...bookingSearch, pickupLocation: e.target.value})}
-                  className="w-full bg-transparent border-0 border-b border-slate-700 focus:border-teal-400 rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
+                  className="w-full bg-transparent border-0 border-b border-stone-700 focus:border-[#C1443B] rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
                 >
-                  {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-slate-900 text-white">{loc}</option>)}
+                  {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-stone-900 text-white">{loc}</option>)}
                 </select>
               </div>
 
               {/* Pickup Date & Time */}
-              <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
-                <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-teal-400" /> {t('label_pickup_datetime')}
+              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+                <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3 text-[#C1443B]" /> {t('label_pickup_datetime')}
                 </label>
                 <div className="flex gap-2">
                   <input 
@@ -3128,22 +3125,22 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
                     onChange={(e) => setBookingSearch(prev => ({...prev, pickupDate: e.target.value}))}
                     onBlur={() => setBookingSearch(prev => { const today = getTodayStr(); const pd = prev.pickupDate < today ? today : prev.pickupDate; const rd = (!prev.returnDate || pd >= prev.returnDate) ? getNextDay(pd) : prev.returnDate; return {...prev, pickupDate: pd, returnDate: rd}; })}
                     min={getTodayStr()}
-                    className="w-full bg-transparent border-0 border-b border-slate-700 focus:border-teal-400 rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
+                    className="w-full bg-transparent border-0 border-b border-stone-700 focus:border-[#C1443B] rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
                   />
                   <input 
                     type="time" 
                     value={bookingSearch.pickupTime}
                     onChange={(e) => setBookingSearch({...bookingSearch, pickupTime: e.target.value})}
                     onBlur={() => setBookingSearch(prev => { if (prev.pickupDate === getTodayStr() && prev.pickupTime < getCurrentTimeStr()) return {...prev, pickupTime: getCurrentTimeStr()}; return prev; })}
-                    className="w-20 bg-transparent border-0 border-b border-slate-700 focus:border-teal-400 rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
+                    className="w-20 bg-transparent border-0 border-b border-stone-700 focus:border-[#C1443B] rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Return Date & Time */}
-              <div className="space-y-1.5 bg-slate-950/50 rounded-2xl p-3 border border-white/5">
-                <label className="text-[10px] uppercase tracking-wider text-teal-300/90 font-semibold flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-teal-400" /> {t('label_return_datetime')}
+              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+                <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
+                  <Calendar className="w-3 h-3 text-[#C1443B]" /> {t('label_return_datetime')}
                 </label>
                 <div className="flex gap-2">
                   <input 
@@ -3152,13 +3149,13 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
                     onChange={(e) => setBookingSearch(prev => ({...prev, returnDate: e.target.value}))}
                     min={getNextDay(bookingSearch.pickupDate)}
                     onBlur={() => setBookingSearch(prev => (prev.pickupDate && prev.returnDate > prev.pickupDate) ? prev : ({...prev, returnDate: getNextDay(prev.pickupDate)}))}
-                    className="w-full bg-transparent border-0 border-b border-slate-700 focus:border-teal-400 rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
+                    className="w-full bg-transparent border-0 border-b border-stone-700 focus:border-[#C1443B] rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
                   />
                   <input 
                     type="time" 
                     value={bookingSearch.returnTime}
                     onChange={(e) => setBookingSearch({...bookingSearch, returnTime: e.target.value})}
-                    className="w-20 bg-transparent border-0 border-b border-slate-700 focus:border-teal-400 rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
+                    className="w-20 bg-transparent border-0 border-b border-stone-700 focus:border-[#C1443B] rounded-none px-0 py-1.5 text-xs text-white focus:outline-none"
                   />
                 </div>
               </div>
@@ -3166,12 +3163,12 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10">
-              <div className="text-xs text-slate-400">
-                {t('calculated_duration')} <span className="text-teal-300 font-semibold">{calculateDays(bookingSearch.pickupDate, bookingSearch.returnDate)} {t('days_suffix')}</span>
+              <div className="text-xs text-stone-400">
+                {t('calculated_duration')} <span className="text-[#D89089] font-semibold">{calculateDays(bookingSearch.pickupDate, bookingSearch.returnDate)} {t('days_suffix')}</span>
               </div>
               <button 
                 onClick={onSearchSubmit}
-                className="w-full sm:w-auto px-9 py-3.5 rounded-full bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-300 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_10px_30px_-8px] shadow-teal-400/50 hover:scale-[1.02]"
+                className="w-full sm:w-auto px-9 py-3.5 rounded-full bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_10px_30px_-8px] shadow-[#96201B]/50 hover:scale-[1.02]"
               >
                 <Search className="w-4 h-4" /> {t('search_button')}
               </button>
@@ -3183,14 +3180,14 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
 
       {/* FEATURED VEHICLES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-800 pb-6">
           <div>
-            <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('featured_label')}</span>
-            <h2 className="text-2xl sm:text-3xl font-mono text-white mt-1">{t('featured_heading')}</h2>
+            <p className="text-sm italic font-serif text-[#C9A876]">{t('featured_label')}</p>
+            <h2 className="text-2xl sm:text-3xl font-serif text-white mt-1">{t('featured_heading')}</h2>
           </div>
           <button 
             onClick={onSearchSubmit}
-            className="text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 flex items-center gap-1 font-semibold transition-colors"
+            className="text-xs uppercase tracking-widest text-stone-400 hover:text-[#C1443B] flex items-center gap-1 font-semibold transition-colors"
           >
             {t('explore_all')} <ChevronRight className="w-4 h-4" />
           </button>
@@ -3213,24 +3210,24 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
 
       {/* LUXURY EXPERIENCE BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900">
+        <div className="relative rounded-3xl overflow-hidden border border-stone-800 bg-stone-900">
           <img 
             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80" 
             alt="Interior Experience" 
             className="w-full h-[400px] object-cover opacity-30"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent flex items-center p-8 sm:p-16">
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent flex items-center p-8 sm:p-16">
             <div className="max-w-xl space-y-6">
-              <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">{t('banner_label')}</span>
-              <h2 className="text-3xl sm:text-4xl font-mono text-white leading-tight">
+              <p className="text-sm italic font-serif text-[#C9A876]">{t('banner_label')}</p>
+              <h2 className="text-3xl sm:text-4xl font-serif text-white leading-tight">
                 {t('banner_heading')}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
                 {t('banner_text')}
               </p>
               <button 
                 onClick={onSearchSubmit}
-                className="px-6 py-3 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-all inline-flex items-center gap-2"
+                className="px-6 py-3 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all inline-flex items-center gap-2"
               >
                 {t('banner_button')} <ArrowRight className="w-4 h-4" />
               </button>
@@ -3315,23 +3312,23 @@ function CarFinder({ onSelectVehicle }) {
   };
 
   return (
-    <section className="bg-slate-950/60 border-y border-slate-800/80 py-20">
+    <section className="bg-stone-950/60 border-y border-stone-800/80 py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs uppercase tracking-[0.2em] text-teal-400 font-semibold">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#C1443B] font-semibold">
             {isSq ? 'Rekomandim i Personalizuar' : 'Personalized Recommendation'}
           </span>
-          <h2 className="text-3xl font-mono text-white">
+          <h2 className="text-3xl font-serif text-white">
             {isSq ? 'Gjej Veturën Tënde Perfekte' : 'Find Your Perfect Car'}
           </h2>
-          <p className="text-slate-400 text-xs sm:text-sm">
+          <p className="text-stone-400 text-xs sm:text-sm">
             {isSq
               ? 'Përgjigju disa pyetjeve të shpejta dhe ne do të rekomandojmë veturën ideale nga flota jonë.'
               : "Answer a few quick questions and we'll recommend the ideal vehicle from our fleet."}
           </p>
         </div>
 
-        <div className="bg-gradient-to-b from-slate-900/80 to-slate-900/20 border border-white/10 rounded-3xl p-8 sm:p-10">
+        <div className="bg-gradient-to-b from-stone-900/80 to-stone-900/20 border border-white/10 rounded-3xl p-8 sm:p-10">
 
           {step < 4 && (
             <div className="flex items-center justify-center gap-2 mb-8">
@@ -3339,7 +3336,7 @@ function CarFinder({ onSelectVehicle }) {
                 <div
                   key={s}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    s === step ? 'w-8 bg-teal-400' : s < step ? 'w-4 bg-teal-400/50' : 'w-4 bg-slate-700'
+                    s === step ? 'w-8 bg-[#C1443B]' : s < step ? 'w-4 bg-[#C1443B]/50' : 'w-4 bg-stone-700'
                   }`}
                 />
               ))}
@@ -3348,7 +3345,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 1 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-mono text-white text-center">
+              <h3 className="text-lg font-serif text-white text-center">
                 {isSq ? 'Për çfarë e do veturën?' : "What's the occasion?"}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -3356,12 +3353,12 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={value}
                     onClick={() => { setOccasion(value); setStep(2); }}
-                    className="group flex flex-col items-center gap-3 p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center"
+                    className="group flex flex-col items-center gap-3 p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-400/25 to-cyan-500/10 border border-teal-400/30 flex items-center justify-center text-teal-300">
+                    <div className="w-12 h-12 rounded-xl bg-[#C1443B]/10 border border-[#C1443B]/30 flex items-center justify-center text-[#D89089]">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-xs text-slate-300 font-medium">{label}</span>
+                    <span className="text-xs text-stone-300 font-medium">{label}</span>
                   </button>
                 ))}
               </div>
@@ -3370,7 +3367,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 2 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-mono text-white text-center">
+              <h3 className="text-lg font-serif text-white text-center">
                 {isSq ? 'Sa vende ulëse të duhen?' : 'How many seats do you need?'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -3378,7 +3375,7 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={opt.value}
                     onClick={() => { setSeatChoice(opt); setStep(3); }}
-                    className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
+                    className="p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
                   >
                     {opt.label}
                   </button>
@@ -3386,7 +3383,7 @@ function CarFinder({ onSelectVehicle }) {
               </div>
               <button
                 onClick={() => setStep(1)}
-                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+                className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1 mx-auto"
               >
                 <ChevronLeft className="w-3.5 h-3.5" /> {isSq ? 'Kthehu' : 'Back'}
               </button>
@@ -3395,7 +3392,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 3 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-mono text-white text-center">
+              <h3 className="text-lg font-serif text-white text-center">
                 {isSq ? 'Cili është buxheti yt ditor?' : "What's your daily budget?"}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -3403,7 +3400,7 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={opt.value}
                     onClick={() => handleBudget(opt)}
-                    className="p-5 rounded-2xl border border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-slate-300 font-medium"
+                    className="p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
                   >
                     {opt.label}
                   </button>
@@ -3411,7 +3408,7 @@ function CarFinder({ onSelectVehicle }) {
               </div>
               <button
                 onClick={() => setStep(2)}
-                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+                className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1 mx-auto"
               >
                 <ChevronLeft className="w-3.5 h-3.5" /> {isSq ? 'Kthehu' : 'Back'}
               </button>
@@ -3420,7 +3417,7 @@ function CarFinder({ onSelectVehicle }) {
 
                     {step === 4 && result && result.vehicle && (
             <div className="space-y-6">
-              <div className="flex items-center justify-center gap-2 text-teal-400">
+              <div className="flex items-center justify-center gap-2 text-[#C1443B]">
                 <CheckCircle className="w-5 h-5" />
                 <span className="text-xs uppercase tracking-widest font-semibold">
                   {result.exact
@@ -3428,7 +3425,7 @@ function CarFinder({ onSelectVehicle }) {
                     : (isSq ? 'Përputhja më e Afërt (kategori e ndryshme)' : 'Closest Match (different category)')}
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-slate-950/40 border border-white/10 rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-stone-950/40 border border-white/10 rounded-2xl overflow-hidden">
                 <img
                   src={result.vehicle.images[0]}
                   alt={`${result.vehicle.brand} ${result.vehicle.model}`}
@@ -3436,19 +3433,19 @@ function CarFinder({ onSelectVehicle }) {
                   className="w-full h-56 sm:h-full object-cover"
                 />
                 <div className="p-6 space-y-3">
-                  <span className="text-xs uppercase tracking-widest text-teal-400 font-semibold">{getCategoryLabel(result.vehicle.category, isSq)}</span>
-                  <h4 className="text-2xl font-mono text-white">{result.vehicle.brand} {result.vehicle.model}</h4>
-                  <p className="text-sm text-slate-400">{result.vehicle.description}</p>
-                  <p className="text-xs text-slate-500">
+                  <span className="text-xs uppercase tracking-widest text-[#C1443B] font-semibold">{getCategoryLabel(result.vehicle.category, isSq)}</span>
+                  <h4 className="text-2xl font-serif text-white">{result.vehicle.brand} {result.vehicle.model}</h4>
+                  <p className="text-sm text-stone-400">{result.vehicle.description}</p>
+                  <p className="text-xs text-stone-500">
                     {isSq ? 'Vende ulëse' : 'Seats'}: {result.vehicle.seats}
                   </p>
                   <div className="flex items-baseline gap-1 pt-2">
                     <span className="text-2xl font-mono text-white">${formatMoney(result.vehicle.pricePerDay)}</span>
-                    <span className="text-xs text-slate-500">{isSq ? '/ ditë' : '/ day'}</span>
+                    <span className="text-xs text-stone-500">{isSq ? '/ ditë' : '/ day'}</span>
                   </div>
                   <button
                     onClick={() => onSelectVehicle(result.vehicle.id)}
-                    className="w-full mt-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 transition-colors"
+                    className="w-full mt-2 bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 transition-colors"
                   >
                     {isSq ? 'Shiko Këtë Veturë' : 'View This Car'} <ArrowRight className="w-4 h-4" />
                   </button>
@@ -3456,7 +3453,7 @@ function CarFinder({ onSelectVehicle }) {
               </div>
               <button
                 onClick={handleRestart}
-                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+                className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1 mx-auto"
               >
                 <RefreshCw className="w-3.5 h-3.5" /> {isSq ? 'Fillo Përsëri' : 'Start Over'}
               </button>
@@ -3471,14 +3468,14 @@ function CarFinder({ onSelectVehicle }) {
                   {isSq ? 'Asnjë Veturë e Përshtatshme' : 'No Matching Vehicle'}
                 </span>
               </div>
-              <p className="text-sm text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-stone-400 max-w-md mx-auto">
                 {isSq
                   ? 'Nuk gjetëm asnjë veturë që plotëson saktësisht vendet ulëse dhe buxhetin e zgjedhur. Provo të ndryshosh buxhetin ose numrin e vendeve.'
                   : "We couldn't find a vehicle that fits your exact seat count and budget. Try adjusting your budget or seat requirement."}
               </p>
               <button
                 onClick={handleRestart}
-                className="text-xs text-slate-500 hover:text-teal-400 transition-colors flex items-center gap-1 mx-auto"
+                className="text-xs text-stone-500 hover:text-[#C1443B] transition-colors flex items-center gap-1 mx-auto"
               >
                 <RefreshCw className="w-3.5 h-3.5" /> {isSq ? 'Fillo Përsëri' : 'Start Over'}
               </button>
@@ -3517,13 +3514,13 @@ function FleetView({
       
       {/* Title */}
       <div className="space-y-2">
-        <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">{t('fleet_label')}</span>
-        <h1 className="text-3xl sm:text-4xl font-mono text-white">{t('fleet_heading')}</h1>
-        <p className="text-slate-400 text-xs sm:text-sm">{t('fleet_subtitle')}</p>
+        <p className="text-sm italic font-serif text-[#C9A876]">{t('fleet_label')}</p>
+        <h1 className="text-3xl sm:text-4xl font-serif text-white">{t('fleet_heading')}</h1>
+        <p className="text-stone-400 text-xs sm:text-sm">{t('fleet_subtitle')}</p>
       </div>
 
       {/* FILTER & CONTROL BAR */}
-      <div className="bg-slate-900 border border-slate-800 p-6 rounded-none space-y-6">
+      <div className="bg-stone-900 border border-stone-800 p-6 rounded-none space-y-6">
         
         {/* Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -3533,8 +3530,8 @@ function FleetView({
               onClick={() => setFilterCategory(cat)}
               className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-all ${
                 filterCategory === cat 
-                  ? 'bg-teal-500 text-slate-950 shadow-md shadow-teal-500/20' 
-                  : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                  ? 'bg-[#96201B] text-stone-950 shadow-md shadow-[#96201B]/20' 
+                  : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white hover:border-stone-700'
               }`}
             >
               {getCategoryLabel(cat, isSq)}
@@ -3543,25 +3540,25 @@ function FleetView({
         </div>
 
         {/* Filters Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-slate-800">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-stone-800">
           
           {/* Brand Selector */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_brand')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_brand')}</label>
             <select
               value={filterBrand}
               onChange={(e) => setFilterBrand(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
             >
-              {brands.map(b => <option key={b} value={b} className="bg-slate-900 text-white">{b === 'All' ? getCategoryLabel('All', isSq) : b}</option>)}
+              {brands.map(b => <option key={b} value={b} className="bg-stone-900 text-white">{b === 'All' ? getCategoryLabel('All', isSq) : b}</option>)}
             </select>
           </div>
 
           {/* Max Price Range Slider */}
           <div className="space-y-1">
             <div className="flex justify-between text-[10px] uppercase tracking-wider font-semibold">
-              <span className="text-slate-400">{t('label_max_rate')}</span>
-              <span className="text-teal-400">${formatMoney(filterPrice)} {t('per_day')}</span>
+              <span className="text-stone-400">{t('label_max_rate')}</span>
+              <span className="text-[#C1443B]">${formatMoney(filterPrice)} {t('per_day')}</span>
             </div>
             <input 
               type="range" 
@@ -3570,22 +3567,22 @@ function FleetView({
               step="50"
               value={filterPrice}
               onChange={(e) => setFilterPrice(Number(e.target.value))}
-              className="w-full accent-teal-500 bg-slate-950 rounded cursor-pointer"
+              className="w-full accent-[#96201B] bg-stone-950 rounded cursor-pointer"
             />
           </div>
 
           {/* Sorting Dropdown */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_sort')}</label>
+            <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_sort')}</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
             >
-              <option value="recommended" className="bg-slate-900 text-white">{t('sort_recommended')}</option>
-              <option value="price-low" className="bg-slate-900 text-white">{t('sort_price_low')}</option>
-              <option value="price-high" className="bg-slate-900 text-white">{t('sort_price_high')}</option>
-              <option value="luxury" className="bg-slate-900 text-white">{t('sort_luxury')}</option>
+              <option value="recommended" className="bg-stone-900 text-white">{t('sort_recommended')}</option>
+              <option value="price-low" className="bg-stone-900 text-white">{t('sort_price_low')}</option>
+              <option value="price-high" className="bg-stone-900 text-white">{t('sort_price_high')}</option>
+              <option value="luxury" className="bg-stone-900 text-white">{t('sort_luxury')}</option>
             </select>
           </div>
 
@@ -3595,13 +3592,13 @@ function FleetView({
 
       {/* VEHICLES GRID */}
       {fleet.length === 0 ? (
-        <div className="text-center py-20 bg-slate-900/50 rounded-none border border-slate-800 space-y-4">
-          <AlertCircle className="w-10 h-10 text-teal-400 mx-auto" />
-          <h3 className="text-lg font-mono text-white">{t('no_match_heading')}</h3>
-          <p className="text-xs text-slate-400">{t('no_match_text')}</p>
+        <div className="text-center py-20 bg-stone-900/50 rounded-none border border-stone-800 space-y-4">
+          <AlertCircle className="w-10 h-10 text-[#C1443B] mx-auto" />
+          <h3 className="text-lg font-serif text-white">{t('no_match_heading')}</h3>
+          <p className="text-xs text-stone-400">{t('no_match_text')}</p>
           <button 
             onClick={() => { setFilterCategory('All'); setFilterBrand('All'); setFilterPrice(2500); }}
-            className="px-4 py-2 bg-slate-800 text-xs text-teal-400 font-semibold uppercase tracking-wider rounded-sm hover:bg-slate-700 transition-colors"
+            className="px-4 py-2 bg-stone-800 text-xs text-[#C1443B] font-semibold uppercase tracking-wider rounded-sm hover:bg-stone-700 transition-colors"
           >
             {t('reset_filters')}
           </button>
@@ -3633,57 +3630,57 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
   const { isFavorite, toggleFavorite } = useAuth();
   const favorited = isFavorite(vehicle.id);
   return (
-    <div className="group bg-neutral-900/70 border border-neutral-800 rounded-2xl overflow-hidden hover:border-teal-500/40 transition-all duration-300 flex flex-col justify-between">
+    <div className="group bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden hover:border-[#96201B]/40 transition-all duration-300 flex flex-col justify-between">
       
       <div>
         {/* Vehicle Image Container */}
-        <div className="relative aspect-[16/10] overflow-hidden bg-neutral-950 cursor-pointer" onClick={() => onSelect(vehicle.id)}>
+        <div className="relative aspect-[16/10] overflow-hidden bg-stone-950 cursor-pointer" onClick={() => onSelect(vehicle.id)}>
           <img 
             src={vehicle.images[0]} 
             alt={`${vehicle.brand} ${vehicle.model}`}
             onError={handleImgError}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 bg-neutral-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase tracking-widest text-teal-300 font-semibold border border-neutral-800">
+          <div className="absolute top-3 left-3 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase tracking-widest text-[#D89089] font-semibold border border-stone-800">
             {getCategoryLabel(vehicle.category, isSq)}
           </div>
           <button
             onClick={(e) => { e.stopPropagation(); toggleFavorite(vehicle.id); }}
             aria-label={favorited ? t('favorite_remove') : t('favorite_add')}
             title={favorited ? t('favorite_remove') : t('favorite_add')}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-neutral-950/80 backdrop-blur-md border border-neutral-800 flex items-center justify-center hover:border-rose-400/60 transition-colors"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-stone-950/80 backdrop-blur-md border border-stone-800 flex items-center justify-center hover:border-rose-400/60 transition-colors"
           >
-            <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : 'text-neutral-300'}`} />
+            <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : 'text-stone-300'}`} />
           </button>
-          <div className="absolute bottom-3 right-3 bg-neutral-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-neutral-800">
-            ${formatMoney(vehicle.pricePerDay)} <span className="text-[10px] text-neutral-400 font-normal">{t('per_day')}</span>
+          <div className="absolute bottom-3 right-3 bg-stone-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-stone-800">
+            ${formatMoney(vehicle.pricePerDay)} <span className="text-[10px] text-stone-400 font-normal">{t('per_day')}</span>
           </div>
         </div>
 
         {/* Content */}
         <div className="p-6 space-y-4">
           <div>
-            <div className="text-xs text-teal-400 uppercase tracking-widest font-semibold">{vehicle.brand}</div>
-            <h3 className="text-xl font-serif text-white font-medium group-hover:text-teal-300 transition-colors">{vehicle.model}</h3>
+            <div className="text-xs text-[#C1443B] uppercase tracking-widest font-semibold">{vehicle.brand}</div>
+            <h3 className="text-xl font-serif text-white font-medium group-hover:text-[#D89089] transition-colors">{vehicle.model}</h3>
           </div>
 
           {/* Quick Specs Grid */}
-          <div className="grid grid-cols-3 gap-2 py-3 border-y border-neutral-800/80 text-[11px] text-neutral-400">
+          <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-800/80 text-[11px] text-stone-400">
             <div className="flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+              <Zap className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
               <span>{vehicle.hp} HP</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+              <User className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
               <span>{vehicle.seats} {isSq ? 'Vende' : 'Seats'}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Fuel className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+              <Fuel className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
               <span>{vehicle.fuel}</span>
             </div>
           </div>
 
-          <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed font-light">
+          <p className="text-xs text-stone-400 line-clamp-2 leading-relaxed font-light">
             {vehicle.description}
           </p>
         </div>
@@ -3693,13 +3690,13 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
       <div className="p-6 pt-0 grid grid-cols-2 gap-3">
         <button 
           onClick={() => onSelect(vehicle.id)}
-          className="w-full py-2.5 rounded-lg border border-neutral-700 hover:border-teal-400 text-neutral-200 hover:text-teal-400 text-xs font-semibold uppercase tracking-wider transition-colors"
+          className="w-full py-2.5 rounded-lg border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-xs font-semibold uppercase tracking-wider transition-colors"
         >
           {t('btn_details')}
         </button>
         <button 
           onClick={() => onReserve(vehicle.id)}
-          className="w-full py-2.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors"
+          className="w-full py-2.5 rounded-lg bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors"
         >
           {t('btn_rent_now')}
         </button>
@@ -3737,13 +3734,13 @@ function VehicleDetailView({
       <div className="flex items-center justify-between">
         <button 
           onClick={onBackToFleet}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-teal-400 transition-colors font-semibold"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-stone-400 hover:text-[#C1443B] transition-colors font-semibold"
         >
           <ChevronLeft className="w-4 h-4" /> {t('back_to_fleet')}
         </button>
         <button
           onClick={() => toggleFavorite(vehicle.id)}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-slate-400 hover:text-rose-400 transition-colors font-semibold border border-slate-800 hover:border-rose-400/50 rounded-full px-4 py-2"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-stone-400 hover:text-rose-400 transition-colors font-semibold border border-stone-800 hover:border-rose-400/50 rounded-full px-4 py-2"
         >
           <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : ''}`} />
           {favorited ? t('favorite_remove') : t('favorite_add')}
@@ -3758,14 +3755,14 @@ function VehicleDetailView({
           
           {/* Main Gallery Image */}
           <div className="space-y-4">
-            <div className="relative aspect-[16/9] rounded-none overflow-hidden bg-slate-950 border border-slate-800">
+            <div className="relative aspect-[16/9] rounded-none overflow-hidden bg-stone-950 border border-stone-800">
               <img 
                 src={vehicle.images[activeImage] || vehicle.images[0]} 
                 alt={vehicle.model}
                 onError={handleImgError}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs text-teal-300 font-semibold uppercase tracking-wider">
+              <div className="absolute top-4 left-4 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs text-[#D89089] font-semibold uppercase tracking-wider">
                 {vehicle.year} {t('model_year_suffix')}
               </div>
             </div>
@@ -3777,7 +3774,7 @@ function VehicleDetailView({
                   key={idx}
                   onClick={() => setActiveImage(idx)}
                   className={`relative w-20 sm:w-24 aspect-[16/10] rounded-sm overflow-hidden border-2 transition-all shrink-0 ${
-                    activeImage === idx ? 'border-teal-400 opacity-100' : 'border-slate-800 opacity-60 hover:opacity-100'
+                    activeImage === idx ? 'border-[#C1443B] opacity-100' : 'border-stone-800 opacity-60 hover:opacity-100'
                   }`}
                 >
                   <img src={img} alt="Thumbnail" onError={handleImgError} className="w-full h-full object-cover" />
@@ -3787,42 +3784,42 @@ function VehicleDetailView({
           </div>
 
           {/* Description & Overview */}
-          <div className="space-y-4 border-t border-slate-800 pt-6">
-            <div className="text-xs uppercase tracking-widest text-teal-400 font-semibold">{vehicle.brand}</div>
-            <h1 className="text-3xl sm:text-4xl font-mono text-white">{vehicle.model}</h1>
-            <p className="text-sm text-slate-300 leading-relaxed font-light">{vehicle.description}</p>
+          <div className="space-y-4 border-t border-stone-800 pt-6">
+            <div className="text-xs uppercase tracking-widest text-[#C1443B] font-semibold">{vehicle.brand}</div>
+            <h1 className="text-3xl sm:text-4xl font-serif text-white">{vehicle.model}</h1>
+            <p className="text-sm text-stone-300 leading-relaxed font-light">{vehicle.description}</p>
           </div>
 
           {/* Key Specifications Grid */}
-          <div className="space-y-4 border-t border-slate-800 pt-6">
+          <div className="space-y-4 border-t border-stone-800 pt-6">
             <h3 className="text-sm uppercase tracking-widest text-white font-semibold">{t('spec_heading')}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_horsepower')}</span>
+              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+                <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_horsepower')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.hp} HP</span>
               </div>
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_acceleration')}</span>
+              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+                <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_acceleration')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.acceleration}</span>
               </div>
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_transmission')}</span>
+              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+                <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_transmission')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.transmission}</span>
               </div>
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('spec_fuel')}</span>
+              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+                <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_fuel')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.fuel}</span>
               </div>
             </div>
           </div>
 
           {/* Exclusive Features List */}
-          <div className="space-y-4 border-t border-slate-800 pt-6">
+          <div className="space-y-4 border-t border-stone-800 pt-6">
             <h3 className="text-sm uppercase tracking-widest text-white font-semibold">{t('features_heading')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {vehicle.features.map((ft, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
-                  <CheckCircle className="w-4 h-4 text-teal-400 shrink-0" />
+                <div key={idx} className="flex items-center gap-2 text-xs text-stone-300">
+                  <CheckCircle className="w-4 h-4 text-[#C1443B] shrink-0" />
                   <span>{ft}</span>
                 </div>
               ))}
@@ -3833,14 +3830,14 @@ function VehicleDetailView({
 
         {/* Right Column: Reservation Sidebar */}
         <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-none space-y-6 sticky top-28">
+          <div className="bg-stone-900 border border-stone-800 p-6 rounded-none space-y-6 sticky top-28">
             
-            <div className="flex justify-between items-baseline border-b border-slate-800 pb-4">
+            <div className="flex justify-between items-baseline border-b border-stone-800 pb-4">
               <div>
                 <span className="text-2xl font-mono font-bold text-white">${formatMoney(vehicle.pricePerDay)}</span>
-                <span className="text-xs text-slate-400"> / day</span>
+                <span className="text-xs text-stone-400"> / day</span>
               </div>
-              <div className="text-xs text-teal-400 font-semibold uppercase tracking-wider">
+              <div className="text-xs text-[#C1443B] font-semibold uppercase tracking-wider">
                 {rentalDays} {t('day_rental_suffix')}
               </div>
             </div>
@@ -3849,37 +3846,37 @@ function VehicleDetailView({
             <div className="space-y-4 text-xs">
               
               <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_hub')}</label>
+                <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_pickup_hub')}</label>
                 <select 
                   value={bookingSearch.pickupLocation}
                   onChange={(e) => setBookingSearch({...bookingSearch, pickupLocation: e.target.value})}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-teal-500"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-white focus:outline-none focus:border-[#96201B]"
                 >
-                  {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-slate-900 text-white">{loc}</option>)}
+                  {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-stone-900 text-white">{loc}</option>)}
                 </select>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_start_date')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_start_date')}</label>
                   <input 
                     type="date" 
                     value={bookingSearch.pickupDate}
                     onChange={(e) => setBookingSearch(prev => ({...prev, pickupDate: e.target.value}))}
                     onBlur={() => setBookingSearch(prev => { const today = getTodayStr(); const pd = prev.pickupDate < today ? today : prev.pickupDate; const rd = (!prev.returnDate || pd >= prev.returnDate) ? getNextDay(pd) : prev.returnDate; return {...prev, pickupDate: pd, returnDate: rd}; })}
                     min={getTodayStr()}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-2.5 py-2 text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-2.5 py-2 text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_date')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_return_date')}</label>
                   <input 
                     type="date" 
                     value={bookingSearch.returnDate}
                     onChange={(e) => setBookingSearch(prev => ({...prev, returnDate: e.target.value}))}
                     min={getNextDay(bookingSearch.pickupDate)}
                     onBlur={() => setBookingSearch(prev => (prev.pickupDate && prev.returnDate > prev.pickupDate) ? prev : ({...prev, returnDate: getNextDay(prev.pickupDate)}))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-2.5 py-2 text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-2.5 py-2 text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
               </div>
@@ -3887,8 +3884,8 @@ function VehicleDetailView({
             </div>
 
             {/* Selectable Extras */}
-            <div className="space-y-3 border-t border-slate-800 pt-4">
-              <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">{t('label_extras')}</label>
+            <div className="space-y-3 border-t border-stone-800 pt-4">
+              <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold block">{t('label_extras')}</label>
               <div className="space-y-2">
                 {EXTRAS_CATALOG.map(ext => {
                   const isChecked = selectedExtras.includes(ext.id);
@@ -3898,16 +3895,16 @@ function VehicleDetailView({
                       key={ext.id}
                       onClick={() => toggleExtra(ext.id)}
                       className={`p-2.5 rounded-sm border cursor-pointer transition-all flex items-center justify-between text-xs ${
-                        isChecked ? 'bg-teal-500/10 border-teal-500/50 text-white' : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                        isChecked ? 'bg-[#96201B]/10 border-[#96201B]/50 text-white' : 'bg-stone-950 border-stone-800 text-stone-400 hover:border-stone-700'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-teal-500 border-teal-500 text-slate-950' : 'border-slate-700'}`}>
+                        <div className={`w-4 h-4 rounded flex items-center justify-center border ${isChecked ? 'bg-[#96201B] border-[#96201B] text-stone-950' : 'border-stone-700'}`}>
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                         </div>
                         <span className="font-medium text-[11px]">{label.name}</span>
                       </div>
-                      <span className="text-teal-400 font-semibold text-[11px]">+${formatMoney(ext.price)}/d</span>
+                      <span className="text-[#C1443B] font-semibold text-[11px]">+${formatMoney(ext.price)}/d</span>
                     </div>
                   );
                 })}
@@ -3915,36 +3912,36 @@ function VehicleDetailView({
             </div>
 
             {/* Total Pricing Preview */}
-            <div className="border-t border-slate-800 pt-4 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-400">
+            <div className="border-t border-stone-800 pt-4 space-y-2 text-xs">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('vehicle_subtotal')} ({rentalDays}d)</span>
                 <span>${formatMoney(pricing.subtotalVehicle)}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-stone-400">
                   <span>{t('selected_extras')}</span>
                   <span>${formatMoney(pricing.subtotalExtras)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('estimated_fees')}</span>
                 <span>${formatMoney(pricing.serviceFee + pricing.taxes)}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800/80 pt-2">
+              <div className="flex justify-between text-sm font-bold text-white border-t border-stone-800/80 pt-2">
                 <span>{t('total_due')}</span>
-                <span className="text-teal-400">${formatMoney(pricing.grandTotal)}</span>
+                <span className="text-[#C1443B]">${formatMoney(pricing.grandTotal)}</span>
               </div>
             </div>
 
             <button 
               onClick={onProceedCheckout}
-              className="w-full py-3.5 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 transition-all flex items-center justify-center gap-2"
             >
               {t('proceed_reserve')} <ArrowRight className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 uppercase tracking-wider pt-1">
-              <Shield className="w-3 h-3 text-teal-400" /> {t('free_cancellation')}
+            <div className="flex items-center justify-center gap-2 text-[10px] text-stone-400 uppercase tracking-wider pt-1">
+              <Shield className="w-3 h-3 text-[#C1443B]" /> {t('free_cancellation')}
             </div>
 
           </div>
@@ -3993,50 +3990,50 @@ function CheckoutView({
   if (step === 6 && confirmedBooking) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 space-y-8 text-center">
-        <div className="w-20 h-20 bg-teal-500/10 border border-teal-500/30 text-teal-400 rounded-full flex items-center justify-center mx-auto">
+        <div className="w-20 h-20 bg-[#96201B]/10 border border-[#96201B]/30 text-[#C1443B] rounded-full flex items-center justify-center mx-auto">
           <CheckCircle className="w-10 h-10" />
         </div>
 
         <div className="space-y-2">
-          <span className="text-xs uppercase tracking-[0.25em] text-teal-400 font-semibold">{t('reservation_confirmed')}</span>
-          <h1 className="text-3xl sm:text-4xl font-mono text-white">{t('journey_awaits')}</h1>
-          <p className="text-xs sm:text-sm text-slate-400">{t('reference_label')} <span className="text-teal-300 font-mono font-bold">{confirmedBooking.bookingRef}</span></p>
+          <span className="text-xs uppercase tracking-[0.25em] text-[#C1443B] font-semibold">{t('reservation_confirmed')}</span>
+          <h1 className="text-3xl sm:text-4xl font-serif text-white">{t('journey_awaits')}</h1>
+          <p className="text-xs sm:text-sm text-stone-400">{t('reference_label')} <span className="text-[#D89089] font-mono font-bold">{confirmedBooking.bookingRef}</span></p>
         </div>
 
         {/* Confirmed Summary Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-none p-6 text-left space-y-6">
-          <div className="flex items-center gap-4 border-b border-slate-800 pb-4">
-            <img src={confirmedBooking.vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-24 h-16 object-cover rounded-sm border border-slate-800" />
+        <div className="bg-stone-900 border border-stone-800 rounded-none p-6 text-left space-y-6">
+          <div className="flex items-center gap-4 border-b border-stone-800 pb-4">
+            <img src={confirmedBooking.vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-24 h-16 object-cover rounded-sm border border-stone-800" />
             <div>
-              <span className="text-[10px] text-teal-400 uppercase tracking-widest block font-semibold">{confirmedBooking.vehicle.brand}</span>
-              <h3 className="text-lg font-mono text-white">{confirmedBooking.vehicle.model}</h3>
-              <span className="text-xs text-slate-400">{confirmedBooking.rentalDays} {t('days_rental_suffix')}</span>
+              <span className="text-[10px] text-[#C1443B] uppercase tracking-widest block font-semibold">{confirmedBooking.vehicle.brand}</span>
+              <h3 className="text-lg font-serif text-white">{confirmedBooking.vehicle.model}</h3>
+              <span className="text-xs text-stone-400">{confirmedBooking.rentalDays} {t('days_rental_suffix')}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_pickup_location')}</span>
-              <span className="text-slate-200 font-medium">{confirmedBooking.searchParams.pickupLocation}</span>
+              <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('label_pickup_location')}</span>
+              <span className="text-stone-200 font-medium">{confirmedBooking.searchParams.pickupLocation}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_rental_dates')}</span>
-              <span className="text-slate-200 font-medium">{confirmedBooking.searchParams.pickupDate} to {confirmedBooking.searchParams.returnDate}</span>
+              <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('label_rental_dates')}</span>
+              <span className="text-stone-200 font-medium">{confirmedBooking.searchParams.pickupDate} to {confirmedBooking.searchParams.returnDate}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_driver_name')}</span>
-              <span className="text-slate-200 font-medium">{confirmedBooking.customer.firstName} {confirmedBooking.customer.lastName}</span>
+              <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('label_driver_name')}</span>
+              <span className="text-stone-200 font-medium">{confirmedBooking.customer.firstName} {confirmedBooking.customer.lastName}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_total_paid')}</span>
-              <span className="text-teal-400 font-bold">${formatMoney(confirmedBooking.pricing.grandTotal)}</span>
+              <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('label_total_paid')}</span>
+              <span className="text-[#C1443B] font-bold">${formatMoney(confirmedBooking.pricing.grandTotal)}</span>
             </div>
           </div>
 
           {confirmedBooking.extras.length > 0 && (
-            <div className="border-t border-slate-800 pt-4 space-y-1">
-              <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('selected_extras')}</span>
-              <ul className="text-xs text-slate-300 list-disc list-inside">
+            <div className="border-t border-stone-800 pt-4 space-y-1">
+              <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('selected_extras')}</span>
+              <ul className="text-xs text-stone-300 list-disc list-inside">
                 {confirmedBooking.extras.map(e => <li key={e.id}>{getExtraLabel(e.id, isSq).name}</li>)}
               </ul>
             </div>
@@ -4046,13 +4043,13 @@ function CheckoutView({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <button 
             onClick={() => window.print()} 
-            className="px-6 py-3 rounded-sm border border-slate-700 hover:border-teal-400 text-xs uppercase tracking-wider font-semibold transition-colors w-full sm:w-auto"
+            className="px-6 py-3 rounded-sm border border-stone-700 hover:border-[#C1443B] text-xs uppercase tracking-wider font-semibold transition-colors w-full sm:w-auto"
           >
             {t('print_receipt')}
           </button>
           <button 
             onClick={onGoHome} 
-            className="px-6 py-3 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs uppercase tracking-wider font-bold transition-colors w-full sm:w-auto"
+            className="px-6 py-3 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 text-xs uppercase tracking-wider font-bold transition-colors w-full sm:w-auto"
           >
             {t('return_home')}
           </button>
@@ -4074,23 +4071,23 @@ function CheckoutView({
                 disabled={s.num > step}
                 className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[11px] sm:text-xs font-bold transition-all shrink-0 ${
                   step === s.num 
-                    ? 'bg-teal-500 text-slate-950 shadow-lg shadow-teal-500/20' 
+                    ? 'bg-[#96201B] text-stone-950 shadow-lg shadow-[#96201B]/20' 
                     : step > s.num 
-                    ? 'bg-teal-500/20 text-teal-400 border border-teal-500/40' 
-                    : 'bg-slate-900 border border-slate-800 text-slate-400'
+                    ? 'bg-[#96201B]/20 text-[#C1443B] border border-[#96201B]/40' 
+                    : 'bg-stone-900 border border-stone-800 text-stone-400'
                 }`}
               >
                 {step > s.num ? <Check className="w-4 h-4" /> : s.num}
               </button>
-              <span className={`hidden sm:block text-[10px] uppercase tracking-wider mt-2 font-semibold ${step === s.num ? 'text-teal-400' : 'text-slate-400'}`}>
+              <span className={`hidden sm:block text-[10px] uppercase tracking-wider mt-2 font-semibold ${step === s.num ? 'text-[#C1443B]' : 'text-stone-400'}`}>
                 {s.title}
               </span>
             </div>
           ))}
           {/* Progress Line */}
-          <div className="absolute top-4 left-0 right-0 h-[2px] bg-slate-800 z-0">
+          <div className="absolute top-4 left-0 right-0 h-[2px] bg-stone-800 z-0">
             <div 
-              className="h-full bg-teal-500 transition-all duration-300"
+              className="h-full bg-[#96201B] transition-all duration-300"
               style={{ width: `${((step - 1) / (stepsList.length - 1)) * 100}%` }}
             ></div>
           </div>
@@ -4100,38 +4097,38 @@ function CheckoutView({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         
         {/* MAIN STEP CONTENT AREA */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-none space-y-6">
+        <div className="lg:col-span-2 bg-stone-900 border border-stone-800 p-6 sm:p-8 rounded-none space-y-6">
           
           {/* STEP 1: VEHICLE SELECTION CONFIRMATION */}
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">{t('step1_title')}</h2>
-                <p className="text-xs text-slate-400">{t('step1_desc')}</p>
+                <h2 className="text-xl font-serif text-white">{t('step1_title')}</h2>
+                <p className="text-xs text-stone-400">{t('step1_desc')}</p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 bg-slate-950 p-4 rounded-none border border-slate-800">
+              <div className="flex flex-col sm:flex-row items-center gap-6 bg-stone-950 p-4 rounded-none border border-stone-800">
                 <img src={vehicle.images[0]} alt={vehicle.model} onError={handleImgError} className="w-full sm:w-48 aspect-[16/10] object-cover rounded-sm" />
                 <div className="space-y-2 flex-1">
-                  <span className="text-[10px] text-teal-400 uppercase tracking-widest font-semibold">{vehicle.brand}</span>
-                  <h3 className="text-xl font-mono text-white">{vehicle.model}</h3>
-                  <div className="flex gap-4 text-xs text-slate-400">
+                  <span className="text-[10px] text-[#C1443B] uppercase tracking-widest font-semibold">{vehicle.brand}</span>
+                  <h3 className="text-xl font-serif text-white">{vehicle.model}</h3>
+                  <div className="flex gap-4 text-xs text-stone-400">
                     <span>{vehicle.hp} HP</span> • <span>{vehicle.seats} Seats</span> • <span>{vehicle.fuel}</span>
                   </div>
-                  <p className="text-teal-400 font-bold text-sm pt-1">${formatMoney(vehicle.pricePerDay)} / day</p>
+                  <p className="text-[#C1443B] font-bold text-sm pt-1">${formatMoney(vehicle.pricePerDay)} / day</p>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+              <div className="flex justify-between items-center pt-4 border-t border-stone-800">
                 <button 
                   onClick={() => onSelectVehicle(vehicle.id)} 
-                  className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
+                  className="text-xs uppercase tracking-wider text-stone-400 hover:text-[#C1443B] font-semibold"
                 >
                   {t('view_specs_again')}
                 </button>
                 <button 
                   onClick={() => setStep(2)} 
-                  className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
                   {t('continue_rental_details')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -4143,37 +4140,37 @@ function CheckoutView({
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">{t('step2_title')}</h2>
-                <p className="text-xs text-slate-400">{t('step2_desc')}</p>
+                <h2 className="text-xl font-serif text-white">{t('step2_title')}</h2>
+                <p className="text-xs text-stone-400">{t('step2_desc')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_hub')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_pickup_hub')}</label>
                     <select 
                       value={bookingSearch.pickupLocation}
                       onChange={(e) => setBookingSearch({...bookingSearch, pickupLocation: e.target.value})}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
                     >
-                      {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-slate-900 text-white">{loc}</option>)}
+                      {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-stone-900 text-white">{loc}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_hub')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_return_hub')}</label>
                     <select 
                       value={bookingSearch.dropoffLocation}
                       onChange={(e) => setBookingSearch({...bookingSearch, dropoffLocation: e.target.value})}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2.5 text-xs text-white focus:outline-none focus:border-[#96201B]"
                     >
-                      {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-slate-900 text-white">{loc}</option>)}
+                      {LOCATIONS.map(loc => <option key={loc} value={loc} className="bg-stone-900 text-white">{loc}</option>)}
                     </select>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_pickup_datetime')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_pickup_datetime')}</label>
                     <div className="flex gap-2">
                       <input 
                         type="date" 
@@ -4181,20 +4178,20 @@ function CheckoutView({
                         onChange={(e) => setBookingSearch(prev => ({...prev, pickupDate: e.target.value}))}
                         onBlur={() => setBookingSearch(prev => { const today = getTodayStr(); const pd = prev.pickupDate < today ? today : prev.pickupDate; const rd = (!prev.returnDate || pd >= prev.returnDate) ? getNextDay(pd) : prev.returnDate; return {...prev, pickupDate: pd, returnDate: rd}; })}
                         min={getTodayStr()}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white"
+                        className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white"
                       />
                       <input 
                         type="time" 
                         value={bookingSearch.pickupTime}
                         onChange={(e) => setBookingSearch({...bookingSearch, pickupTime: e.target.value})}
                         onBlur={() => setBookingSearch(prev => { if (prev.pickupDate === getTodayStr() && prev.pickupTime < getCurrentTimeStr()) return {...prev, pickupTime: getCurrentTimeStr()}; return prev; })}
-                        className="w-24 bg-slate-950 border border-slate-800 rounded-sm px-2 py-2 text-xs text-white"
+                        className="w-24 bg-stone-950 border border-stone-800 rounded-sm px-2 py-2 text-xs text-white"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_return_datetime')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_return_datetime')}</label>
                     <div className="flex gap-2">
                       <input 
                         type="date" 
@@ -4202,29 +4199,29 @@ function CheckoutView({
                         onChange={(e) => setBookingSearch(prev => ({...prev, returnDate: e.target.value}))}
                         min={getNextDay(bookingSearch.pickupDate)}
                         onBlur={() => setBookingSearch(prev => (prev.pickupDate && prev.returnDate > prev.pickupDate) ? prev : ({...prev, returnDate: getNextDay(prev.pickupDate)}))}
-                        className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white"
+                        className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white"
                       />
                       <input 
                         type="time" 
                         value={bookingSearch.returnTime}
                         onChange={(e) => setBookingSearch({...bookingSearch, returnTime: e.target.value})}
-                        className="w-24 bg-slate-950 border border-slate-800 rounded-sm px-2 py-2 text-xs text-white"
+                        className="w-24 bg-stone-950 border border-stone-800 rounded-sm px-2 py-2 text-xs text-white"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+              <div className="flex justify-between items-center pt-4 border-t border-stone-800">
                 <button 
                   onClick={() => setStep(1)} 
-                  className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
+                  className="text-xs uppercase tracking-wider text-stone-400 hover:text-[#C1443B] font-semibold"
                 >
                   {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(3)} 
-                  className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
                   {t('continue_extras')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -4236,8 +4233,8 @@ function CheckoutView({
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">{t('step3_title')}</h2>
-                <p className="text-xs text-slate-400">{t('step3_desc')}</p>
+                <h2 className="text-xl font-serif text-white">{t('step3_title')}</h2>
+                <p className="text-xs text-stone-400">{t('step3_desc')}</p>
               </div>
 
               <div className="space-y-3">
@@ -4249,34 +4246,34 @@ function CheckoutView({
                       key={ext.id}
                       onClick={() => toggleExtra(ext.id)}
                       className={`p-4 rounded-none border cursor-pointer transition-all flex items-start justify-between gap-4 ${
-                        isChecked ? 'bg-teal-500/10 border-teal-500/50' : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                        isChecked ? 'bg-[#96201B]/10 border-[#96201B]/50' : 'bg-stone-950 border-stone-800 hover:border-stone-700'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border shrink-0 ${isChecked ? 'bg-teal-500 border-teal-500 text-slate-950' : 'border-slate-700'}`}>
+                        <div className={`w-5 h-5 rounded mt-0.5 flex items-center justify-center border shrink-0 ${isChecked ? 'bg-[#96201B] border-[#96201B] text-stone-950' : 'border-stone-700'}`}>
                           {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </div>
                         <div>
                           <h4 className="text-sm font-semibold text-white">{label.name}</h4>
-                          <p className="text-xs text-slate-400 mt-1">{label.desc}</p>
+                          <p className="text-xs text-stone-400 mt-1">{label.desc}</p>
                         </div>
                       </div>
-                      <span className="text-teal-400 font-bold text-xs shrink-0">+${formatMoney(ext.price)} {t('per_day')}</span>
+                      <span className="text-[#C1443B] font-bold text-xs shrink-0">+${formatMoney(ext.price)} {t('per_day')}</span>
                     </div>
                   );
                 })}
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+              <div className="flex justify-between items-center pt-4 border-t border-stone-800">
                 <button 
                   onClick={() => setStep(2)} 
-                  className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
+                  className="text-xs uppercase tracking-wider text-stone-400 hover:text-[#C1443B] font-semibold"
                 >
                   {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(4)} 
-                  className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
                   {t('driver_info')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -4288,67 +4285,67 @@ function CheckoutView({
           {step === 4 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">{t('step4_title')}</h2>
-                <p className="text-xs text-slate-400">{t('step4_desc')}</p>
+                <h2 className="text-xl font-serif text-white">{t('step4_title')}</h2>
+                <p className="text-xs text-stone-400">{t('step4_desc')}</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_first_name')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_first_name')}</label>
                   <input 
                     type="text" 
                     required
                     value={customerData.firstName}
                     onChange={(e) => setCustomerData({...customerData, firstName: e.target.value})}
                     placeholder="John"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_last_name')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_last_name')}</label>
                   <input 
                     type="text" 
                     required
                     value={customerData.lastName}
                     onChange={(e) => setCustomerData({...customerData, lastName: e.target.value})}
                     placeholder="Doe"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_email')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_email')}</label>
                   <input 
                     type="email" 
                     required
                     value={customerData.email}
                     onChange={(e) => setCustomerData({...customerData, email: e.target.value})}
                     placeholder="john@example.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_phone')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_phone')}</label>
                   <input 
                     type="tel" 
                     required
                     value={customerData.phone}
                     onChange={(e) => setCustomerData({...customerData, phone: e.target.value})}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+              <div className="flex justify-between items-center pt-4 border-t border-stone-800">
                 <button 
                   onClick={() => setStep(3)} 
-                  className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
+                  className="text-xs uppercase tracking-wider text-stone-400 hover:text-[#C1443B] font-semibold"
                 >
                   {t('btn_back')}
                 </button>
                 <button 
                   onClick={() => setStep(5)} 
-                  className="px-6 py-2.5 rounded-sm bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
                 >
                   {t('payment_method')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -4360,25 +4357,25 @@ function CheckoutView({
           {step === 5 && (
             <form onSubmit={onFinalSubmit} className="space-y-6">
               <div>
-                <h2 className="text-xl font-mono text-white">{t('step5_title')}</h2>
-                <p className="text-xs text-slate-400">{t('step5_desc')}</p>
+                <h2 className="text-xl font-serif text-white">{t('step5_title')}</h2>
+                <p className="text-xs text-stone-400">{t('step5_desc')}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_name_on_card')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_name_on_card')}</label>
                   <input 
                     type="text" 
                     required
                     value={paymentData.cardName}
                     onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
                     placeholder="JOHN DOE"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500 uppercase"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B] uppercase"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_card_number')}</label>
+                  <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_card_number')}</label>
                   <div className="relative">
                     <input 
                       type="text" 
@@ -4387,15 +4384,15 @@ function CheckoutView({
                       value={paymentData.cardNumber}
                       onChange={(e) => setPaymentData({...paymentData, cardNumber: formatCardNumber(e.target.value)})}
                       placeholder="•••• •••• •••• ••••"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                     />
-                    <Lock className="w-4 h-4 text-slate-500 absolute right-3 top-2.5" />
+                    <Lock className="w-4 h-4 text-stone-500 absolute right-3 top-2.5" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_expiration')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_expiration')}</label>
                     <input 
                       type="text" 
                       required
@@ -4403,11 +4400,11 @@ function CheckoutView({
                       placeholder="MM/YY"
                       value={paymentData.expDate}
                       onChange={(e) => setPaymentData({...paymentData, expDate: formatExpDate(e.target.value)})}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_cvv')}</label>
+                    <label className="text-[10px] uppercase tracking-wider text-stone-400 font-semibold">{t('label_cvv')}</label>
                     <input 
                       type="text" 
                       required
@@ -4415,24 +4412,24 @@ function CheckoutView({
                       placeholder="123"
                       value={paymentData.cvv}
                       onChange={(e) => setPaymentData({...paymentData, cvv: formatCvv(e.target.value)})}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#96201B]"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+              <div className="flex justify-between items-center pt-4 border-t border-stone-800">
                 <button 
                   type="button"
                   onClick={() => setStep(4)} 
-                  className="text-xs uppercase tracking-wider text-slate-400 hover:text-teal-400 font-semibold"
+                  className="text-xs uppercase tracking-wider text-stone-400 hover:text-[#C1443B] font-semibold"
                 >
                   {t('btn_back')}
                 </button>
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-8 py-3 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? t('loading_label') : `${t('confirm_and_pay')} $${formatMoney(pricing.grandTotal)}`}
                 </button>
@@ -4444,47 +4441,47 @@ function CheckoutView({
 
         {/* ORDER SUMMARY SIDEBAR */}
         <div className="space-y-6">
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-none space-y-4 sticky top-28">
-            <h3 className="text-sm font-mono uppercase tracking-widest text-white border-b border-slate-800 pb-3">{t('reservation_summary')}</h3>
+          <div className="bg-stone-900 border border-stone-800 p-6 rounded-none space-y-4 sticky top-28">
+            <h3 className="text-sm font-serif uppercase tracking-widest text-white border-b border-stone-800 pb-3">{t('reservation_summary')}</h3>
 
             <div className="flex items-center gap-3">
-              <img src={vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-20 h-14 object-cover rounded-sm border border-slate-800 shrink-0" />
+              <img src={vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-20 h-14 object-cover rounded-sm border border-stone-800 shrink-0" />
               <div>
-                <span className="text-[10px] text-teal-400 uppercase font-semibold block">{vehicle.brand}</span>
-                <h4 className="text-sm font-mono text-white">{vehicle.model}</h4>
-                <span className="text-xs text-slate-400">${formatMoney(vehicle.pricePerDay)} {t('per_day')}</span>
+                <span className="text-[10px] text-[#C1443B] uppercase font-semibold block">{vehicle.brand}</span>
+                <h4 className="text-sm font-serif text-white">{vehicle.model}</h4>
+                <span className="text-xs text-stone-400">${formatMoney(vehicle.pricePerDay)} {t('per_day')}</span>
               </div>
             </div>
 
-            <div className="space-y-2 text-xs border-t border-slate-800 pt-3">
-              <div className="flex justify-between text-slate-400">
+            <div className="space-y-2 text-xs border-t border-stone-800 pt-3">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('duration_label')}</span>
                 <span className="text-white font-medium">{rentalDays} {t('days_suffix')}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('label_pickup_hub')}</span>
                 <span className="text-white font-medium truncate max-w-[150px]">{bookingSearch.pickupLocation}</span>
               </div>
             </div>
 
-            <div className="border-t border-slate-800 pt-3 space-y-2 text-xs">
-              <div className="flex justify-between text-slate-400">
+            <div className="border-t border-stone-800 pt-3 space-y-2 text-xs">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('vehicle_daily_total')}</span>
                 <span>${formatMoney(pricing.subtotalVehicle)}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-stone-400">
                   <span>{t('extras_subtotal')}</span>
                   <span>${formatMoney(pricing.subtotalExtras)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-stone-400">
                 <span>{t('service_tax')}</span>
                 <span>${formatMoney(pricing.serviceFee + pricing.taxes)}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800 pt-2">
+              <div className="flex justify-between text-sm font-bold text-white border-t border-stone-800 pt-2">
                 <span>{t('total_amount')}</span>
-                <span className="text-teal-400">${formatMoney(pricing.grandTotal)}</span>
+                <span className="text-[#C1443B]">${formatMoney(pricing.grandTotal)}</span>
               </div>
             </div>
           </div>
