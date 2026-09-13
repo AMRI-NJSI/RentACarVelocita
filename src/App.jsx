@@ -50,15 +50,6 @@ const TRANSLATIONS = {
     featured_label: 'Handpicked Models',
     featured_heading: 'Featured Sovereign Fleet',
     explore_all: 'Explore All Vehicles',
-    diff_label: 'Unrivaled Excellence',
-    diff_heading: 'The Velocita Difference',
-    diff_subtitle: 'We transcend standard automobile rentals by offering white-glove automotive hospitality tailored to distinguished drivers.',
-    diff_card1_title: 'Guaranteed Exact Model',
-    diff_card1_desc: 'When you reserve a specific vehicle, you receive that exact model, trim, and spec—never a generic category substitute.',
-    diff_card2_title: 'White-Glove Delivery',
-    diff_card2_desc: 'Enjoy seamless handover directly at private aviation terminals, luxury hotels, or private residences.',
-    diff_card3_title: 'Comprehensive Coverage',
-    diff_card3_desc: 'Transparent zero-deductible insurance protection and 24/7 dedicated concierge assistance on every journey.',
     banner_label: 'Tailored Journeys',
     banner_heading: 'Leave the Ordinary Behind.',
     banner_text: 'Whether commanding a mountain pass in a 911 GT3 RS or arriving at a gala in a Rolls-Royce Ghost, our vehicles provide unmatched status and sensory delight.',
@@ -192,8 +183,6 @@ const TRANSLATIONS = {
     legal_cookies_s4_title: 'Managing Cookies',
     legal_cookies_s4_body: 'You can control or delete cookies at any time through your browser settings. Disabling non-essential cookies will not affect your ability to browse or book with Velocita.',
     nav_signin: 'Sign In',
-    nav_signup: 'Create Account',
-    nav_account: 'My Account',
     nav_favorites: 'Favorites',
     nav_history: 'Rental History',
     nav_logout: 'Sign Out',
@@ -209,9 +198,10 @@ const TRANSLATIONS = {
     auth_have_account: 'Already have an account?',
     auth_link_signup: 'Create one',
     auth_link_login: 'Sign in',
-    auth_error_exists: 'An account with this email already exists.',
     auth_error_invalid: 'Invalid email or password.',
     auth_error_mismatch: 'Passwords do not match.',
+    auth_error_weak_password: 'Password must be at least 8 characters.',
+    auth_error_locked: 'Too many attempts. Please wait {seconds}s and try again.',
     auth_error_required: 'Please fill in all required fields.',
     toast_welcome: 'Welcome, {name}! Your account is ready.',
     toast_welcome_back: 'Welcome back, {name}!',
@@ -238,7 +228,6 @@ const TRANSLATIONS = {
     history_booked_on: 'Booked on',
     favorite_add: 'Add to Favorites',
     favorite_remove: 'Remove from Favorites',
-    account_email_label: 'Email Address'
   },
   sq: {
     header_tagline: 'Qera Veturash',
@@ -261,15 +250,6 @@ const TRANSLATIONS = {
     featured_label: 'Modele të Zgjedhura',
     featured_heading: 'Flota Sovrane e Zgjedhur',
     explore_all: 'Eksploro të Gjitha Veturat',
-    diff_label: 'Ekselencë e Papërsëritshme',
-    diff_heading: 'Dallimi Velocita',
-    diff_subtitle: 'Ne shkojmë përtej qerasë standarde të veturave duke ofruar mikpritje automobilistike të nivelit të lartë, të përshtatur për shoferë të dalluar.',
-    diff_card1_title: 'Modeli i Garantuar Ekzakt',
-    diff_card1_desc: 'Kur rezervon një veturë specifike, merr saktësisht atë model, konfigurim dhe specifikë — kurrë një zëvendësim gjenerik të kategorisë.',
-    diff_card2_title: 'Dorëzim Ekskluziv',
-    diff_card2_desc: 'Gëzo dorëzim pa probleme direkt në terminale private aviacioni, hotele luksoze, ose banesa private.',
-    diff_card3_title: 'Mbulim i Plotë',
-    diff_card3_desc: 'Mbrojtje sigurimi transparente pa zbritje dhe asistencë koncierge e dedikuar 24/7 në çdo udhëtim.',
     banner_label: 'Udhëtime të Personalizuara',
     banner_heading: 'Lëre Zakonshmërinë Pas.',
     banner_text: 'Qofshin duke komanduar një kalim mali me një 911 GT3 RS apo duke arritur në një gala me një Rolls-Royce Ghost, veturat tona ofrojnë status dhe kënaqësi shqisore të pashoqe.',
@@ -403,8 +383,6 @@ const TRANSLATIONS = {
     legal_cookies_s4_title: 'Menaxhimi i Cookies',
     legal_cookies_s4_body: 'Mund t\u2019i kontrolloni ose fshini cookies në çdo kohë përmes cilësimeve të shfletuesit tuaj. Çaktivizimi i cookies jo-thelbësore nuk do të ndikojë aftësinë tuaj për të shfletuar ose rezervuar me Velocita.',
     nav_signin: 'Hyr',
-    nav_signup: 'Krijo Llogari',
-    nav_account: 'Llogaria Ime',
     nav_favorites: 'Të Preferuarat',
     nav_history: 'Historia e Qerave',
     nav_logout: 'Dil',
@@ -420,9 +398,10 @@ const TRANSLATIONS = {
     auth_have_account: 'Keni tashmë një llogari?',
     auth_link_signup: 'Krijo një',
     auth_link_login: 'Hyr',
-    auth_error_exists: 'Një llogari me këtë email ekziston tashmë.',
     auth_error_invalid: 'Email ose fjalëkalim i pavlefshëm.',
     auth_error_mismatch: 'Fjalëkalimet nuk përputhen.',
+    auth_error_weak_password: 'Fjalëkalimi duhet të ketë të paktën 8 karaktere.',
+    auth_error_locked: 'Shumë tentativa. Ju lutemi prisni {seconds}s dhe provoni sërish.',
     auth_error_required: 'Ju lutemi plotësoni të gjitha fushat e kërkuara.',
     toast_welcome: 'Mirë se erdhe, {name}! Llogaria juaj është gati.',
     toast_welcome_back: 'Mirë se erdhe përsëri, {name}!',
@@ -449,7 +428,6 @@ const TRANSLATIONS = {
     history_booked_on: 'Rezervuar më',
     favorite_add: 'Shto te të Preferuarat',
     favorite_remove: 'Hiq nga të Preferuarat',
-    account_email_label: 'Adresa Email'
   }
 };
 
@@ -1772,6 +1750,9 @@ const getCurrentTimeStr = () => {
   return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
 };
 
+/* Formats a whole-dollar amount with thousands separators, e.g. 35000 -> "35,000" */
+const formatMoney = (amount) => new Intl.NumberFormat('en-US').format(amount);
+
 /* Payment field formatting/validation for the checkout form (client-side only —
    card data is never sent to Supabase or any server, it only drives the demo UI). */
 const formatCardNumber = (raw) => raw.replace(/\D/g, '').slice(0, 19).replace(/(.{4})/g, '$1 ').trim();
@@ -1867,8 +1848,7 @@ export default function App() {
     cardName: '',
     cardNumber: '',
     expDate: '',
-    cvv: '',
-    billingZip: ''
+    cvv: ''
   });
 
   /* Confirmed Booking Storage */
@@ -2097,7 +2077,16 @@ export default function App() {
         options: { data: { first_name: firstName, last_name: lastName } },
       });
       if (error) {
-        setAuthError(error.message === 'User already registered' ? t('auth_error_exists') : error.message);
+        /* Never reveal whether an email is already registered — treat it the same
+           as a fresh signup so the form can't be used to enumerate accounts. */
+        const isDuplicate = /already registered|already exists/i.test(error.message);
+        if (isDuplicate) {
+          triggerToast(t('toast_confirm_email'), 'success');
+          setCurrentView('login');
+          setAuthError('');
+          return true;
+        }
+        setAuthError(error.message);
         return false;
       }
       setAuthError('');
@@ -2120,18 +2109,33 @@ export default function App() {
     }
   };
 
+  const loginAttemptsRef = useRef({ count: 0, lockedUntil: 0 });
+
   const handleLogin = async ({ email, password }) => {
     if (!email || !password) {
       setAuthError(t('auth_error_required'));
+      return false;
+    }
+    const { count, lockedUntil } = loginAttemptsRef.current;
+    if (lockedUntil > Date.now()) {
+      setAuthError(t('auth_error_locked').replace('{seconds}', Math.ceil((lockedUntil - Date.now()) / 1000)));
       return false;
     }
     setAuthLoading(true);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        setAuthError(t('auth_error_invalid'));
+        const nextCount = count + 1;
+        if (nextCount >= 5) {
+          loginAttemptsRef.current = { count: 0, lockedUntil: Date.now() + 30000 };
+          setAuthError(t('auth_error_locked').replace('{seconds}', 30));
+        } else {
+          loginAttemptsRef.current = { count: nextCount, lockedUntil: 0 };
+          setAuthError(t('auth_error_invalid'));
+        }
         return false;
       }
+      loginAttemptsRef.current = { count: 0, lockedUntil: 0 };
       setAuthError('');
       triggerToast(t('toast_welcome_back').replace('{name}', data.user.user_metadata?.first_name || ''), 'success');
       setCurrentView('account');
@@ -2827,6 +2831,10 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (authLoading) return;
+    if (form.password.length < 8) {
+      setAuthError(t('auth_error_weak_password'));
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setAuthError(t('auth_error_mismatch'));
       return;
@@ -2897,6 +2905,7 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
             <input
               type="password"
               required
+              minLength={8}
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="••••••••"
@@ -2908,6 +2917,7 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
             <input
               type="password"
               required
+              minLength={8}
               value={form.confirmPassword}
               onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
               placeholder="••••••••"
@@ -3023,7 +3033,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
                   </div>
                   <div>
                     <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('total_due')}</span>
-                    <span className="text-teal-400 font-bold">${booking.pricing.grandTotal}</span>
+                    <span className="text-teal-400 font-bold">${formatMoney(booking.pricing.grandTotal)}</span>
                   </div>
                   <button
                     onClick={() => onSelectVehicle(booking.vehicle.id)}
@@ -3433,7 +3443,7 @@ function CarFinder({ onSelectVehicle }) {
                     {isSq ? 'Vende ulëse' : 'Seats'}: {result.vehicle.seats}
                   </p>
                   <div className="flex items-baseline gap-1 pt-2">
-                    <span className="text-2xl font-mono text-white">${result.vehicle.pricePerDay}</span>
+                    <span className="text-2xl font-mono text-white">${formatMoney(result.vehicle.pricePerDay)}</span>
                     <span className="text-xs text-slate-500">{isSq ? '/ ditë' : '/ day'}</span>
                   </div>
                   <button
@@ -3551,7 +3561,7 @@ function FleetView({
           <div className="space-y-1">
             <div className="flex justify-between text-[10px] uppercase tracking-wider font-semibold">
               <span className="text-slate-400">{t('label_max_rate')}</span>
-              <span className="text-teal-400">${filterPrice} {t('per_day')}</span>
+              <span className="text-teal-400">${formatMoney(filterPrice)} {t('per_day')}</span>
             </div>
             <input 
               type="range" 
@@ -3646,7 +3656,7 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
             <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : 'text-neutral-300'}`} />
           </button>
           <div className="absolute bottom-3 right-3 bg-neutral-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-neutral-800">
-            ${vehicle.pricePerDay} <span className="text-[10px] text-neutral-400 font-normal">{t('per_day')}</span>
+            ${formatMoney(vehicle.pricePerDay)} <span className="text-[10px] text-neutral-400 font-normal">{t('per_day')}</span>
           </div>
         </div>
 
@@ -3827,7 +3837,7 @@ function VehicleDetailView({
             
             <div className="flex justify-between items-baseline border-b border-slate-800 pb-4">
               <div>
-                <span className="text-2xl font-mono font-bold text-white">${vehicle.pricePerDay}</span>
+                <span className="text-2xl font-mono font-bold text-white">${formatMoney(vehicle.pricePerDay)}</span>
                 <span className="text-xs text-slate-400"> / day</span>
               </div>
               <div className="text-xs text-teal-400 font-semibold uppercase tracking-wider">
@@ -3897,7 +3907,7 @@ function VehicleDetailView({
                         </div>
                         <span className="font-medium text-[11px]">{label.name}</span>
                       </div>
-                      <span className="text-teal-400 font-semibold text-[11px]">+${ext.price}/d</span>
+                      <span className="text-teal-400 font-semibold text-[11px]">+${formatMoney(ext.price)}/d</span>
                     </div>
                   );
                 })}
@@ -3908,21 +3918,21 @@ function VehicleDetailView({
             <div className="border-t border-slate-800 pt-4 space-y-2 text-xs">
               <div className="flex justify-between text-slate-400">
                 <span>{t('vehicle_subtotal')} ({rentalDays}d)</span>
-                <span>${pricing.subtotalVehicle}</span>
+                <span>${formatMoney(pricing.subtotalVehicle)}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
                 <div className="flex justify-between text-slate-400">
                   <span>{t('selected_extras')}</span>
-                  <span>${pricing.subtotalExtras}</span>
+                  <span>${formatMoney(pricing.subtotalExtras)}</span>
                 </div>
               )}
               <div className="flex justify-between text-slate-400">
                 <span>{t('estimated_fees')}</span>
-                <span>${pricing.serviceFee + pricing.taxes}</span>
+                <span>${formatMoney(pricing.serviceFee + pricing.taxes)}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800/80 pt-2">
                 <span>{t('total_due')}</span>
-                <span className="text-teal-400">${pricing.grandTotal}</span>
+                <span className="text-teal-400">${formatMoney(pricing.grandTotal)}</span>
               </div>
             </div>
 
@@ -4019,7 +4029,7 @@ function CheckoutView({
             </div>
             <div>
               <span className="text-[10px] uppercase text-slate-400 font-semibold block">{t('label_total_paid')}</span>
-              <span className="text-teal-400 font-bold">${confirmedBooking.pricing.grandTotal}</span>
+              <span className="text-teal-400 font-bold">${formatMoney(confirmedBooking.pricing.grandTotal)}</span>
             </div>
           </div>
 
@@ -4108,7 +4118,7 @@ function CheckoutView({
                   <div className="flex gap-4 text-xs text-slate-400">
                     <span>{vehicle.hp} HP</span> • <span>{vehicle.seats} Seats</span> • <span>{vehicle.fuel}</span>
                   </div>
-                  <p className="text-teal-400 font-bold text-sm pt-1">${vehicle.pricePerDay} / day</p>
+                  <p className="text-teal-400 font-bold text-sm pt-1">${formatMoney(vehicle.pricePerDay)} / day</p>
                 </div>
               </div>
 
@@ -4251,7 +4261,7 @@ function CheckoutView({
                           <p className="text-xs text-slate-400 mt-1">{label.desc}</p>
                         </div>
                       </div>
-                      <span className="text-teal-400 font-bold text-xs shrink-0">+${ext.price} {t('per_day')}</span>
+                      <span className="text-teal-400 font-bold text-xs shrink-0">+${formatMoney(ext.price)} {t('per_day')}</span>
                     </div>
                   );
                 })}
@@ -4424,7 +4434,7 @@ function CheckoutView({
                   disabled={isSubmitting}
                   className="px-8 py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? t('loading_label') : `${t('confirm_and_pay')} $${pricing.grandTotal}`}
+                  {isSubmitting ? t('loading_label') : `${t('confirm_and_pay')} $${formatMoney(pricing.grandTotal)}`}
                 </button>
               </div>
             </form>
@@ -4442,7 +4452,7 @@ function CheckoutView({
               <div>
                 <span className="text-[10px] text-teal-400 uppercase font-semibold block">{vehicle.brand}</span>
                 <h4 className="text-sm font-mono text-white">{vehicle.model}</h4>
-                <span className="text-xs text-slate-400">${vehicle.pricePerDay} {t('per_day')}</span>
+                <span className="text-xs text-slate-400">${formatMoney(vehicle.pricePerDay)} {t('per_day')}</span>
               </div>
             </div>
 
@@ -4460,21 +4470,21 @@ function CheckoutView({
             <div className="border-t border-slate-800 pt-3 space-y-2 text-xs">
               <div className="flex justify-between text-slate-400">
                 <span>{t('vehicle_daily_total')}</span>
-                <span>${pricing.subtotalVehicle}</span>
+                <span>${formatMoney(pricing.subtotalVehicle)}</span>
               </div>
               {pricing.subtotalExtras > 0 && (
                 <div className="flex justify-between text-slate-400">
                   <span>{t('extras_subtotal')}</span>
-                  <span>${pricing.subtotalExtras}</span>
+                  <span>${formatMoney(pricing.subtotalExtras)}</span>
                 </div>
               )}
               <div className="flex justify-between text-slate-400">
                 <span>{t('service_tax')}</span>
-                <span>${pricing.serviceFee + pricing.taxes}</span>
+                <span>${formatMoney(pricing.serviceFee + pricing.taxes)}</span>
               </div>
               <div className="flex justify-between text-sm font-bold text-white border-t border-slate-800 pt-2">
                 <span>{t('total_amount')}</span>
-                <span className="text-teal-400">${pricing.grandTotal}</span>
+                <span className="text-teal-400">${formatMoney(pricing.grandTotal)}</span>
               </div>
             </div>
           </div>
