@@ -2262,7 +2262,19 @@ export default function App() {
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
     <AuthContext.Provider value={{ currentUser, favorites, rentalHistory, login: handleLogin, signup: handleSignup, logout: handleLogout, resetPassword: handlePasswordReset, toggleFavorite, isFavorite, authError, setAuthError, authLoading }}>
-    <div className="min-h-screen w-full overflow-x-hidden bg-[#14110F] text-stone-100 font-sans selection:bg-[#96201B]/30 selection:text-[#E7C4BE]">
+    <div
+      className="min-h-screen w-full overflow-x-hidden bg-[#14110F] text-stone-100 font-sans selection:bg-[#96201B]/30 selection:text-[#E7C4BE]"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+          repeating-linear-gradient(45deg, rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 2px, rgba(20,17,15,0.35) 2px, rgba(20,17,15,0.35) 4px),
+          repeating-linear-gradient(-45deg, rgba(0,0,0,0.25) 0px, rgba(0,0,0,0.25) 2px, transparent 2px, transparent 4px)
+        `,
+        backgroundSize: '48px 48px, 48px 48px, 6px 6px, 6px 6px',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -2339,7 +2351,7 @@ export default function App() {
               <div className="relative">
                 <button
                   onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] transition-colors"
+                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-sm border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] transition-colors"
                 >
                   <span className="w-7 h-7 rounded-full bg-[#96201B]/15 border border-[#96201B]/30 text-[#D89089] flex items-center justify-center text-[11px] font-bold uppercase">
                     {currentUser.firstName?.[0]}{currentUser.lastName?.[0]}
@@ -2384,7 +2396,7 @@ export default function App() {
             )}
             <button
               onClick={() => { setCurrentView('fleet'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 hover:shadow-[#96201B]/40 transition-all duration-300"
+              className="px-5 py-2.5 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-[#96201B]/20 hover:shadow-[#96201B]/40 transition-all duration-300"
             >
               {t('header_reserve')}
             </button>
@@ -2667,11 +2679,11 @@ function NotFoundView({ onGoHome }) {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 space-y-6">
       <span className="text-8xl font-mono text-[#C1443B]/30">404</span>
-      <h1 className="text-2xl sm:text-3xl font-serif text-white">{t('notfound_heading')}</h1>
+      <h1 className="text-2xl sm:text-3xl font-sans font-extrabold tracking-tight text-white">{t('notfound_heading')}</h1>
       <p className="text-sm text-stone-400 max-w-md">{t('notfound_text')}</p>
       <button
         onClick={onGoHome}
-        className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
+        className="px-6 py-3 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
       >
         {t('return_home')}
       </button>
@@ -2697,7 +2709,7 @@ function LegalView({ type, onGoHome }) {
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl sm:text-4xl font-serif text-white">{heading}</h1>
+        <h1 className="text-3xl sm:text-4xl font-sans font-extrabold tracking-tight text-white">{heading}</h1>
         <p className="text-xs text-stone-500 uppercase tracking-widest">
           {t('legal_last_updated_prefix')} {updatedDate}
         </p>
@@ -2746,7 +2758,7 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl font-serif text-white">{resetMode ? t('auth_reset_heading') : t('login_heading')}</h1>
+        <h1 className="text-3xl font-sans font-extrabold tracking-tight text-white">{resetMode ? t('auth_reset_heading') : t('login_heading')}</h1>
         <p className="text-sm text-stone-400">{resetMode ? t('auth_reset_subtitle') : t('login_subtitle')}</p>
       </div>
 
@@ -2851,7 +2863,7 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl font-serif text-white">{t('signup_heading')}</h1>
+        <h1 className="text-3xl font-sans font-extrabold tracking-tight text-white">{t('signup_heading')}</h1>
         <p className="text-sm text-stone-400">{t('signup_subtitle')}</p>
       </div>
 
@@ -2954,7 +2966,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-serif text-white">{t('account_heading')}</h1>
+        <h1 className="text-3xl font-sans font-extrabold tracking-tight text-white">{t('account_heading')}</h1>
         <p className="text-sm text-stone-400">{t('account_subtitle')}</p>
         {currentUser && (
           <p className="text-xs text-stone-500 pt-1">
@@ -2997,7 +3009,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
             <p className="text-sm text-stone-400">{t('account_no_favorites')}</p>
             <button
               onClick={onBrowseFleet}
-              className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
+              className="px-6 py-3 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
             >
               {t('account_no_favorites_cta')}
             </button>
@@ -3020,7 +3032,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
                   />
                   <div>
                     <span className="text-[10px] text-[#C1443B] uppercase tracking-widest block font-semibold">{booking.vehicle.brand}</span>
-                    <h3 className="text-base font-serif text-white">{booking.vehicle.model}</h3>
+                    <h3 className="text-base font-sans font-extrabold tracking-tight text-white">{booking.vehicle.model}</h3>
                     <span className="text-xs text-stone-400">
                       {t('history_booked_on')} {booking.createdAt} &middot; {t('reference_label')} {booking.bookingRef}
                     </span>
@@ -3037,7 +3049,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
                   </div>
                   <button
                     onClick={() => onSelectVehicle(booking.vehicle.id)}
-                    className="px-4 py-2 rounded-full border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-[11px] font-semibold uppercase tracking-wider transition-colors shrink-0"
+                    className="px-4 py-2 rounded-sm border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-[11px] font-semibold uppercase tracking-wider transition-colors shrink-0"
                   >
                     {t('btn_details')}
                   </button>
@@ -3051,7 +3063,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
             <p className="text-sm text-stone-400">{t('account_no_history')}</p>
             <button
               onClick={onBrowseFleet}
-              className="px-6 py-3 rounded-full bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
+              className="px-6 py-3 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all"
             >
               {t('account_no_history_cta')}
             </button>
@@ -3085,9 +3097,9 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-8">
-          <p className="text-base sm:text-lg italic font-serif text-[#C9A876] tracking-wide">{t('hero_badge')}</p>
+          <p className="text-[11px] font-mono uppercase tracking-[0.35em] text-[#E8A33D]">— {t('hero_badge')}</p>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-normal tracking-tight text-white leading-none">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-black uppercase tracking-tight text-white leading-none">
             {t('hero_heading_pre')} <span className="italic font-light bg-gradient-to-r from-[#C1443B] to-[#B08D57] bg-clip-text text-transparent">{t('hero_heading_accent')}</span>
           </h1>
 
@@ -3100,7 +3112,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               
               {/* Pickup Location */}
-              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+              <div className="space-y-1.5 bg-stone-950/50 rounded-none p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
                   <MapPin className="w-3 h-3 text-[#C1443B]" /> {t('label_pickup_location')}
                 </label>
@@ -3114,7 +3126,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               </div>
 
               {/* Pickup Date & Time */}
-              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+              <div className="space-y-1.5 bg-stone-950/50 rounded-none p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
                   <Calendar className="w-3 h-3 text-[#C1443B]" /> {t('label_pickup_datetime')}
                 </label>
@@ -3138,7 +3150,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               </div>
 
               {/* Return Date & Time */}
-              <div className="space-y-1.5 bg-stone-950/50 rounded-2xl p-3 border border-white/5">
+              <div className="space-y-1.5 bg-stone-950/50 rounded-none p-3 border border-white/5">
                 <label className="text-[10px] uppercase tracking-wider text-[#D89089]/90 font-semibold flex items-center gap-1.5">
                   <Calendar className="w-3 h-3 text-[#C1443B]" /> {t('label_return_datetime')}
                 </label>
@@ -3168,7 +3180,7 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
               </div>
               <button 
                 onClick={onSearchSubmit}
-                className="w-full sm:w-auto px-9 py-3.5 rounded-full bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_10px_30px_-8px] shadow-[#96201B]/50 hover:scale-[1.02]"
+                className="w-full sm:w-auto px-9 py-3.5 rounded-sm bg-gradient-to-r from-[#96201B] to-[#711712] hover:from-[#C1443B] hover:to-[#96201B] text-stone-950 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-[0_10px_30px_-8px] shadow-[#96201B]/50 hover:scale-[1.02]"
               >
                 <Search className="w-4 h-4" /> {t('search_button')}
               </button>
@@ -3182,8 +3194,8 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-800 pb-6">
           <div>
-            <p className="text-sm italic font-serif text-[#C9A876]">{t('featured_label')}</p>
-            <h2 className="text-2xl sm:text-3xl font-serif text-white mt-1">{t('featured_heading')}</h2>
+            <p className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#E8A33D]">— {t('featured_label')}</p>
+            <h2 className="text-2xl sm:text-3xl font-sans font-extrabold tracking-tight text-white mt-1">{t('featured_heading')}</h2>
           </div>
           <button 
             onClick={onSearchSubmit}
@@ -3218,8 +3230,8 @@ function HomeView({ bookingSearch, setBookingSearch, onSearchSubmit, onSelectVeh
           />
           <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent flex items-center p-8 sm:p-16">
             <div className="max-w-xl space-y-6">
-              <p className="text-sm italic font-serif text-[#C9A876]">{t('banner_label')}</p>
-              <h2 className="text-3xl sm:text-4xl font-serif text-white leading-tight">
+              <p className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#E8A33D]">— {t('banner_label')}</p>
+              <h2 className="text-3xl sm:text-4xl font-sans font-extrabold tracking-tight text-white leading-tight">
                 {t('banner_heading')}
               </h2>
               <p className="text-xs sm:text-sm text-stone-300 leading-relaxed">
@@ -3318,7 +3330,7 @@ function CarFinder({ onSelectVehicle }) {
           <span className="text-xs uppercase tracking-[0.2em] text-[#C1443B] font-semibold">
             {isSq ? 'Rekomandim i Personalizuar' : 'Personalized Recommendation'}
           </span>
-          <h2 className="text-3xl font-serif text-white">
+          <h2 className="text-3xl font-sans font-extrabold tracking-tight text-white">
             {isSq ? 'Gjej Veturën Tënde Perfekte' : 'Find Your Perfect Car'}
           </h2>
           <p className="text-stone-400 text-xs sm:text-sm">
@@ -3335,7 +3347,7 @@ function CarFinder({ onSelectVehicle }) {
               {[1, 2, 3].map((s) => (
                 <div
                   key={s}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  className={`h-1.5 rounded-sm transition-all duration-300 ${
                     s === step ? 'w-8 bg-[#C1443B]' : s < step ? 'w-4 bg-[#C1443B]/50' : 'w-4 bg-stone-700'
                   }`}
                 />
@@ -3345,7 +3357,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 1 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white text-center">
+              <h3 className="text-lg font-sans font-extrabold tracking-tight text-white text-center">
                 {isSq ? 'Për çfarë e do veturën?' : "What's the occasion?"}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -3353,9 +3365,9 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={value}
                     onClick={() => { setOccasion(value); setStep(2); }}
-                    className="group flex flex-col items-center gap-3 p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center"
+                    className="group flex flex-col items-center gap-3 p-5 rounded-none border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-[#C1443B]/10 border border-[#C1443B]/30 flex items-center justify-center text-[#D89089]">
+                    <div className="w-12 h-12 rounded-none bg-[#C1443B]/10 border border-[#C1443B]/30 flex items-center justify-center text-[#D89089]">
                       <Icon className="w-5 h-5" />
                     </div>
                     <span className="text-xs text-stone-300 font-medium">{label}</span>
@@ -3367,7 +3379,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 2 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white text-center">
+              <h3 className="text-lg font-sans font-extrabold tracking-tight text-white text-center">
                 {isSq ? 'Sa vende ulëse të duhen?' : 'How many seats do you need?'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -3375,7 +3387,7 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={opt.value}
                     onClick={() => { setSeatChoice(opt); setStep(3); }}
-                    className="p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
+                    className="p-5 rounded-none border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
                   >
                     {opt.label}
                   </button>
@@ -3392,7 +3404,7 @@ function CarFinder({ onSelectVehicle }) {
 
           {step === 3 && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white text-center">
+              <h3 className="text-lg font-sans font-extrabold tracking-tight text-white text-center">
                 {isSq ? 'Cili është buxheti yt ditor?' : "What's your daily budget?"}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -3400,7 +3412,7 @@ function CarFinder({ onSelectVehicle }) {
                   <button
                     key={opt.value}
                     onClick={() => handleBudget(opt)}
-                    className="p-5 rounded-2xl border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
+                    className="p-5 rounded-none border border-white/10 bg-stone-950/40 hover:border-[#C1443B]/40 hover:-translate-y-1 transition-all duration-300 text-center text-sm text-stone-300 font-medium"
                   >
                     {opt.label}
                   </button>
@@ -3425,7 +3437,7 @@ function CarFinder({ onSelectVehicle }) {
                     : (isSq ? 'Përputhja më e Afërt (kategori e ndryshme)' : 'Closest Match (different category)')}
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-stone-950/40 border border-white/10 rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center bg-stone-950/40 border border-white/10 rounded-none overflow-hidden">
                 <img
                   src={result.vehicle.images[0]}
                   alt={`${result.vehicle.brand} ${result.vehicle.model}`}
@@ -3434,7 +3446,7 @@ function CarFinder({ onSelectVehicle }) {
                 />
                 <div className="p-6 space-y-3">
                   <span className="text-xs uppercase tracking-widest text-[#C1443B] font-semibold">{getCategoryLabel(result.vehicle.category, isSq)}</span>
-                  <h4 className="text-2xl font-serif text-white">{result.vehicle.brand} {result.vehicle.model}</h4>
+                  <h4 className="text-2xl font-sans font-extrabold tracking-tight text-white">{result.vehicle.brand} {result.vehicle.model}</h4>
                   <p className="text-sm text-stone-400">{result.vehicle.description}</p>
                   <p className="text-xs text-stone-500">
                     {isSq ? 'Vende ulëse' : 'Seats'}: {result.vehicle.seats}
@@ -3445,7 +3457,7 @@ function CarFinder({ onSelectVehicle }) {
                   </div>
                   <button
                     onClick={() => onSelectVehicle(result.vehicle.id)}
-                    className="w-full mt-2 bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-semibold text-sm py-3 rounded-full flex items-center justify-center gap-2 transition-colors"
+                    className="w-full mt-2 bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-semibold text-sm py-3 rounded-sm flex items-center justify-center gap-2 transition-colors"
                   >
                     {isSq ? 'Shiko Këtë Veturë' : 'View This Car'} <ArrowRight className="w-4 h-4" />
                   </button>
@@ -3514,8 +3526,8 @@ function FleetView({
       
       {/* Title */}
       <div className="space-y-2">
-        <p className="text-sm italic font-serif text-[#C9A876]">{t('fleet_label')}</p>
-        <h1 className="text-3xl sm:text-4xl font-serif text-white">{t('fleet_heading')}</h1>
+        <p className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#E8A33D]">— {t('fleet_label')}</p>
+        <h1 className="text-3xl sm:text-4xl font-sans font-extrabold tracking-tight text-white">{t('fleet_heading')}</h1>
         <p className="text-stone-400 text-xs sm:text-sm">{t('fleet_subtitle')}</p>
       </div>
 
@@ -3528,7 +3540,7 @@ function FleetView({
             <button
               key={cat}
               onClick={() => setFilterCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-sm text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-all ${
                 filterCategory === cat 
                   ? 'bg-[#96201B] text-stone-950 shadow-md shadow-[#96201B]/20' 
                   : 'bg-stone-950 border border-stone-800 text-stone-400 hover:text-white hover:border-stone-700'
@@ -3594,7 +3606,7 @@ function FleetView({
       {fleet.length === 0 ? (
         <div className="text-center py-20 bg-stone-900/50 rounded-none border border-stone-800 space-y-4">
           <AlertCircle className="w-10 h-10 text-[#C1443B] mx-auto" />
-          <h3 className="text-lg font-serif text-white">{t('no_match_heading')}</h3>
+          <h3 className="text-lg font-sans font-extrabold tracking-tight text-white">{t('no_match_heading')}</h3>
           <p className="text-xs text-stone-400">{t('no_match_text')}</p>
           <button 
             onClick={() => { setFilterCategory('All'); setFilterBrand('All'); setFilterPrice(2500); }}
@@ -3624,13 +3636,40 @@ function FleetView({
    5. VEHICLE CARD COMPONENT
    ============================================================================ */
 
+/* Circular instrument-cluster gauge — the signature visual element of the
+   Analog Dashboard design language. Draws an arc proportional to value/max. */
+function Gauge({ value, max, unit, size = 60, color = '#C1443B' }) {
+  const strokeWidth = 4;
+  const radius = (size - strokeWidth * 2) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const pct = Math.max(0, Math.min(value / max, 1));
+  const offset = circumference * (1 - pct);
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={strokeWidth} />
+        <circle
+          cx={size / 2} cy={size / 2} r={radius} fill="none"
+          stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-mono font-bold text-white leading-none" style={{ fontSize: size * 0.24 }}>{value}</span>
+        <span className="font-mono text-[8px] uppercase tracking-wider text-stone-500 mt-0.5">{unit}</span>
+      </div>
+    </div>
+  );
+}
+
 function VehicleCard({ vehicle, onSelect, onReserve }) {
   const { t, language } = useLang();
   const isSq = language === 'sq';
   const { isFavorite, toggleFavorite } = useAuth();
   const favorited = isFavorite(vehicle.id);
   return (
-    <div className="group bg-stone-900/70 border border-stone-800 rounded-2xl overflow-hidden hover:border-[#96201B]/40 transition-all duration-300 flex flex-col justify-between">
+    <div className="group bg-stone-900/70 border border-stone-800 rounded-none overflow-hidden hover:border-[#96201B]/40 transition-all duration-300 flex flex-col justify-between">
       
       <div>
         {/* Vehicle Image Container */}
@@ -3641,7 +3680,7 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
             onError={handleImgError}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase tracking-widest text-[#D89089] font-semibold border border-stone-800">
+          <div className="absolute top-3 left-3 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] uppercase tracking-widest text-[#D89089] font-semibold border border-stone-800">
             {getCategoryLabel(vehicle.category, isSq)}
           </div>
           <button
@@ -3652,7 +3691,7 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
           >
             <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : 'text-stone-300'}`} />
           </button>
-          <div className="absolute bottom-3 right-3 bg-stone-950/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-white border border-stone-800">
+          <div className="absolute bottom-3 right-3 bg-stone-950/90 backdrop-blur-md px-3 py-1 rounded-sm text-xs font-bold text-white border border-stone-800">
             ${formatMoney(vehicle.pricePerDay)} <span className="text-[10px] text-stone-400 font-normal">{t('per_day')}</span>
           </div>
         </div>
@@ -3661,22 +3700,21 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
         <div className="p-6 space-y-4">
           <div>
             <div className="text-xs text-[#C1443B] uppercase tracking-widest font-semibold">{vehicle.brand}</div>
-            <h3 className="text-xl font-serif text-white font-medium group-hover:text-[#D89089] transition-colors">{vehicle.model}</h3>
+            <h3 className="text-xl font-sans font-bold text-white group-hover:text-[#D89089] transition-colors">{vehicle.model}</h3>
           </div>
 
-          {/* Quick Specs Grid */}
-          <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-800/80 text-[11px] text-stone-400">
-            <div className="flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
-              <span>{vehicle.hp} HP</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
-              <span>{vehicle.seats} {isSq ? 'Vende' : 'Seats'}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Fuel className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
-              <span>{vehicle.fuel}</span>
+          {/* Quick Specs — HP on an instrument-cluster gauge, rest as readouts */}
+          <div className="flex items-center gap-4 py-3 border-y border-stone-800/80">
+            <Gauge value={vehicle.hp} max={2000} unit="HP" size={58} color="#C1443B" />
+            <div className="flex flex-col gap-1.5 text-[11px] text-stone-400 font-mono">
+              <div className="flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
+                <span>{vehicle.seats} {isSq ? 'Vende' : 'Seats'}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Fuel className="w-3.5 h-3.5 text-[#C1443B] shrink-0" />
+                <span>{vehicle.fuel}</span>
+              </div>
             </div>
           </div>
 
@@ -3690,13 +3728,13 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
       <div className="p-6 pt-0 grid grid-cols-2 gap-3">
         <button 
           onClick={() => onSelect(vehicle.id)}
-          className="w-full py-2.5 rounded-lg border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-xs font-semibold uppercase tracking-wider transition-colors"
+          className="w-full py-2.5 rounded-sm border border-stone-700 hover:border-[#C1443B] text-stone-200 hover:text-[#C1443B] text-xs font-semibold uppercase tracking-wider transition-colors"
         >
           {t('btn_details')}
         </button>
         <button 
           onClick={() => onReserve(vehicle.id)}
-          className="w-full py-2.5 rounded-lg bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors"
+          className="w-full py-2.5 rounded-sm bg-[#96201B] hover:bg-[#C1443B] text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors"
         >
           {t('btn_rent_now')}
         </button>
@@ -3740,7 +3778,7 @@ function VehicleDetailView({
         </button>
         <button
           onClick={() => toggleFavorite(vehicle.id)}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-stone-400 hover:text-rose-400 transition-colors font-semibold border border-stone-800 hover:border-rose-400/50 rounded-full px-4 py-2"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-stone-400 hover:text-rose-400 transition-colors font-semibold border border-stone-800 hover:border-rose-400/50 rounded-sm px-4 py-2"
         >
           <Heart className={`w-4 h-4 transition-colors ${favorited ? 'fill-rose-500 text-rose-500' : ''}`} />
           {favorited ? t('favorite_remove') : t('favorite_add')}
@@ -3762,7 +3800,7 @@ function VehicleDetailView({
                 onError={handleImgError}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-4 left-4 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs text-[#D89089] font-semibold uppercase tracking-wider">
+              <div className="absolute top-4 left-4 bg-stone-950/80 backdrop-blur-md px-3 py-1 rounded-sm text-xs text-[#D89089] font-semibold uppercase tracking-wider">
                 {vehicle.year} {t('model_year_suffix')}
               </div>
             </div>
@@ -3786,7 +3824,7 @@ function VehicleDetailView({
           {/* Description & Overview */}
           <div className="space-y-4 border-t border-stone-800 pt-6">
             <div className="text-xs uppercase tracking-widest text-[#C1443B] font-semibold">{vehicle.brand}</div>
-            <h1 className="text-3xl sm:text-4xl font-serif text-white">{vehicle.model}</h1>
+            <h1 className="text-3xl sm:text-4xl font-sans font-extrabold tracking-tight text-white">{vehicle.model}</h1>
             <p className="text-sm text-stone-300 leading-relaxed font-light">{vehicle.description}</p>
           </div>
 
@@ -3794,19 +3832,21 @@ function VehicleDetailView({
           <div className="space-y-4 border-t border-stone-800 pt-6">
             <h3 className="text-sm uppercase tracking-widest text-white font-semibold">{t('spec_heading')}</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
-                <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_horsepower')}</span>
-                <span className="text-lg font-mono text-white">{vehicle.hp} HP</span>
+              <div className="bg-stone-900 border border-stone-800 border-t-2 border-t-[#C1443B]/50 p-4 rounded-none flex items-center gap-3">
+                <Gauge value={vehicle.hp} max={2000} unit="HP" size={52} color="#C1443B" />
+                <div>
+                  <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_horsepower')}</span>
+                </div>
               </div>
-              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+              <div className="bg-stone-900 border border-stone-800 border-t-2 border-t-[#C1443B]/50 p-4 rounded-none">
                 <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_acceleration')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.acceleration}</span>
               </div>
-              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+              <div className="bg-stone-900 border border-stone-800 border-t-2 border-t-[#C1443B]/50 p-4 rounded-none">
                 <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_transmission')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.transmission}</span>
               </div>
-              <div className="bg-stone-900 border border-stone-800 p-4 rounded-none">
+              <div className="bg-stone-900 border border-stone-800 border-t-2 border-t-[#C1443B]/50 p-4 rounded-none">
                 <span className="text-[10px] uppercase text-stone-400 font-semibold block">{t('spec_fuel')}</span>
                 <span className="text-lg font-mono text-white">{vehicle.fuel}</span>
               </div>
@@ -3996,7 +4036,7 @@ function CheckoutView({
 
         <div className="space-y-2">
           <span className="text-xs uppercase tracking-[0.25em] text-[#C1443B] font-semibold">{t('reservation_confirmed')}</span>
-          <h1 className="text-3xl sm:text-4xl font-serif text-white">{t('journey_awaits')}</h1>
+          <h1 className="text-3xl sm:text-4xl font-sans font-extrabold tracking-tight text-white">{t('journey_awaits')}</h1>
           <p className="text-xs sm:text-sm text-stone-400">{t('reference_label')} <span className="text-[#D89089] font-mono font-bold">{confirmedBooking.bookingRef}</span></p>
         </div>
 
@@ -4006,7 +4046,7 @@ function CheckoutView({
             <img src={confirmedBooking.vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-24 h-16 object-cover rounded-sm border border-stone-800" />
             <div>
               <span className="text-[10px] text-[#C1443B] uppercase tracking-widest block font-semibold">{confirmedBooking.vehicle.brand}</span>
-              <h3 className="text-lg font-serif text-white">{confirmedBooking.vehicle.model}</h3>
+              <h3 className="text-lg font-sans font-extrabold tracking-tight text-white">{confirmedBooking.vehicle.model}</h3>
               <span className="text-xs text-stone-400">{confirmedBooking.rentalDays} {t('days_rental_suffix')}</span>
             </div>
           </div>
@@ -4103,7 +4143,7 @@ function CheckoutView({
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-serif text-white">{t('step1_title')}</h2>
+                <h2 className="text-xl font-sans font-extrabold tracking-tight text-white">{t('step1_title')}</h2>
                 <p className="text-xs text-stone-400">{t('step1_desc')}</p>
               </div>
 
@@ -4111,7 +4151,7 @@ function CheckoutView({
                 <img src={vehicle.images[0]} alt={vehicle.model} onError={handleImgError} className="w-full sm:w-48 aspect-[16/10] object-cover rounded-sm" />
                 <div className="space-y-2 flex-1">
                   <span className="text-[10px] text-[#C1443B] uppercase tracking-widest font-semibold">{vehicle.brand}</span>
-                  <h3 className="text-xl font-serif text-white">{vehicle.model}</h3>
+                  <h3 className="text-xl font-sans font-extrabold tracking-tight text-white">{vehicle.model}</h3>
                   <div className="flex gap-4 text-xs text-stone-400">
                     <span>{vehicle.hp} HP</span> • <span>{vehicle.seats} Seats</span> • <span>{vehicle.fuel}</span>
                   </div>
@@ -4140,7 +4180,7 @@ function CheckoutView({
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-serif text-white">{t('step2_title')}</h2>
+                <h2 className="text-xl font-sans font-extrabold tracking-tight text-white">{t('step2_title')}</h2>
                 <p className="text-xs text-stone-400">{t('step2_desc')}</p>
               </div>
 
@@ -4233,7 +4273,7 @@ function CheckoutView({
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-serif text-white">{t('step3_title')}</h2>
+                <h2 className="text-xl font-sans font-extrabold tracking-tight text-white">{t('step3_title')}</h2>
                 <p className="text-xs text-stone-400">{t('step3_desc')}</p>
               </div>
 
@@ -4285,7 +4325,7 @@ function CheckoutView({
           {step === 4 && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-xl font-serif text-white">{t('step4_title')}</h2>
+                <h2 className="text-xl font-sans font-extrabold tracking-tight text-white">{t('step4_title')}</h2>
                 <p className="text-xs text-stone-400">{t('step4_desc')}</p>
               </div>
 
@@ -4357,7 +4397,7 @@ function CheckoutView({
           {step === 5 && (
             <form onSubmit={onFinalSubmit} className="space-y-6">
               <div>
-                <h2 className="text-xl font-serif text-white">{t('step5_title')}</h2>
+                <h2 className="text-xl font-sans font-extrabold tracking-tight text-white">{t('step5_title')}</h2>
                 <p className="text-xs text-stone-400">{t('step5_desc')}</p>
               </div>
 
@@ -4442,13 +4482,13 @@ function CheckoutView({
         {/* ORDER SUMMARY SIDEBAR */}
         <div className="space-y-6">
           <div className="bg-stone-900 border border-stone-800 p-6 rounded-none space-y-4 sticky top-28">
-            <h3 className="text-sm font-serif uppercase tracking-widest text-white border-b border-stone-800 pb-3">{t('reservation_summary')}</h3>
+            <h3 className="text-sm font-sans font-extrabold tracking-tight uppercase tracking-widest text-white border-b border-stone-800 pb-3">{t('reservation_summary')}</h3>
 
             <div className="flex items-center gap-3">
               <img src={vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-20 h-14 object-cover rounded-sm border border-stone-800 shrink-0" />
               <div>
                 <span className="text-[10px] text-[#C1443B] uppercase font-semibold block">{vehicle.brand}</span>
-                <h4 className="text-sm font-serif text-white">{vehicle.model}</h4>
+                <h4 className="text-sm font-sans font-extrabold tracking-tight text-white">{vehicle.model}</h4>
                 <span className="text-xs text-stone-400">${formatMoney(vehicle.pricePerDay)} {t('per_day')}</span>
               </div>
             </div>
