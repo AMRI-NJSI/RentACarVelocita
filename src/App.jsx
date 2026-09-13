@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, createContext, useContext } from 'react';
+import React, { useState, useEffect, useMemo, useRef, createContext, useContext } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { 
   Search, Calendar, MapPin, Shield, Star, Award, CheckCircle, ChevronRight,
@@ -22,6 +22,11 @@ const VELOCITA_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYMAAADgCAY
 /* ============================================================================
    LANGUAGE / TRANSLATIONS
    ============================================================================ */
+
+/* Neutral placeholder shown if a vehicle photo URL fails to load, so a broken
+   image icon never appears on a luxury-brand page. */
+const IMAGE_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 250'%3E%3Crect width='400' height='250' fill='%230f172a'/%3E%3Cpath d='M60 170l20-45a20 20 0 0 1 18-12h204a20 20 0 0 1 18 12l20 45' stroke='%232dd4bf' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='110' cy='175' r='16' fill='%230f172a' stroke='%232dd4bf' stroke-width='6'/%3E%3Ccircle cx='290' cy='175' r='16' fill='%230f172a' stroke='%232dd4bf' stroke-width='6'/%3E%3Crect x='60' y='140' width='280' height='30' rx='6' fill='none' stroke='%232dd4bf' stroke-width='6'/%3E%3C/svg%3E";
+const handleImgError = (e) => { e.target.onerror = null; e.target.src = IMAGE_FALLBACK; };
 
 const TRANSLATIONS = {
   en: {
@@ -213,6 +218,15 @@ const TRANSLATIONS = {
     toast_logged_out: 'You\u2019ve been signed out.',
     toast_login_required: 'Please sign in to save favorite vehicles.',
     toast_confirm_email: 'Account created! Check your email to confirm before signing in.',
+    auth_error_network: 'We couldn\\u2019t reach the server. Please check your connection and try again.',
+    auth_forgot_password: 'Forgot password?',
+    auth_reset_heading: 'Reset Your Password',
+    auth_reset_subtitle: 'Enter your email and we\\u2019ll send you a link to reset your password.',
+    btn_send_reset_link: 'Send Reset Link',
+    btn_back_to_login: 'Back to Sign In',
+    toast_reset_sent: 'If an account exists for that email, a reset link is on its way.',
+    loading_label: 'Please wait…',
+    toast_payment_invalid: 'Please check your card number, expiration date, and CVV.',
     account_heading: 'My Account',
     account_subtitle: 'Manage your saved vehicles and review your past rentals.',
     account_tab_favorites: 'Favorite Vehicles',
@@ -415,6 +429,15 @@ const TRANSLATIONS = {
     toast_logged_out: 'Jeni çkyçur nga llogaria.',
     toast_login_required: 'Ju lutemi hyni në llogari për të ruajtur veturat e preferuara.',
     toast_confirm_email: 'Llogaria u krijua! Kontrolloni email-in për ta konfirmuar para se të hyni.',
+    auth_error_network: 'Nuk arritëm të lidhemi me serverin. Kontrolloni lidhjen tuaj dhe provoni sërish.',
+    auth_forgot_password: 'Keni harruar fjalëkalimin?',
+    auth_reset_heading: 'Rivendos Fjalëkalimin',
+    auth_reset_subtitle: 'Shkruani email-in tuaj dhe do t\\u2019ju dërgojmë një lidhje për ta rivendosur fjalëkalimin.',
+    btn_send_reset_link: 'Dërgo Lidhjen e Rivendosjes',
+    btn_back_to_login: 'Kthehu te Hyrja',
+    toast_reset_sent: 'Nëse ekziston një llogari me këtë email, lidhja e rivendosjes po vjen.',
+    loading_label: 'Ju lutemi prisni…',
+    toast_payment_invalid: 'Ju lutemi kontrolloni numrin e kartës, datën e skadimit dhe CVV-në.',
     account_heading: 'Llogaria Ime',
     account_subtitle: 'Menaxho veturat e ruajtura dhe rishiko qeratë e mëparshme.',
     account_tab_favorites: 'Veturat e Preferuara',
@@ -1749,6 +1772,25 @@ const getCurrentTimeStr = () => {
   return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
 };
 
+/* Payment field formatting/validation for the checkout form (client-side only —
+   card data is never sent to Supabase or any server, it only drives the demo UI). */
+const formatCardNumber = (raw) => raw.replace(/\D/g, '').slice(0, 19).replace(/(.{4})/g, '$1 ').trim();
+const formatExpDate = (raw) => {
+  const digits = raw.replace(/\D/g, '').slice(0, 4);
+  return digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+};
+const formatCvv = (raw) => raw.replace(/\D/g, '').slice(0, 4);
+const isCardNumberValid = (val) => { const d = val.replace(/\D/g, ''); return d.length >= 13 && d.length <= 19; };
+const isExpDateValid = (val) => {
+  const match = /^(\d{2})\/(\d{2})$/.exec(val);
+  if (!match) return false;
+  const month = parseInt(match[1], 10);
+  if (month < 1 || month > 12) return false;
+  const expiry = new Date(2000 + parseInt(match[2], 10), month, 1);
+  return expiry > new Date();
+};
+const isCvvValid = (val) => /^\d{3,4}$/.test(val);
+
 /* ============================================================================
    2. MAIN APPLICATION COMPONENT
    ============================================================================ */
@@ -1778,6 +1820,7 @@ export default function App() {
 
   /* Authentication State (session persisted via cookie; profile data in localStorage) */
   const [currentUser, setCurrentUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [rentalHistory, setRentalHistory] = useState([]);
   const [authError, setAuthError] = useState('');
@@ -1916,16 +1959,24 @@ export default function App() {
   }, [confirmedBooking]);
 
   /* Toast Notification Trigger */
+  const toastTimeoutRef = useRef(null);
   const triggerToast = (msg, type = 'info') => {
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
     setToastMessage(msg);
     setToastType(type);
-    setTimeout(() => setToastMessage(null), 4000);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 4000);
   };
 
   /* Derived Vehicle */
   const currentVehicle = useMemo(() => {
     return FLEET_DATA.find(v => v.id === selectedVehicleId) || FLEET_DATA[0];
   }, [selectedVehicleId]);
+
+  /* Always land at the top of the page on view changes — several nav entry
+     points didn't call window.scrollTo, leaving the new view scrolled down. */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentView]);
 
   /* Page title & meta description per view */
   useEffect(() => {
@@ -2038,27 +2089,35 @@ export default function App() {
       setAuthError(t('auth_error_required'));
       return false;
     }
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { first_name: firstName, last_name: lastName } },
-    });
-    if (error) {
-      setAuthError(error.message === 'User already registered' ? t('auth_error_exists') : error.message);
+    setAuthLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { first_name: firstName, last_name: lastName } },
+      });
+      if (error) {
+        setAuthError(error.message === 'User already registered' ? t('auth_error_exists') : error.message);
+        return false;
+      }
+      setAuthError('');
+      if (data.session) {
+        /* Email confirmation is disabled — the user is already signed in */
+        triggerToast(t('toast_welcome').replace('{name}', firstName), 'success');
+        setCurrentView('account');
+        setAccountTab('favorites');
+      } else {
+        /* Email confirmation is required before a session is issued */
+        triggerToast(t('toast_confirm_email'), 'success');
+        setCurrentView('login');
+      }
+      return true;
+    } catch (err) {
+      setAuthError(t('auth_error_network'));
       return false;
+    } finally {
+      setAuthLoading(false);
     }
-    setAuthError('');
-    if (data.session) {
-      /* Email confirmation is disabled — the user is already signed in */
-      triggerToast(t('toast_welcome').replace('{name}', firstName), 'success');
-      setCurrentView('account');
-      setAccountTab('favorites');
-    } else {
-      /* Email confirmation is required before a session is issued */
-      triggerToast(t('toast_confirm_email'), 'success');
-      setCurrentView('login');
-    }
-    return true;
   };
 
   const handleLogin = async ({ email, password }) => {
@@ -2066,24 +2125,38 @@ export default function App() {
       setAuthError(t('auth_error_required'));
       return false;
     }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      setAuthError(t('auth_error_invalid'));
+    setAuthLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setAuthError(t('auth_error_invalid'));
+        return false;
+      }
+      setAuthError('');
+      triggerToast(t('toast_welcome_back').replace('{name}', data.user.user_metadata?.first_name || ''), 'success');
+      setCurrentView('account');
+      setAccountTab('favorites');
+      return true;
+    } catch (err) {
+      setAuthError(t('auth_error_network'));
       return false;
+    } finally {
+      setAuthLoading(false);
     }
-    setAuthError('');
-    triggerToast(t('toast_welcome_back').replace('{name}', data.user.user_metadata?.first_name || ''), 'success');
-    setCurrentView('account');
-    setAccountTab('favorites');
-    return true;
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
     setAccountMenuOpen(false);
     setCurrentView('home');
-    triggerToast(t('toast_logged_out'));
+    try {
+      await supabase.auth.signOut();
+      triggerToast(t('toast_logged_out'));
+    } catch (err) {
+      triggerToast(t('auth_error_network'), 'error');
+    }
   };
+
+  const pendingFavoritesRef = useRef(new Set());
 
   const toggleFavorite = async (vehicleId) => {
     if (!currentUser) {
@@ -2091,27 +2164,62 @@ export default function App() {
       setCurrentView('login');
       return;
     }
+    if (pendingFavoritesRef.current.has(vehicleId)) return; /* a request for this vehicle is already in flight */
+    pendingFavoritesRef.current.add(vehicleId);
     const alreadyFavorited = favorites.includes(vehicleId);
     /* Optimistic UI update, reconciled if the database call fails */
     setFavorites(prev => (alreadyFavorited ? prev.filter(id => id !== vehicleId) : [...prev, vehicleId]));
-    const { error } = alreadyFavorited
-      ? await supabase.from('favorites').delete().eq('user_id', currentUser.id).eq('vehicle_id', vehicleId)
-      : await supabase.from('favorites').insert({ user_id: currentUser.id, vehicle_id: vehicleId });
-    if (error) {
-      console.warn('Supabase favorites error', error);
-      setFavorites(prev => (alreadyFavorited ? [...prev, vehicleId] : prev.filter(id => id !== vehicleId)));
-      triggerToast(t('toast_validation'), 'error');
+    try {
+      const { error } = alreadyFavorited
+        ? await supabase.from('favorites').delete().eq('user_id', currentUser.id).eq('vehicle_id', vehicleId)
+        : await supabase.from('favorites').insert({ user_id: currentUser.id, vehicle_id: vehicleId });
+      if (error) {
+        console.warn('Supabase favorites error', error);
+        setFavorites(prev => (alreadyFavorited ? [...prev, vehicleId] : prev.filter(id => id !== vehicleId)));
+        triggerToast(t('toast_validation'), 'error');
+      }
+    } finally {
+      pendingFavoritesRef.current.delete(vehicleId);
     }
   };
 
   const isFavorite = (vehicleId) => favorites.includes(vehicleId);
 
+  const handlePasswordReset = async (email) => {
+    if (!email) {
+      setAuthError(t('auth_error_required'));
+      return false;
+    }
+    setAuthLoading(true);
+    try {
+      await supabase.auth.resetPasswordForEmail(email);
+      /* Always show the same success message, whether or not the email exists,
+         so the form can't be used to enumerate registered accounts. */
+      triggerToast(t('toast_reset_sent'), 'success');
+      setAuthError('');
+      return true;
+    } catch (err) {
+      setAuthError(t('auth_error_network'));
+      return false;
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
+
   const handleFinalBookingSubmit = async (e) => {
     e.preventDefault();
-    if (!customerData.email || !customerData.firstName || !paymentData.cardNumber) {
+    if (isSubmittingBooking) return;
+    if (!customerData.email || !customerData.firstName) {
       triggerToast(t('toast_validation'), 'error');
       return;
     }
+    if (!isCardNumberValid(paymentData.cardNumber) || !isExpDateValid(paymentData.expDate) || !isCvvValid(paymentData.cvv)) {
+      triggerToast(t('toast_payment_invalid'), 'error');
+      return;
+    }
+    setIsSubmittingBooking(true);
 
     const newBooking = {
       bookingRef: 'VEL-' + Math.floor(100000 + Math.random() * 900000),
@@ -2144,11 +2252,12 @@ export default function App() {
       });
       if (error) console.warn('Supabase booking save error', error);
     }
+    setIsSubmittingBooking(false);
   };
 
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
-    <AuthContext.Provider value={{ currentUser, favorites, rentalHistory, login: handleLogin, signup: handleSignup, logout: handleLogout, toggleFavorite, isFavorite, authError, setAuthError }}>
+    <AuthContext.Provider value={{ currentUser, favorites, rentalHistory, login: handleLogin, signup: handleSignup, logout: handleLogout, resetPassword: handlePasswordReset, toggleFavorite, isFavorite, authError, setAuthError, authLoading }}>
     <div className="min-h-screen w-full overflow-x-hidden bg-[#05080a] text-slate-100 font-sans selection:bg-teal-500/30 selection:text-teal-200">
       
       {/* Toast Notification */}
@@ -2425,6 +2534,7 @@ export default function App() {
             rentalDays={rentalDays}
             confirmedBooking={confirmedBooking}
             onFinalSubmit={handleFinalBookingSubmit}
+            isSubmitting={isSubmittingBooking}
             onGoHome={() => setCurrentView('home')}
             onSelectVehicle={navigateToVehicleDetails}
           />
@@ -2607,14 +2717,20 @@ function LegalView({ type, onGoHome }) {
 
 function LoginView({ onGoHome, onSwitchToSignup }) {
   const { t } = useLang();
-  const { login, authError, setAuthError } = useAuth();
+  const { login, resetPassword, authError, setAuthError, authLoading } = useAuth();
   const [form, setForm] = useState({ email: '', password: '' });
+  const [resetMode, setResetMode] = useState(false);
 
-  useEffect(() => { setAuthError(''); }, []);
+  useEffect(() => { setAuthError(''); }, [resetMode]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(form);
+    if (authLoading) return;
+    if (resetMode) {
+      resetPassword(form.email).then((ok) => { if (ok) setResetMode(false); });
+    } else {
+      login(form);
+    }
   };
 
   return (
@@ -2626,8 +2742,8 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
         >
           <ChevronLeft className="w-3.5 h-3.5" /> {t('return_home')}
         </button>
-        <h1 className="text-3xl font-mono text-white">{t('login_heading')}</h1>
-        <p className="text-sm text-slate-400">{t('login_subtitle')}</p>
+        <h1 className="text-3xl font-mono text-white">{resetMode ? t('auth_reset_heading') : t('login_heading')}</h1>
+        <p className="text-sm text-slate-400">{resetMode ? t('auth_reset_subtitle') : t('login_subtitle')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5 bg-slate-900 border border-slate-800 rounded-none p-6">
@@ -2652,34 +2768,50 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
           </div>
         </div>
 
-        <div className="space-y-1">
-          <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
-          <div className="relative">
-            <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="password"
-              required
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
-            />
+        {!resetMode && (
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <label className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{t('label_password')}</label>
+              <button type="button" onClick={() => setResetMode(true)} className="text-[10px] text-teal-400 hover:underline">
+                {t('auth_forgot_password')}
+              </button>
+            </div>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="password"
+                required
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="••••••••"
+                className="w-full bg-slate-950 border border-slate-800 rounded-sm pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-teal-500"
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           type="submit"
-          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
+          disabled={authLoading}
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {t('btn_login')}
+          {authLoading ? t('loading_label') : (resetMode ? t('btn_send_reset_link') : t('btn_login'))}
         </button>
 
-        <p className="text-xs text-slate-400 text-center">
-          {t('auth_no_account')}{' '}
-          <button type="button" onClick={onSwitchToSignup} className="text-teal-400 hover:underline font-semibold">
-            {t('auth_link_signup')}
-          </button>
-        </p>
+        {resetMode ? (
+          <p className="text-xs text-slate-400 text-center">
+            <button type="button" onClick={() => setResetMode(false)} className="text-teal-400 hover:underline font-semibold">
+              {t('btn_back_to_login')}
+            </button>
+          </p>
+        ) : (
+          <p className="text-xs text-slate-400 text-center">
+            {t('auth_no_account')}{' '}
+            <button type="button" onClick={onSwitchToSignup} className="text-teal-400 hover:underline font-semibold">
+              {t('auth_link_signup')}
+            </button>
+          </p>
+        )}
       </form>
     </div>
   );
@@ -2687,13 +2819,14 @@ function LoginView({ onGoHome, onSwitchToSignup }) {
 
 function SignupView({ onGoHome, onSwitchToLogin }) {
   const { t } = useLang();
-  const { signup, authError, setAuthError } = useAuth();
+  const { signup, authError, setAuthError, authLoading } = useAuth();
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
 
   useEffect(() => { setAuthError(''); }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (authLoading) return;
     if (form.password !== form.confirmPassword) {
       setAuthError(t('auth_error_mismatch'));
       return;
@@ -2785,9 +2918,10 @@ function SignupView({ onGoHome, onSwitchToLogin }) {
 
         <button
           type="submit"
-          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
+          disabled={authLoading}
+          className="w-full py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {t('btn_signup')}
+          {authLoading ? t('loading_label') : t('btn_signup')}
         </button>
 
         <p className="text-xs text-slate-400 text-center">
@@ -2871,6 +3005,7 @@ function AccountView({ activeTab, setActiveTab, fleet, onSelectVehicle, onBrowse
                   <img
                     src={booking.vehicle.images[0]}
                     alt={booking.vehicle.model}
+                    onError={handleImgError}
                     className="w-24 h-16 object-cover rounded-sm border border-slate-800 shrink-0"
                   />
                   <div>
@@ -3287,6 +3422,7 @@ function CarFinder({ onSelectVehicle }) {
                 <img
                   src={result.vehicle.images[0]}
                   alt={`${result.vehicle.brand} ${result.vehicle.model}`}
+                  onError={handleImgError}
                   className="w-full h-56 sm:h-full object-cover"
                 />
                 <div className="p-6 space-y-3">
@@ -3495,6 +3631,7 @@ function VehicleCard({ vehicle, onSelect, onReserve }) {
           <img 
             src={vehicle.images[0]} 
             alt={`${vehicle.brand} ${vehicle.model}`}
+            onError={handleImgError}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3 bg-neutral-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase tracking-widest text-teal-300 font-semibold border border-neutral-800">
@@ -3615,6 +3752,7 @@ function VehicleDetailView({
               <img 
                 src={vehicle.images[activeImage] || vehicle.images[0]} 
                 alt={vehicle.model}
+                onError={handleImgError}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-xs text-teal-300 font-semibold uppercase tracking-wider">
@@ -3632,7 +3770,7 @@ function VehicleDetailView({
                     activeImage === idx ? 'border-teal-400 opacity-100' : 'border-slate-800 opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                  <img src={img} alt="Thumbnail" onError={handleImgError} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -3828,6 +3966,7 @@ function CheckoutView({
   rentalDays, 
   confirmedBooking, 
   onFinalSubmit, 
+  isSubmitting,
   onGoHome, 
   onSelectVehicle 
 }) {
@@ -3857,7 +3996,7 @@ function CheckoutView({
         {/* Confirmed Summary Card */}
         <div className="bg-slate-900 border border-slate-800 rounded-none p-6 text-left space-y-6">
           <div className="flex items-center gap-4 border-b border-slate-800 pb-4">
-            <img src={confirmedBooking.vehicle.images[0]} alt="Vehicle" className="w-24 h-16 object-cover rounded-sm border border-slate-800" />
+            <img src={confirmedBooking.vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-24 h-16 object-cover rounded-sm border border-slate-800" />
             <div>
               <span className="text-[10px] text-teal-400 uppercase tracking-widest block font-semibold">{confirmedBooking.vehicle.brand}</span>
               <h3 className="text-lg font-mono text-white">{confirmedBooking.vehicle.model}</h3>
@@ -3962,7 +4101,7 @@ function CheckoutView({
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-6 bg-slate-950 p-4 rounded-none border border-slate-800">
-                <img src={vehicle.images[0]} alt={vehicle.model} className="w-full sm:w-48 aspect-[16/10] object-cover rounded-sm" />
+                <img src={vehicle.images[0]} alt={vehicle.model} onError={handleImgError} className="w-full sm:w-48 aspect-[16/10] object-cover rounded-sm" />
                 <div className="space-y-2 flex-1">
                   <span className="text-[10px] text-teal-400 uppercase tracking-widest font-semibold">{vehicle.brand}</span>
                   <h3 className="text-xl font-mono text-white">{vehicle.model}</h3>
@@ -4234,8 +4373,9 @@ function CheckoutView({
                     <input 
                       type="text" 
                       required
+                      inputMode="numeric"
                       value={paymentData.cardNumber}
-                      onChange={(e) => setPaymentData({...paymentData, cardNumber: e.target.value})}
+                      onChange={(e) => setPaymentData({...paymentData, cardNumber: formatCardNumber(e.target.value)})}
                       placeholder="•••• •••• •••• ••••"
                       className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
                     />
@@ -4249,9 +4389,10 @@ function CheckoutView({
                     <input 
                       type="text" 
                       required
+                      inputMode="numeric"
                       placeholder="MM/YY"
                       value={paymentData.expDate}
-                      onChange={(e) => setPaymentData({...paymentData, expDate: e.target.value})}
+                      onChange={(e) => setPaymentData({...paymentData, expDate: formatExpDate(e.target.value)})}
                       className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
                     />
                   </div>
@@ -4260,9 +4401,10 @@ function CheckoutView({
                     <input 
                       type="text" 
                       required
+                      inputMode="numeric"
                       placeholder="123"
                       value={paymentData.cvv}
-                      onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
+                      onChange={(e) => setPaymentData({...paymentData, cvv: formatCvv(e.target.value)})}
                       className="w-full bg-slate-950 border border-slate-800 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-teal-500"
                     />
                   </div>
@@ -4279,9 +4421,10 @@ function CheckoutView({
                 </button>
                 <button 
                   type="submit"
-                  className="px-8 py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all"
+                  disabled={isSubmitting}
+                  className="px-8 py-3 rounded-sm bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-400 hover:to-teal-500 text-slate-950 font-bold text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {t('confirm_and_pay')} ${pricing.grandTotal}
+                  {isSubmitting ? t('loading_label') : `${t('confirm_and_pay')} $${pricing.grandTotal}`}
                 </button>
               </div>
             </form>
@@ -4295,7 +4438,7 @@ function CheckoutView({
             <h3 className="text-sm font-mono uppercase tracking-widest text-white border-b border-slate-800 pb-3">{t('reservation_summary')}</h3>
 
             <div className="flex items-center gap-3">
-              <img src={vehicle.images[0]} alt="Vehicle" className="w-20 h-14 object-cover rounded-sm border border-slate-800 shrink-0" />
+              <img src={vehicle.images[0]} alt="Vehicle" onError={handleImgError} className="w-20 h-14 object-cover rounded-sm border border-slate-800 shrink-0" />
               <div>
                 <span className="text-[10px] text-teal-400 uppercase font-semibold block">{vehicle.brand}</span>
                 <h4 className="text-sm font-mono text-white">{vehicle.model}</h4>
